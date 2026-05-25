@@ -224,8 +224,8 @@ export default function BubonoBumperlandClient() {
   const [lightboxFallback, setLightboxFallback] = useState<string | null>(null)
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <div className="mx-auto w-full max-w-6xl space-y-12 px-6 py-12 md:px-10 lg:px-12">
+    <div className="project-monograph-custom min-h-screen bg-neutral-950 text-white">
+      <div className="mx-auto w-full max-w-6xl space-y-8 px-5 py-8 sm:px-6 md:space-y-12 md:px-10 md:py-12 lg:px-12">
         <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-neutral-900 via-neutral-900/80 to-neutral-900">
           <div className="absolute inset-0">
             <Image
@@ -238,11 +238,12 @@ export default function BubonoBumperlandClient() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/70 to-transparent" />
           </div>
-          <div className="relative z-10 grid gap-8 p-10 lg:grid-cols-[1.5fr,1fr] lg:items-end">
+          <div className="relative z-10 grid gap-8 p-5 sm:p-8 md:p-10 lg:grid-cols-[1.5fr,1fr] lg:items-end">
             <div className="space-y-4">
               <p className="text-sm uppercase tracking-[0.35em] text-amber-300">
                 {translate('Team Project | Systems & Enemy Programmer')}
               </p>
+              <p className="text-sm uppercase tracking-[0.28em] text-neutral-300">Sep 2024 - May 2025</p>
               <h1 className="font-display text-4xl md:text-5xl">{translate("Bubono's Bumperland")}</h1>
               <p className="text-lg text-neutral-100">
                 {translate(

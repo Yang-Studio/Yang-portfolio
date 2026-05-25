@@ -174,7 +174,7 @@ const SPRINTS: Sprint[] = [
 ]
 
 const OVERVIEW_CARDS = [
-  { title: 'Development Cycle', items: ['16 weeks (vertical slice)', 'Mixed sprint + demo cadence'] },
+  { title: 'Development Cycle', items: ['Mar 2024 - May 2024 / 10 weeks', 'Mixed sprint + demo cadence'] },
   {
     title: 'Development Tools',
     items: ['Unreal Engine 5.3 + Blueprints', 'Autodesk Maya / Substance 3D Painter', 'FMOD + in-engine audio cues'],
@@ -238,13 +238,13 @@ const SHANHE_TRANSLATIONS: Record<string, string> = {
   Role: '角色',
   'Creative Director': '创意总监',
   Timeline: '时间线',
-  '16-week vertical slice': '16 周垂直切片',
+  '16-week vertical slice': '2024.03 - 2024.05 / 10 周',
   Tools: '工具',
   'Unreal Engine 5.3 · Blueprints · Maya': 'Unreal Engine 5.3 · 蓝图 · Maya',
   'Project Overview': '项目概览',
   'Sprint Development Process': '冲刺开发流程',
-  'This project was developed over a 16-week period, divided into 6 sprints. Each sprint focused on different aspects of the game development process.':
-    '项目历时 16 周，分为 6 个冲刺，每个冲刺聚焦不同制作环节。',
+  'This project was developed over a 10-week period, divided into 6 sprints. Each sprint focused on different aspects of the game development process.':
+    '项目历时 10 周，分为 6 个冲刺，每个冲刺聚焦不同制作环节。',
   'Core Features & Showcase': '核心特性与展示',
   'Development Highlights': '开发亮点',
   'Data-driven combat built with animation-first polish': '数据驱动的战斗框架，优先打磨动画与表现',
@@ -256,7 +256,7 @@ const SHANHE_TRANSLATIONS: Record<string, string> = {
   'Enlarged view': '放大预览',
   'Download Demo': '下载演示',
   'Development Cycle': '开发周期',
-  '16 weeks (vertical slice)': '16 周（垂直切片）',
+  'Mar 2024 - May 2024 / 10 weeks': '2024.03 - 2024.05 / 10 周',
   'Mixed sprint + demo cadence': '冲刺与演示交替节奏',
   'Development Tools': '开发工具',
   'Unreal Engine 5.3 + Blueprints': 'Unreal Engine 5.3 + 蓝图',
@@ -495,8 +495,8 @@ export default function ShanheClient() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <div className="mx-auto w-full max-w-6xl space-y-12 px-6 py-12 md:px-10 lg:px-12">
+    <div className="project-monograph-custom min-h-screen bg-neutral-950 text-white">
+      <div className="mx-auto w-full max-w-6xl space-y-8 px-5 py-8 sm:px-6 md:space-y-12 md:px-10 md:py-12 lg:px-12">
         <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-neutral-900 via-neutral-900/80 to-neutral-900">
           <div className="absolute inset-0">
             <Image
@@ -509,7 +509,7 @@ export default function ShanheClient() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/70 to-transparent" />
           </div>
-          <div className="relative z-10 flex flex-col gap-8 p-10 md:flex-row md:items-end md:justify-between">
+          <div className="relative z-10 flex flex-col gap-8 p-5 sm:p-8 md:flex-row md:items-end md:justify-between md:p-10">
             <div className="max-w-3xl space-y-4">
               <p className="text-sm uppercase tracking-[0.35em] text-sky-400">{translate('Case Study')}</p>
               <h1 className="font-display text-4xl md:text-5xl">{translate('Shanhe - mood-locked Wuxia combat')}</h1>
@@ -523,7 +523,7 @@ export default function ShanheClient() {
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1">
                 {[
                   { label: translate('Role'), value: translate('Creative Director') },
-                  { label: translate('Timeline'), value: translate('16-week vertical slice') },
+                  { label: translate('Timeline'), value: translate('Mar 2024 - May 2024 / 10 weeks') },
                   { label: translate('Tools'), value: translate('Unreal Engine 5.3 · Blueprints · Maya') },
                 ].map((item) => (
                   <div key={item.label} className="rounded-2xl border border-white/10 bg-neutral-900 p-4 shadow-soft">
@@ -561,7 +561,7 @@ export default function ShanheClient() {
             <h2 className="font-display text-3xl">{translate('Sprint Development Process')}</h2>
             <p className="text-neutral-400">
               {translate(
-                'This project was developed over a 16-week period, divided into 6 sprints. Each sprint focused on different aspects of the game development process.',
+                'This project was developed over a 10-week period, divided into 6 sprints. Each sprint focused on different aspects of the game development process.',
               )}
             </p>
           </div>

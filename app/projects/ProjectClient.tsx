@@ -1,102 +1,216 @@
 'use client'
 
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import PageHero from '@/components/PageHero'
-import ProjectParallaxBanner from '@/components/ProjectParallaxBanner'
+import PlateLabel from '@/components/PlateLabel'
 import { useLanguage } from '@/components/LanguageProvider'
 import { projectTranslations } from '@/content/projectTranslations'
 import { projectAssets } from '@/content/projectAssets'
-import type { Project } from '@/content/projects'
+import { projects, type Project } from '@/content/projects'
+import { gsap } from '@/lib/motion'
 
 export default function ProjectClient({ project }: { project: Project }) {
   const { t, language } = useLanguage()
   const translation = language === 'zh' ? projectTranslations[project.slug] : undefined
-  const isVideo = project.results.media?.endsWith('.mp4')
   const gallery = projectAssets[project.slug] ?? []
   const reelSrc = project.reel ?? (project.results.media?.endsWith('.mp4') ? project.results.media : undefined)
-  const reelIsDrivePreview = !!reelSrc && reelSrc?.includes("drive.google.com/file/d/") && reelSrc?.includes("/preview");
-
+  const reelIsDrivePreview = !!reelSrc && reelSrc.includes('drive.google.com/file/d/') && reelSrc.includes('/preview')
   const reelIsVideo = Boolean(reelSrc && !reelIsDrivePreview && (reelSrc.endsWith('.mp4') || project.reel))
   const downloadHref =
     project.download ??
     `mailto:yangliu.gmdev@gmail.com?subject=${encodeURIComponent(`${project.title} Demo Request`)}`
   const isDownloadFile = downloadHref.startsWith('/') || downloadHref.startsWith('./')
+  const projectIndex = projects.findIndex((item) => item.slug === project.slug)
+  const nextProject = projects[(projectIndex + 1) % projects.length]
+  const heroImage = project.banner ?? project.cover ?? project.moneyshot
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      gsap
+        .timeline({ defaults: { ease: 'expo.out' } })
+        .from('.case-label', { opacity: 0, y: 22, duration: 0.75 })
+        .from('.case-title span', { opacity: 0, yPercent: 130, rotate: 4, stagger: 0.065, duration: 1.1 }, '-=0.25')
+        .from('.case-intro', { opacity: 0.18, y: 28, stagger: 0.08, duration: 0.65 }, '-=0.82')
+        .from('.case-hero-media', { clipPath: 'inset(100% 0 0 0)', opacity: 0.45, scale: 1.08, duration: 1.2 }, '-=0.5')
+        .from('.case-meta-item', { opacity: 0, y: 18, stagger: 0.06, duration: 0.6 }, '-=0.45')
+
+      gsap.utils.toArray<HTMLElement>('.case-reveal').forEach((section) => {
+        gsap.fromTo(
+          section,
+          { opacity: 0, y: 72, clipPath: 'inset(18% 0 0 0)' },
+          {
+            opacity: 1,
+            y: 0,
+            clipPath: 'inset(0% 0 0 0)',
+            duration: 1,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
+            },
+          },
+        )
+      })
+
+      if (!reducedMotion) {
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: '.case-hero-section',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          })
+          .to('.case-title', { x: -90, opacity: 0.2, ease: 'none' }, 0)
+          .to('.case-intro', { y: -60, opacity: 0, ease: 'none' }, 0)
+          .to('.case-hero-media', { scale: 1.22, y: -80, ease: 'none' }, 0)
+          .to('.case-watermark', { scale: 1.35, opacity: 0.09, rotate: -4, ease: 'none' }, 0)
+      }
+
+      gsap.utils.toArray<HTMLElement>('.case-parallax').forEach((media, index) => {
+        gsap.fromTo(
+          media,
+          { yPercent: index % 2 === 0 ? -10 : 10, scale: 1.08 },
+          {
+            yPercent: index % 2 === 0 ? 10 : -10,
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: media,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          },
+        )
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <div className="px-6 md:px-10 lg:px-16">
-      <div className="mx-auto w-full max-w-[1200px] space-y-12">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <PageHero
-            kicker="Case Study"
-            title={translation?.title ?? project.title}
-            description={translation?.blurb ?? project.blurb}
-          />
-          {!project.hideDownload && <DownloadButton href={downloadHref} download={isDownloadFile} />}
+    <div className="bg-ink text-paper">
+      <section className="case-hero-section relative isolate overflow-hidden border-b border-paper/20 px-5 py-10 sm:px-8 md:px-16 md:py-16 lg:px-24">
+        <div className="case-watermark pointer-events-none absolute bottom-[-0.2em] right-[-0.06em] text-[48vw] leading-none text-paper opacity-[0.035]">
+          {project.title.slice(0, 1)}
         </div>
-        <ProjectParallaxBanner
-          src={project.moneyshot ?? project.banner ?? project.cover}
-          alt={translation?.title ?? project.title}
-          title={translation?.title ?? project.title}
-        />
 
-        <section className="grid gap-6 rounded-2xl bg-mist/40 p-8 shadow-soft md:grid-cols-3">
+        <div className="relative z-10 mx-auto grid max-w-[1280px] gap-8 md:gap-12 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-end 2xl:grid-cols-[minmax(0,1fr)_480px]">
           <div>
-            <h3 className="font-display text-sm uppercase tracking-[0.3em] text-sage">{t('Goal')}</h3>
-            <p className="mt-3 text-slate/80">{translation?.overviewGoal ?? project.overview.goal}</p>
+            <div className="case-label mb-10 md:mb-14">
+              <PlateLabel plate={t('Project Plate')} label={`${t(project.tag)} / ${project.year}`} active tone="paper" />
+            </div>
+            <h1 className="case-title display-safe overflow-hidden text-[clamp(44px,16vw,124px)] italic leading-[0.98] tracking-normal md:leading-[0.92]">
+              {(translation?.title ?? project.title).split(' ').map((word) => (
+                <span key={word} className="mr-[0.12em] inline-block">
+                  {word}
+                </span>
+              ))}
+            </h1>
+            <p className="case-intro copy-safe mt-7 max-w-3xl text-[clamp(20px,5.8vw,36px)] leading-[1.22] text-paper/78 md:mt-10 md:leading-[1.14]">
+              {translation?.blurb ?? t(project.blurb)}
+            </p>
           </div>
-          <div>
-            <h3 className="font-display text-sm uppercase tracking-[0.3em] text-sage">{t('Team')}</h3>
-            <p className="mt-3 text-slate/80">{translation?.overviewTeam ?? project.overview.team}</p>
+
+          <div className="case-hero-media border border-paper/20 bg-paper/5">
+            <Image
+              src={heroImage}
+              alt={translation?.title ?? project.title}
+              width={1100}
+              height={900}
+              priority
+              className="aspect-[4/3] max-h-[420px] w-full object-cover grayscale md:aspect-[4/5] md:max-h-[620px]"
+            />
           </div>
-          <div>
-            <h3 className="font-display text-sm uppercase tracking-[0.3em] text-sage">{t('Timeline')}</h3>
-            <p className="mt-3 text-slate/80">{translation?.overviewTimeline ?? project.overview.timeline}</p>
+        </div>
+      </section>
+
+      <section className="border-b border-paper/20 px-5 py-8 sm:px-8 md:px-16 lg:px-24">
+        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <Meta label={t('Role')} value={translation?.role ?? t(project.role)} />
+          <Meta label={t('Engine')} value={t(project.tools)} />
+          <Meta label={t('Team')} value={translation?.overviewTeam ?? t(project.overview.team)} />
+          <Meta label={t('Timeline')} value={translation?.overviewTimeline ?? t(project.overview.timeline)} />
+          <Meta label={t('Status')} value={project.year.includes('2025') ? t('Playable demo') : t('Archive')} />
+        </div>
+      </section>
+
+      <section className="case-reveal border-b border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+        <div className="mx-auto max-w-[980px]">
+          <p className="display-safe text-[clamp(24px,7vw,50px)] leading-[1.18] md:leading-[1.1]">
+            {translation?.overviewGoal ?? t(project.overview.goal)}
+          </p>
+        </div>
+      </section>
+
+      {project.process.length > 0 && (
+        <section className="px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+          <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
+            <PlateLabel plate={t('Plate 01')} label={t('Process / Decisions')} tone="paper" />
+            <div className="grid gap-0 border-t border-paper/20 md:grid-cols-3">
+              {project.process.map((step, index) => {
+                const translatedStep = translation?.process?.[index]
+                return (
+                  <article key={step.title} className="case-reveal border-b border-paper/20 py-8 md:border-r md:px-6">
+                      <p className="mono mb-8 text-[11px] uppercase text-accent">{String(index + 1).padStart(2, '0')}</p>
+                    <h2 className="display-safe text-[clamp(28px,3vw,40px)] leading-[1.04]">{translatedStep?.title ?? t(step.title)}</h2>
+                    <p className="copy-safe mt-6 text-paper/68">{translatedStep?.body ?? t(step.body)}</p>
+                  </article>
+                )
+              })}
+            </div>
           </div>
         </section>
+      )}
 
-        <section className="grid gap-8 md:grid-cols-3">
-          {project.process.map((step, index) => {
-            const translatedStep = translation?.process?.[index]
-            return (
-              <article key={step.title} className="glass rounded-2xl p-6 shadow-soft">
-                <h3 className="font-display text-2xl text-slate">{translatedStep?.title ?? t(step.title)}</h3>
-                <p className="mt-3 text-slate/80">{translatedStep?.body ?? t(step.body)}</p>
-              </article>
-            )
-          })}
-        </section>
-
-        {project.technical.length > 0 && (
-          <section className="space-y-8">
-            <h2 className="font-display text-3xl text-slate">{t('Technical Breakdown')}</h2>
-            <div className="grid gap-8 md:grid-cols-2">
+      {project.technical.length > 0 && (
+        <section className="border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+          <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
+            <PlateLabel plate={t('Plate 02')} label={t('Technical Breakdown')} tone="paper" />
+            <div className="grid gap-12">
               {project.technical.map((item, index) => {
                 const translatedItem = translation?.technical?.[index]
                 return (
-                  <article key={item.title} className="overflow-hidden rounded-2xl bg-sand/90 shadow-soft">
-                    <Image
-                      src={item.media}
-                      alt={translatedItem?.title ?? item.title}
-                      width={1000}
-                      height={700}
-                      className="h-64 w-full object-cover"
-                    />
-                    <div className="p-6">
-                      <h3 className="font-display text-xl text-slate">{translatedItem?.title ?? t(item.title)}</h3>
-                      <p className="mt-3 text-slate/80">{translatedItem?.description ?? t(item.description)}</p>
+                  <article key={item.title} className="case-reveal grid gap-8 border-t border-paper/20 pt-8 lg:grid-cols-[1fr_0.85fr]">
+                    <div className="overflow-hidden border border-paper/20 bg-paper/5">
+                      <div className="case-parallax">
+                        <Image
+                          src={item.media}
+                          alt={translatedItem?.title ?? item.title}
+                          width={1200}
+                          height={800}
+                          className="aspect-[4/3] w-full object-cover grayscale"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="mono mb-8 text-[11px] uppercase text-accent">{t('System')} {String(index + 1).padStart(2, '0')}</p>
+                      <h2 className="display-safe text-[clamp(30px,9vw,64px)] italic leading-[1] md:leading-[0.98]">
+                        {translatedItem?.title ?? t(item.title)}
+                      </h2>
+                      <p className="copy-safe mt-6 text-[clamp(18px,5.2vw,26px)] leading-[1.34] text-paper/70 md:mt-8 md:leading-[1.28]">
+                        {translatedItem?.description ?? t(item.description)}
+                      </p>
                     </div>
                   </article>
                 )
               })}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
+      )}
 
-        {reelSrc && (
-          <section className="space-y-4">
-            <h2 className="font-display text-3xl text-slate">{t('Demo Reel')}</h2>
-            <div className="overflow-hidden rounded-2xl border border-white/30 bg-sand/70 shadow-soft">
+      {reelSrc && (
+        <section className="case-reveal border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+          <div className="mx-auto max-w-[1280px]">
+            <PlateLabel plate={t('Plate 03')} label={t('Demo Reel')} tone="paper" />
+            <div className="mt-12 overflow-hidden border border-paper/20 bg-paper/5">
               {reelIsDrivePreview ? (
                 <div className="aspect-video w-full">
                   <iframe
@@ -112,115 +226,108 @@ export default function ProjectClient({ project }: { project: Project }) {
                   <source src={reelSrc} type="video/mp4" />
                 </video>
               ) : (
-                <Image src={reelSrc} alt={`${project.title} demo reel`} width={1600} height={900} className="h-full w-full object-cover" />
+                <Image src={reelSrc} alt={`${project.title} demo reel`} width={1600} height={900} className="w-full object-cover" />
               )}
-            </div>
-          </section>
-        )}
-
-        {gallery.length > 0 && (
-          <section className="space-y-6">
-            <h2 className="font-display text-3xl text-slate">{t('Gallery')}</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {gallery.map((src) => (
-                <div key={src} className="overflow-hidden rounded-2xl border border-white/40 bg-white/70 shadow-soft">
-                  <Image src={src} alt={`${project.title} gallery`} width={800} height={600} className="h-48 w-full object-cover" />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {project.results.summary || project.results.highlights.length > 0 || project.results.media ? (
-          <section className="rounded-2xl bg-slate text-sand shadow-soft">
-            <div className="grid gap-8 p-8 md:grid-cols-[2fr,1fr]">
-              <div>
-                <h2 className="font-display text-3xl">{t('Results & Reflection')}</h2>
-                {project.results.summary && (
-                  <p className="mt-4 text-sand/80">{translation?.results?.summary ?? t(project.results.summary)}</p>
-                )}
-                {project.results.highlights.length > 0 && (
-                  <ul className="mt-6 space-y-2 text-sand/70">
-                    {project.results.highlights.map((highlight, index) => {
-                      const translatedHighlight = translation?.results?.highlights?.[index]
-                      return (
-                        <li key={highlight} className="flex items-center gap-3">
-                          <span className="h-2 w-2 rounded-full bg-coral" />
-                          {translatedHighlight ?? t(highlight)}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                )}
-              </div>
-              {project.results.media && (
-                <div className="overflow-hidden rounded-xl border border-sand/10 bg-sand/10 p-4">
-                  {isVideo ? (
-                    <video className="h-full w-full rounded-lg" controls>
-                      <source src={project.results.media} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <Image
-                      src={project.results.media}
-                      alt={`${project.title} reflection`}
-                      width={800}
-                      height={600}
-                      className="h-full w-full rounded-lg object-cover"
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          </section>
-        ) : null}
-
-        <section className="rounded-2xl bg-white p-8 text-slate shadow-soft">
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-            <div>
-              <h3 className="font-display text-2xl text-slate">{t('View More Projects')}</h3>
-              <p className="text-slate/70">{t("Explore the rest of the studio's worlds.")}</p>
-            </div>
-            <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-              {!project.hideDownload && <DownloadButton href={downloadHref} download={isDownloadFile} dark />}
-              <Link
-                href="/projects"
-                className="focus-ring rounded-full bg-coral px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-sage"
-              >
-                {t('Back to Projects')}
-              </Link>
             </div>
           </div>
         </section>
-      </div>
+      )}
+
+      {gallery.length > 0 && (
+        <section className="border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+          <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
+            <PlateLabel plate={t('Plate 04')} label={t('Gallery / Artifacts')} tone="paper" />
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {gallery.map((src, index) => (
+                <div key={src} className="case-reveal overflow-hidden border border-paper/20 bg-paper/5">
+                  <Image
+                    src={src}
+                    alt={`${project.title} gallery ${index + 1}`}
+                    width={800}
+                    height={600}
+                    className="aspect-[4/3] w-full object-cover grayscale transition duration-700 hover:grayscale-0"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {(project.results.summary || project.results.highlights.length > 0) && (
+        <section className="case-reveal border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+          <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
+            <PlateLabel plate={t('Plate 05')} label={t('Results / Reflection')} tone="paper" />
+            <div>
+              {project.results.summary && (
+                <p className="display-safe max-w-4xl text-[clamp(24px,7vw,48px)] leading-[1.18] md:leading-[1.1]">
+                  {translation?.results?.summary ?? t(project.results.summary)}
+                </p>
+              )}
+              {project.results.highlights.length > 0 && (
+                <div className="mt-12 grid gap-0 border-t border-paper/20 md:grid-cols-3">
+                  {project.results.highlights.map((highlight, index) => {
+                    const translatedHighlight = translation?.results?.highlights?.[index]
+                    return (
+                      <div key={highlight} className="border-b border-paper/20 py-6 md:border-r md:px-5">
+                        <p className="mono text-[11px] uppercase text-accent">{String(index + 1).padStart(2, '0')} {t('Learned')}</p>
+                        <p className="mt-4 text-paper/72">{translatedHighlight ?? t(highlight)}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="border-t border-paper/20 px-5 py-12 sm:px-8 md:px-16 md:py-16 lg:px-24">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('Next project')}</p>
+            <Link href={`/projects/${nextProject.slug}`} className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none underline decoration-accent underline-offset-8">
+              {nextProject.title}
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            {!project.hideDownload && <DownloadButton href={downloadHref} download={isDownloadFile} />}
+            <Link className="focus-ring mono border border-paper/30 px-5 py-3 text-[11px] uppercase transition hover:border-accent hover:text-accent" href="/projects">
+              {t('Back to index')}
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
 
-function DownloadButton({ href, download, dark }: { href: string; download?: boolean; dark?: boolean }) {
+function Meta({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="case-meta-item border-t border-paper/20 pt-4 md:border-t-0 md:border-l md:pl-5">
+      <p className="mono text-[11px] uppercase text-paper/50">{label}</p>
+      <p className="mt-2 leading-snug text-paper">{value}</p>
+    </div>
+  )
+}
+
+function DownloadButton({ href, download }: { href: string; download?: boolean }) {
   const isExternal = href.startsWith('http') || href.startsWith('mailto:')
-  const baseClass =
-    'focus-ring inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] transition'
-  const styleClass = dark
-    ? 'bg-slate text-white hover:bg-sage'
-    : 'bg-slate text-white shadow-soft hover:-translate-y-0.5 hover:shadow-glow'
-  const content = 'Download Demo'
+  const className =
+    'focus-ring mono inline-flex items-center justify-center border border-accent px-5 py-3 text-[11px] uppercase text-accent transition hover:bg-accent hover:text-paper'
+  const { t } = useLanguage()
+  const content = t('Download Demo')
 
   if (isExternal) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        className={`${baseClass} ${styleClass}`}
-        aria-label="Download demo"
-      >
+      <a href={href} target="_blank" rel="noreferrer" className={className} aria-label="Download demo">
         {content}
       </a>
     )
   }
 
   return (
-    <Link href={href} download={download} className={`${baseClass} ${styleClass}`} aria-label="Download demo">
+    <Link href={href} download={download} className={className} aria-label="Download demo">
       {content}
     </Link>
   )

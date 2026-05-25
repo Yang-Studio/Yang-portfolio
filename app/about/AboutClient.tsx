@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/LanguageProvider'
 export default function AboutClient() {
   const { t } = useLanguage()
   return (
-    <div className="px-6 md:px-10 lg:px-16">
+    <div className="px-5 sm:px-6 md:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1200px]">
         <PageHero
           kicker="About"
@@ -16,7 +16,7 @@ export default function AboutClient() {
         />
       </div>
 
-      <section className="relative mx-auto mt-16 w-full max-w-[1200px] rounded-[48px] border border-white/40 bg-white/65 p-10 shadow-soft backdrop-blur">
+      <section className="relative mx-auto mt-10 w-full max-w-[1200px] rounded-[24px] border border-white/40 bg-white/65 p-5 shadow-soft backdrop-blur sm:p-8 md:mt-16 md:rounded-[48px] md:p-10">
         <div className="grid gap-8 md:grid-cols-[2fr,1fr]">
           <div className="space-y-4 text-lg text-slate/80">
             {biography.body.map((paragraph) => (
@@ -30,7 +30,7 @@ export default function AboutClient() {
               <span aria-hidden="true">-&gt;</span>
             </a>
           </div>
-          <aside className="glass rounded-2xl p-6 shadow-soft">
+          <aside className="glass rounded-2xl p-5 shadow-soft md:p-6">
             <h3 className="font-display text-xl text-slate">{t("What I'm exploring now")}</h3>
             <ul className="mt-4 space-y-3 text-slate/80">
               {biography.now.map((item) => (
@@ -43,9 +43,9 @@ export default function AboutClient() {
           </aside>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:mt-16 md:grid-cols-3 md:gap-6">
           {coreSkills.map((skill) => (
-            <article key={skill.label} className="glass rounded-2xl p-6 shadow-soft">
+            <article key={skill.label} className="glass rounded-2xl p-5 shadow-soft md:p-6">
               <h3 className="font-display text-xl text-slate">{t(skill.label)}</h3>
               <ul className="mt-4 space-y-2 text-slate/80">
                 {skill.items.map((item) => (
@@ -56,11 +56,11 @@ export default function AboutClient() {
           ))}
         </div>
 
-        <div className="mt-16 rounded-2xl bg-mist/50 p-8 shadow-soft">
+        <div className="mt-10 rounded-2xl bg-mist/50 p-5 shadow-soft md:mt-16 md:p-8">
           <h3 className="font-display text-xl text-slate">{t('A warm timeline')}</h3>
           <div className="mt-6 space-y-4">
             {timeline.map((entry) => (
-              <div key={entry.year} className="flex items-start gap-6">
+              <div key={entry.year} className="grid gap-2 sm:grid-cols-[88px_1fr] sm:gap-6">
                 <span className="font-display text-2xl text-coral">{entry.year}</span>
                 <p className="whitespace-pre-line text-slate/80">{t(entry.blurb)}</p>
               </div>
@@ -68,7 +68,7 @@ export default function AboutClient() {
           </div>
         </div>
 
-        <div id="connect" className="mt-16 rounded-2xl border border-dashed border-coral/40 bg-white/55 p-8 shadow-soft">
+        <div id="connect" className="mt-10 rounded-2xl border border-dashed border-coral/40 bg-white/55 p-5 shadow-soft md:mt-16 md:p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-coral">{t('Connect')}</p>
@@ -82,7 +82,7 @@ export default function AboutClient() {
                 <li key={social.platform}>
                   <a
                     href={social.href}
-                    className="focus-ring group flex items-center justify-between gap-4 rounded-2xl bg-sand/40 px-5 py-4 text-left text-slate/80 transition hover:bg-sage/40"
+                    className="focus-ring group flex items-center justify-between gap-4 rounded-2xl bg-sand/40 px-4 py-4 text-left text-slate/80 transition hover:bg-sage/40 md:px-5"
                     target={social.href.startsWith('http') ? '_blank' : undefined}
                     rel={social.href.startsWith('http') ? 'noreferrer' : undefined}
                   >

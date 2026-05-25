@@ -13,9 +13,127 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined)
 
-const STORAGE_KEY = 'yang-language'
+const STORAGE_KEY = 'yang-language-v2'
 
 const DICTIONARY: Record<string, string> = {
+  Work: '作品',
+  'Yang Studio': 'Yang Studio',
+  'Plate 01': '图版 01',
+  'Plate 02': '图版 02',
+  'Plate 03': '图版 03',
+  'Plate 04': '图版 04',
+  'Plate 05': '图版 05',
+  'Plate 05 / Fin': '图版 05 / 终章',
+  'Plate 02 / Index': '图版 02 / 索引',
+  'Project Plate': '项目图版',
+  'Overture / Game Systems': '序章 / 游戏系统',
+  'Projects / Complete Archive': '项目 / 完整索引',
+  'Biography / Timeline': '履历 / 时间线',
+  'Tools / Methods': '工具 / 方法',
+  'Process / Decisions': '过程 / 决策',
+  'Gallery / Artifacts': '图像 / 过程素材',
+  'Results / Reflection': '结果 / 复盘',
+  'Project Index': '项目索引',
+  '7 projects on record': '收录 7 个项目',
+  'A technical catalogue of game systems, prototypes, visual studies, and playable worlds.':
+    '一份关于游戏系统、原型、视觉实验与可游玩世界的技术目录。',
+  'Main projects.': '主要项目。',
+  'Two project plates. One team system. One solo architecture study.':
+    '主要项目。',
+  'I make games where the systems talk to each other.': '做会回应的游戏系统。',
+  "Currently solo on Shanghe. Systems on Bubono's Bumperland.":
+    '仍在开发更多 demo。',
+  'Selected work': '精选作品',
+  Biography: '履历',
+  'Now showing': '当前展示',
+  'Open to full-time roles': '开放全职机会',
+  'STEM OPT': 'STEM OPT',
+  'Sys & gameplay prog. / 2024 - now': '系统与玩法程序 / 2024.09 - 2025.05',
+  'Sys & gameplay prog. / Sep 2024 - May 2025': '系统与玩法程序 / 2024.09 - 2025.05',
+  'Systems first. Mood second. Cut the rest.': '',
+  'SCAD. BFA Game Development and Interactive Design begins.':
+    '2021 年进入 SCAD，开始游戏开发与交互设计 BFA 学习。',
+  "First ship. Joins Bubono's Bumperland as Systems and Gameplay Programmer.":
+    '2024 年与团队开始开发 Bubono’s Bumperland。',
+  'eLogistics. Warehouse simulation prototype as in-house training game.':
+    'eLogistics。制作面向内部培训的仓储模拟原型。',
+  'Shanghe. Solo wuxia action demo with event-driven combat architecture.':
+    '《山河》。独立开发的武侠动作 Demo，采用事件驱动战斗架构。',
+  'Open to full-time roles in the U.S. Work-authorized via STEM OPT.':
+    '现在正在寻找更多机会。',
+  'Work together?': '合作？',
+  Location: '位置',
+  Elsewhere: '链接',
+  Colophon: '制作说明',
+  'Rincon, Georgia': '佐治亚州 Rincon',
+  'United States': '美国',
+  'Open to relocation': '可接受搬迁',
+  'Set in Fraunces and JetBrains Mono.': '字体：Fraunces / JetBrains Mono。',
+  'Built with Next.js and GSAP.': '构建：Next.js / GSAP。',
+  'Copyright': '版权所有',
+  'Next project': '下一个项目',
+  'Back to index': '返回索引',
+  'Download Demo': '下载 Demo',
+  Role: '职责',
+  Engine: '引擎',
+  Tools: '工具',
+  Mode: '模式',
+  Status: '状态',
+  Archive: '归档',
+  'Playable demo': '可玩 Demo',
+  'System 01': '系统 01',
+  'System 02': '系统 02',
+  System: '系统',
+  Learned: '复盘',
+  Project: '项目',
+  Index: '索引',
+  'Selected Work / 2024 - Now': '精选作品 / 2024 至今',
+  "Bubono's Bumperland": 'Bubono 的碰碰车乐园',
+  Shanhe: '山河',
+  Shanghe: '山河',
+  Ink: 'Ink',
+  'Collision-first bumper buggy arenas across Burg, Abyss, and Big Bang with adaptive AI and upgradeable modules.':
+    '以碰撞为核心的碰碰车竞技场，覆盖 Burg、Abyss、Big Bang 三个分支，并包含自适应 AI 与升级模块。',
+  'Wuxia': '武侠',
+  'Behavior-driven AI and modular systems for a physics-chaos arcade brawler across three themed branches.':
+    '为三个主题分支搭建行为驱动 AI 与模块化系统，支撑物理混乱型街机战斗。',
+  "A solo-developed wuxia action demo built around the rhythm of a fight, where combat outcomes ripple through the world's quest system.":
+    '一个独立开发的武侠动作 Demo，围绕战斗节奏展开，并让战斗结果影响世界中的任务系统。',
+  'Role / Sys & gameplay prog.': '职责 / 系统与玩法程序',
+  'Year / 2024 - now': '年份 / 2024 至今',
+  'Year / Sep 2024 - May 2025': '时间 / 2024.09 - 2025.05',
+  'Mode / Team': '模式 / 团队',
+  'Role / Solo design code sys': '职责 / 独立设计、程序、系统',
+  'Year / 2025 - now': '年份 / 2025 至今',
+  'Year / Mar 2024 - May 2024': '时间 / 2024.03 - 2024.05',
+  'Mode / Solo demo': '模式 / 独立 Demo',
+  'Systems & Enemy Programmer': '系统与敌人程序',
+  'Hand-drawn': '手绘',
+  'Scene Modeling': '场景建模',
+  'Tower Defense': '塔防',
+  'Unreal, Blueprints, RPG': 'Unreal、蓝图、RPG',
+  'UE5': 'UE5',
+  UE: 'UE',
+  Processing: 'Processing',
+  Solo: '个人项目',
+  'Solo build': '个人制作',
+  'Solo R&D': '个人研发',
+  'Two-person team': '双人团队',
+  'Game Jam project': 'Game Jam 项目',
+  '4-person team': '4 人团队',
+  '5-person squad': '5 人小队',
+  'Sprint cycle': 'Sprint 迭代',
+  'Prototype - 5 weeks': '原型 - 5 周',
+  'Prototype - 4 weeks': '原型 - 4 周',
+  'Prototype - 6 weeks': '原型 - 6 周',
+  'R&D - 2 weeks': '研发 - 2 周',
+  '48 hours': '48 小时',
+  'Mar 2024 - May 2024 / 10 weeks': '2024.03 - 2024.05 / 10 周',
+  'Sep 2024 - May 2025': '2024.09 - 2025.05',
+  'Vertical slice - 10 weeks': '垂直切片 - 10 周',
+  '2D platformer with layered scenes and hand-drawn interaction framework.':
+    '手绘 2D 平台游戏，包含分层场景和手绘交互框架。',
+  'Hand-drawn 2D platformer.': '制作一个手绘 2D 平台游戏原型。',
   Home: '\u9996\u9875',
   Projects: '\u9879\u76ee',
   Devlog: '\u65e5\u5fd7',
@@ -135,13 +253,15 @@ const pseudoTranslate = (text: string, language: Language) => {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en')
+  const [language, setLanguage] = useState<Language>('zh')
 
   useEffect(() => {
     const stored = typeof window !== 'undefined' ? (localStorage.getItem(STORAGE_KEY) as Language | null) : null
     if (stored) {
-      setLanguage(stored)
-      document.documentElement.lang = stored
+      requestAnimationFrame(() => {
+        setLanguage(stored)
+        document.documentElement.lang = stored
+      })
     }
   }, [])
 

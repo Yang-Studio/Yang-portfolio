@@ -6,8 +6,7 @@ import { createLenis } from '@/lib/lenis'
 
 export default function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  const isDarkProject =
-    pathname?.startsWith('/projects/shanhe') || pathname?.startsWith('/projects/bubono-bumperland')
+  const isDarkProject = pathname?.startsWith('/projects/')
 
   useEffect(() => {
     const lenis = createLenis()
@@ -20,8 +19,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
     return () => lenis.destroy()
   }, [])
 
-  // Use a dark canvas for Shanhe case study; keep the warm atelier background elsewhere.
-  const shellClass = isDarkProject ? 'min-h-dvh bg-neutral-950' : 'min-h-dvh bg-atelier'
+  const shellClass = isDarkProject ? 'min-h-dvh bg-ink' : 'min-h-dvh bg-paper'
 
   return <div className={shellClass}>{children}</div>
 }

@@ -1,0 +1,77 @@
+
+> yang-studio@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 3000
+
+   ▲ Next.js 16.0.10 (Turbopack)
+   - Local:         http://127.0.0.1:3000
+   - Network:       http://127.0.0.1:3000
+
+ ✓ Starting...
+ ✓ Ready in 968ms
+ GET / 200 in 2.9s (compile: 2.6s, render: 309ms)
+ GET / 200 in 169ms (compile: 5ms, render: 163ms)
+ ✓ Compiled in 405ms
+ GET / 200 in 414ms (compile: 154ms, render: 260ms)
+ GET / 200 in 115ms (compile: 5ms, render: 109ms)
+ GET / 200 in 85ms (compile: 3ms, render: 81ms)
+ GET / 200 in 240ms (compile: 176ms, render: 64ms)
+ GET / 200 in 213ms (compile: 5ms, render: 208ms)
+ GET / 200 in 96ms (compile: 4ms, render: 92ms)
+ GET / 200 in 75ms (compile: 4ms, render: 72ms)
+ GET / 200 in 61ms (compile: 4ms, render: 57ms)
+ GET / 200 in 63ms (compile: 4ms, render: 59ms)
+ GET / 200 in 93ms (compile: 4ms, render: 89ms)
+ GET /projects/bubono-bumperland 200 in 440ms (compile: 410ms, render: 29ms)
+ GET / 200 in 38ms (compile: 4ms, render: 35ms)
+ GET /projects/bubono-bumperland 200 in 19ms (compile: 3ms, render: 16ms)
+ GET /projects 200 in 340ms (compile: 317ms, render: 23ms)
+ GET /projects 200 in 192ms (compile: 150ms, render: 42ms)
+ ✓ Compiled in 166ms
+ ✓ Compiled in 161ms
+ ✓ Compiled in 155ms
+ GET /projects 200 in 164ms (compile: 119ms, render: 45ms)
+ GET /projects 200 in 176ms (compile: 6ms, render: 170ms)
+ GET /projects 200 in 84ms (compile: 5ms, render: 80ms)
+ GET /projects/ink 200 in 450ms (compile: 379ms, render: 71ms)
+ GET /assets/Ink/ScreenShot00005.png 404 in 602ms (compile: 327ms, render: 275ms)
+ GET /assets/Ink/ScreenShot00009.png 404 in 595ms (compile: 337ms, render: 258ms)
+ GET /assets/Ink/ScreenShot00008.png 404 in 616ms (compile: 404ms, render: 212ms)
+ GET /assets/Ink/ScreenShot00007.png 404 in 622ms (compile: 428ms, render: 194ms)
+ GET /assets/Ink/ScreenShot00010.png 404 in 619ms (compile: 456ms, render: 163ms)
+ GET /assets/Ink/ScreenShot00006.png 404 in 632ms (compile: 494ms, render: 139ms)
+ GET /projects 200 in 71ms (compile: 7ms, render: 65ms)
+ GET /projects/ink 200 in 55ms (compile: 4ms, render: 51ms)
+ ✓ Compiled in 129ms
+ GET /projects/bubono-bumperland 200 in 328ms (compile: 136ms, render: 192ms)
+ ✓ Compiled in 423ms
+ GET /projects/bubono-bumperland 200 in 317ms (compile: 134ms, render: 183ms)
+ GET /projects 200 in 301ms (compile: 126ms, render: 175ms)
+ GET /projects/shanhe 200 in 378ms (compile: 352ms, render: 27ms)
+ GET /assets/ITGM405/ITGM405_MoneyShot_4.png 404 in 55ms (compile: 12ms, render: 43ms)
+ GET /projects 200 in 21ms (compile: 4ms, render: 16ms)
+ GET / 200 in 221ms (compile: 156ms, render: 65ms)
+ ✓ Compiled in 342ms
+ ✓ Compiled in 114ms
+ ✓ Compiled in 237ms
+ ✓ Compiled in 106ms
+ GET /projects 200 in 214ms (compile: 92ms, render: 122ms)
+ ✓ Compiled in 260ms
+ GET /projects 200 in 232ms (compile: 103ms, render: 129ms)
+ GET /projects/ink 200 in 228ms (compile: 104ms, render: 124ms)
+ ✓ Compiled in 75ms
+ ✓ Compiled in 87ms
+ GET /projects 200 in 231ms (compile: 94ms, render: 136ms)
+ GET /projects 200 in 45ms (compile: 3ms, render: 43ms)
+ GET /projects/ink 200 in 237ms (compile: 104ms, render: 133ms)
+ ✓ Compiled in 97ms
+ GET / 200 in 151ms (compile: 4ms, render: 147ms)
+ GET /projects 200 in 18ms (compile: 3ms, render: 15ms)
+ GET / 200 in 77ms (compile: 4ms, render: 73ms)
+ ✓ Compiled in 133ms
+ GET / 200 in 304ms (compile: 111ms, render: 193ms)
+ GET / 200 in 78ms (compile: 4ms, render: 75ms)
+ GET / 200 in 85ms (compile: 4ms, render: 82ms)
+ GET / 200 in 63ms (compile: 4ms, render: 59ms)
+ GET / 200 in 57ms (compile: 4ms, render: 54ms)
+ GET / 200 in 49ms (compile: 2ms, render: 47ms)
+ GET /projects 200 in 218ms (compile: 102ms, render: 116ms)

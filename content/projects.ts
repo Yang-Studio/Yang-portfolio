@@ -57,7 +57,7 @@ export const projects: Project[] = [
     overview: {
       goal: 'Build a mood curve from calm to pressure to demonized to burst to weakened to finale, tied to corpse-soul shards.',
       team: 'Solo',
-      timeline: 'Vertical slice - 10 weeks',
+      timeline: 'Mar 2024 - May 2024 / 10 weeks',
     },
     process: [
       { title: 'Challenge', body: 'Keep combat rhythm aligned with mood beats instead of pure stat scaling.' },
@@ -79,7 +79,7 @@ export const projects: Project[] = [
     tag: 'Technical',
     title: "Bubono's Bumperland",
     blurb: 'Collision-first bumper buggy arenas across Burg, Abyss, and Big Bang with adaptive AI and upgradeable modules.',
-    year: '2025',
+    year: '2024 - 2025',
     role: 'Systems & Enemy Programmer',
     tools: 'UE5',
     cover: 'https://drive.google.com/thumbnail?id=1f6PUGXv-EytcDkTg9Q5CtEPVl5TFto0E&sz=w2000',
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     overview: {
       goal: 'Deliver branch-themed collision combat with adaptive enemies while keeping every shove readable.',
       team: '5-person squad',
-      timeline: 'Sprint cycle',
+      timeline: 'Sep 2024 - May 2025',
     },
     process: [
       { title: 'Challenge', body: 'Blend three themed branches without losing collision clarity or AI readability.' },
@@ -216,7 +216,7 @@ export const projects: Project[] = [
     tag: 'Prototype',
     title: 'Ink',
     blurb: '2D platformer with layered scenes and hand-drawn interaction framework.',
-    year: '2025',
+    year: 'Jan 2025',
     role: 'Hand-drawn',
     tools: 'UE',
     cover: 'https://drive.google.com/thumbnail?id=1csW4phIgAJX3eKsRAHhZe5hvyUDUagd-&sz=w2000',
@@ -227,7 +227,7 @@ export const projects: Project[] = [
     download: 'https://drive.google.com/uc?export=download&id=1OXrf93ZZOZgMpkfbs7E2iYnq03n-twEm',
     overview: {
       goal: 'Hand-drawn 2D platformer.',
-      team: 'Two-person team',
+      team: 'Game Jam project',
       timeline: '48 hours',
     },
     process: [],

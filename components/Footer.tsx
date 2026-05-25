@@ -1,24 +1,57 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import { useLanguage } from '@/components/LanguageProvider'
 
 export default function Footer() {
   const pathname = usePathname()
-  const isDarkProject =
-    pathname?.startsWith('/projects/shanhe') || pathname?.startsWith('/projects/bubono-bumperland')
+  const { t } = useLanguage()
+  const isDarkProject = pathname?.startsWith('/projects/')
 
-  const shellClass = isDarkProject ? 'bg-neutral-950 text-neutral-200 border-t border-white/10' : 'bg-slate text-sand'
-  const linkClass = isDarkProject
-    ? 'underline decoration-blue-400 decoration-2 underline-offset-4 hover:text-white'
-    : 'underline decoration-coral decoration-2 underline-offset-4'
+  const shellClass = isDarkProject ? 'border-paper/20 bg-ink text-paper' : 'border-rule bg-paper text-ink'
+  const softClass = isDarkProject ? 'text-paper/50' : 'text-ink-soft'
 
   return (
-    <footer className={`mt-24 ${shellClass}`}>
-      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-10 md:px-10 lg:px-16">
-        <p>Copyright {new Date().getFullYear()} Yang Liu</p>
-        <a className={linkClass} href="mailto:yangliu.gmdev@gmail.com">
-          yangliu.gmdev@gmail.com
-        </a>
+    <footer className={`border-t ${shellClass}`}>
+      <div className="mx-auto grid w-full max-w-[1280px] gap-10 px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:grid-cols-[1.15fr_2.15fr] lg:gap-16 lg:px-24">
+        <div>
+          <p className={`mono mb-6 text-[11px] uppercase tracking-normal md:mb-8 ${softClass}`}>{t('Plate 05 / Fin')}</p>
+          <h2 className="display-safe zh-footer-title text-[clamp(48px,8vw,112px)] italic leading-[0.95] tracking-normal">
+            {t('Work together?')}
+          </h2>
+        </div>
+        <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-[0.9fr_1.45fr_1fr] lg:gap-x-14">
+          <div>
+            <p className={`mono mb-4 text-[11px] uppercase tracking-normal ${softClass}`}>{t('Location')}</p>
+            <p className="copy-safe zh-footer-copy">
+              {t('Rincon, Georgia')}
+              <br />
+              {t('United States')}
+              <br />
+              {t('Open to relocation')}
+            </p>
+          </div>
+          <div>
+            <p className={`mono mb-4 text-[11px] uppercase tracking-normal ${softClass}`}>{t('Elsewhere')}</p>
+            <div className="flex flex-col items-start gap-2">
+              <a
+                className="max-w-full break-all text-[15px] underline decoration-accent underline-offset-4 sm:text-base"
+                href="mailto:yangliu.gmdev@gmail.com"
+              >
+                yangliu.gmdev@gmail.com
+              </a>
+              <a className="underline decoration-accent underline-offset-4" href="https://github.com/Yang-Studio">
+                GitHub
+              </a>
+            </div>
+          </div>
+          <div>
+            <p className={`mono mb-4 text-[11px] uppercase tracking-normal ${softClass}`}>{t('Colophon')}</p>
+            <p className="copy-safe zh-footer-copy">
+              {t('Copyright')} {new Date().getFullYear()} Yang Liu.
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   )

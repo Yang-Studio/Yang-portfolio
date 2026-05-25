@@ -6,37 +6,52 @@ import { gsap } from '@/lib/motion'
 export default function HomeMotion() {
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>('.home-section').forEach((section, index) => {
-        gsap.from(section, {
-          opacity: 0,
-          y: 60,
-          duration: 0.8,
-          delay: index * 0.08,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-      })
-
-      if (typeof window !== 'undefined') {
-        const originalBg = getComputedStyle(document.body).backgroundColor
+      gsap.utils.toArray<HTMLElement>('.reveal').forEach((section, index) => {
         gsap.fromTo(
-          'body',
-          { backgroundColor: originalBg },
+          section,
+          { opacity: 0, y: 32 },
           {
-            backgroundColor: '#bbd4ce',
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            delay: index * 0.03,
+            ease: 'expo.out',
             scrollTrigger: {
-              trigger: '.featured-section',
-              start: 'top center',
-              end: 'bottom center',
-              scrub: true,
+              trigger: section,
+              start: 'top 82%',
+              toggleActions: 'play none none reverse',
             },
           },
         )
-      }
+      })
+
+      gsap.to('.hero-watermark', {
+        scale: 1.45,
+        opacity: 0.08,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      gsap.utils.toArray<HTMLElement>('.hero-scatter-word').forEach((word, index) => {
+        gsap.to(word, {
+          opacity: 0,
+          x: (index % 2 === 0 ? 1 : -1) * (90 + index * 6),
+          y: (index % 3 === 0 ? -1 : 1) * (60 + index * 4),
+          rotate: index % 2 === 0 ? 12 : -12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: '+=70%',
+            scrub: true,
+          },
+        })
+      })
     })
 
     return () => ctx.revert()
