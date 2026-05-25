@@ -29,19 +29,20 @@ export const coreSkills = [
 
 export const timeline = [
   {
-    year: '2024',
-    blurb:
-      'Bubono\'s Bumperland\nSystems-driven RPG (core project)\nLed overall gameplay structure and core systems design\nBuilt multi-themed branching worlds (Burg / Abyss / Big Bang)\nDesigned distinct spatial pacing and play experiences under shared rules\nShanhe\nWuxia-themed systems and narrative exploration\nUsed "jianghu relationships" instead of numeric growth as the core driver\nDesigned choice-led storylines and branching structure\nExplored how reversal-driven narrative lands within gameplay pacing',
+    year: '2021',
+    blurb: 'Entered SCAD for BFA Game Development and Interactive Design.',
   },
   {
     year: '2023',
-    blurb:
-      'Stairs in the Woods\nEnvironmental and spatial narrative experiment\nExplored the visual and spatial contrast between a realistic forest and low-poly elements\nUsed spatial transitions and teleport structures to express world shifts\nFocused on mood and spatial experience rather than complex mechanics\nInk\n2D platform action prototype\nUsed "drawing/brushstroke" as the core interaction\nExplored how input methods directly shape combat and movement\nFocused on feedback, feel, and pacing control',
+    blurb: 'Shanhe. Solo wuxia action demo with event-driven combat architecture.',
   },
   {
-    year: '2022',
-    blurb:
-      'AukAdyssey\nNarrative-driven RPG prototype\nDesigned systems around "escape and growth"\nAligned story progression with player goals\nValidated early levels and narrative pacing',
+    year: '2024',
+    blurb: "Started Bubono's Bumperland with the team.",
+  },
+  {
+    year: 'NOW',
+    blurb: 'Currently looking for more opportunities.',
   },
 ]
 

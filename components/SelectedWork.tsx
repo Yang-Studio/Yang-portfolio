@@ -32,7 +32,7 @@ export default function SelectedWork() {
     <section id="work" className="monograph-section px-5 sm:px-8 md:px-16 lg:px-24">
       <div className="mx-auto max-w-[1280px]">
         <div className="mb-14 grid gap-8 md:mb-20 lg:grid-cols-[320px_1fr] lg:gap-12">
-          <PlateLabel plate={t('Plate 02')} label={t('Selected Work / 2024 - Now')} active />
+          <PlateLabel plate={t('Plate 02')} label={t('Main Projects / 2024 - Now')} active />
           <p className="display-safe zh-section-lede max-w-3xl text-[clamp(28px,4vw,56px)] leading-[1.05]">
             {t('Main projects.')}
           </p>

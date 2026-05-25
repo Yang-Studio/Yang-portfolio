@@ -238,7 +238,6 @@ const SHANHE_TRANSLATIONS: Record<string, string> = {
   Role: '角色',
   'Creative Director': '创意总监',
   Timeline: '时间线',
-  '16-week vertical slice': '2024.03 - 2024.05 / 10 周',
   Tools: '工具',
   'Unreal Engine 5.3 · Blueprints · Maya': 'Unreal Engine 5.3 · 蓝图 · Maya',
   'Project Overview': '项目概览',

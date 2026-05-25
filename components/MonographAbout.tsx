@@ -4,10 +4,10 @@ import PlateLabel from '@/components/PlateLabel'
 import { useLanguage } from '@/components/LanguageProvider'
 
 const timeline = [
-  ['2021', 'SCAD. BFA Game Development and Interactive Design begins.'],
+  ['2021', 'Entered SCAD for BFA Game Development and Interactive Design.'],
   ['2023', 'Shanghe. Solo wuxia action demo with event-driven combat architecture.'],
-  ['2024', "First ship. Joins Bubono's Bumperland as Systems and Gameplay Programmer."],
-  ['NOW', 'Open to full-time roles in the U.S. Work-authorized via STEM OPT.'],
+  ['2024', "Started Bubono's Bumperland with the team."],
+  ['NOW', 'Currently looking for more opportunities.'],
 ]
 
 export default function MonographAbout() {

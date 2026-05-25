@@ -38,28 +38,37 @@ const DICTIONARY: Record<string, string> = {
   'A technical catalogue of game systems, prototypes, visual studies, and playable worlds.':
     '一份关于游戏系统、原型、视觉实验与可游玩世界的技术目录。',
   'Main projects.': '主要项目。',
+  'Main Projects / 2024 - Now': '主要项目 / 2024 至今',
   'Two project plates. One team system. One solo architecture study.':
     '主要项目。',
   'I make games where the systems talk to each other.': '做会回应的游戏系统。',
   "Currently solo on Shanghe. Systems on Bubono's Bumperland.":
     '仍在开发更多 demo。',
+  'Still developing more demos.': '仍在开发更多 demo。',
   'Selected work': '精选作品',
   Biography: '履历',
   'Now showing': '当前展示',
   'Open to full-time roles': '开放全职机会',
+  'Open to more opportunities': '开放更多机会',
   'STEM OPT': 'STEM OPT',
   'Sys & gameplay prog. / 2024 - now': '系统与玩法程序 / 2024.09 - 2025.05',
   'Sys & gameplay prog. / Sep 2024 - May 2025': '系统与玩法程序 / 2024.09 - 2025.05',
   'Systems first. Mood second. Cut the rest.': '',
   'SCAD. BFA Game Development and Interactive Design begins.':
     '2021 年进入 SCAD，开始游戏开发与交互设计 BFA 学习。',
+  'Entered SCAD for BFA Game Development and Interactive Design.':
+    '2021 年进入 SCAD，开始游戏开发与交互设计 BFA 学习。',
   "First ship. Joins Bubono's Bumperland as Systems and Gameplay Programmer.":
+    '2024 年与团队开始开发 Bubono’s Bumperland。',
+  "Started Bubono's Bumperland with the team.":
     '2024 年与团队开始开发 Bubono’s Bumperland。',
   'eLogistics. Warehouse simulation prototype as in-house training game.':
     'eLogistics。制作面向内部培训的仓储模拟原型。',
   'Shanghe. Solo wuxia action demo with event-driven combat architecture.':
     '《山河》。独立开发的武侠动作 Demo，采用事件驱动战斗架构。',
   'Open to full-time roles in the U.S. Work-authorized via STEM OPT.':
+    '现在正在寻找更多机会。',
+  'Currently looking for more opportunities.':
     '现在正在寻找更多机会。',
   'Work together?': '合作？',
   Location: '位置',

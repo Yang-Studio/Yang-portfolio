@@ -37,9 +37,7 @@ export default function Hero() {
         -81.5151 W
       </div>
       <div className="mono absolute bottom-12 right-8 z-10 hidden text-right text-[11px] uppercase text-ink-soft md:block lg:right-24">
-        {t('Open to full-time roles')}
-        <br />
-        {t('STEM OPT')}
+        {t('Open to more opportunities')}
       </div>
 
       <div className="relative z-10 mx-auto grid max-w-[1280px] gap-8 md:gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
@@ -58,7 +56,7 @@ export default function Hero() {
 
           <div className="mt-6 max-w-md md:mt-8">
             <div className="hero-copy zh-support-copy flex flex-col justify-end gap-5 text-ink-soft">
-              <p className="copy-safe">{t("Currently solo on Shanghe. Systems on Bubono's Bumperland.")}</p>
+              <p className="copy-safe">{t('Still developing more demos.')}</p>
               <div className="mono flex flex-wrap gap-x-6 gap-y-2 text-[11px] uppercase text-ink">
                 <Link className="underline decoration-accent underline-offset-4" href="/projects">
                   {t('Selected work')}
