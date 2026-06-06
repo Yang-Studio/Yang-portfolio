@@ -11,6 +11,37 @@ export type ProjectTranslation = {
 }
 
 export const projectTranslations: Record<string, ProjectTranslation> = {
+  yinyang: {
+    title: 'YinYang',
+    blurb: '现代八字数据仪表盘，将本地确定性排盘、结构化解读与注重隐私的 AI 综合分析整合在同一款 Web App 中。',
+    role: '全栈 App 开发',
+    overviewGoal: '把信息密集的传统八字命盘转化为清晰、响应式的数据产品，同时严格区分确定性计算与生成式解读。',
+    overviewTeam: '个人 App 开发',
+    overviewTimeline: '2026',
+    process: [
+      { title: '挑战', body: '清晰呈现大量历法与象意数据，并让每一项计算结果都有来源可追溯。' },
+      { title: '方案', body: '将本地排盘引擎、规则分析、界面渲染和可选 AI 综合推理拆分为独立层。' },
+      { title: '结果', body: '完成响应式 Web App：命盘在本地完整生成，用户仅在需要时主动请求结构化 AI 解读。' },
+    ],
+    technical: [
+      {
+        title: '确定性排盘引擎',
+        description: '基于 lunar-javascript 在浏览器中计算四柱、五行、十神、藏干、十二长生、大运与流年信息。',
+      },
+      {
+        title: '隐私优先的 AI 层',
+        description: '仅发送计算后的命盘数据以及所选出生日期、时间和性别；姓名与出生地点不会进入 AI 请求。',
+      },
+      {
+        title: '可嵌入 App 架构',
+        description: '支持独立页面与 iframe 模式、URL 参数初始化、响应式高度通信、明暗主题和宿主页面事件回调。',
+      },
+    ],
+    results: {
+      summary: '交付了可部署的八字应用，包含本地排盘、结构化规则分析、可选 AI 综合推理与可复用嵌入接口。',
+      highlights: ['本地优先计算', '结构化 AI 输出', '响应式独立与嵌入模式'],
+    },
+  },
   shanhe: {
     title: '山河',
     blurb: '武侠动作 Demo，围绕战斗节奏、处决反馈与任务系统之间的事件联动展开。',

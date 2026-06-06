@@ -147,7 +147,10 @@ export default function ProjectClient({ project }: { project: Project }) {
           <Meta label={t('Engine')} value={t(project.tools)} />
           <Meta label={t('Team')} value={translation?.overviewTeam ?? t(project.overview.team)} />
           <Meta label={t('Timeline')} value={translation?.overviewTimeline ?? t(project.overview.timeline)} />
-          <Meta label={t('Status')} value={project.year.includes('2025') ? t('Playable demo') : t('Archive')} />
+          <Meta
+            label={t('Status')}
+            value={project.status ? t(project.status) : project.year.includes('2025') ? t('Playable demo') : t('Archive')}
+          />
         </div>
       </section>
 
@@ -206,6 +209,32 @@ export default function ProjectClient({ project }: { project: Project }) {
                   </article>
                 )
               })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {project.demo && (
+        <section className="case-reveal border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
+          <div className="mx-auto max-w-[1280px]">
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <PlateLabel plate={t('Live App')} label={t('Interactive Demo')} tone="paper" />
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring mono w-max border border-accent px-5 py-3 text-[11px] uppercase text-accent transition hover:bg-accent hover:text-paper"
+              >
+                {t('Open App')}
+              </a>
+            </div>
+            <div className="mt-10 overflow-hidden border border-paper/20 bg-paper">
+              <iframe
+                src={`${project.demo}?embed=1&screen=home`}
+                title={`${project.title} interactive demo`}
+                className="h-[760px] w-full bg-white md:h-[900px]"
+                loading="lazy"
+              />
             </div>
           </div>
         </section>

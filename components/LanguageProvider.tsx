@@ -47,6 +47,7 @@ const DICTIONARY: Record<string, string> = {
   'Project Index': '项目索引',
   '7 projects on record': '收录 7 个项目',
   '9 projects on record': '收录 9 个项目',
+  '10 projects on record': '收录 10 个项目',
   'A technical catalogue of game systems, prototypes, visual studies, and playable worlds.':
     '一份关于游戏系统、原型、视觉实验与可游玩世界的技术目录。',
   'Each project is framed by what a game team can hire from: role fit, proof of ownership, and the strongest production signal.':
@@ -128,6 +129,10 @@ const DICTIONARY: Record<string, string> = {
   Status: '状态',
   Archive: '归档',
   'Playable demo': '可玩 Demo',
+  'Live web app': '在线 Web App',
+  'Live App': '在线 App',
+  'Interactive Demo': '交互演示',
+  'Open App': '打开 App',
   'System 01': '系统 01',
   'System 02': '系统 02',
   System: '系统',
@@ -197,6 +202,9 @@ const DICTIONARY: Record<string, string> = {
   'UI/UX Design': 'UI/UX \u8bbe\u8ba1',
   Photographer: '\u6444\u5f71\u5e08',
   Prototype: '\u539f\u578b',
+  'App Development': 'App 开发',
+  'Full-stack App Developer': '全栈 App 开发',
+  'Solo app development': '个人 App 开发',
   Goal: '\u76ee\u6807',
   Team: '\u56e2\u961f',
   Timeline: '\u65f6\u95f4\u8f74',

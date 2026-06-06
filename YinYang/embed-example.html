@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BaZi 嵌入示例</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #F2F3F5;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    main { max-width: 1040px; margin: 0 auto; padding: 32px 20px 64px; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p { margin: 0 0 24px; color: #666666; }
+    #bazi-widget {
+      overflow: hidden;
+      background: #FAFAFA;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>会员档案</h1>
+    <p>下面的排盘工具由 BaZi Widget 嵌入。</p>
+    <div id="bazi-widget"></div>
+  </main>
+
+  <script src="assets/embed-host.js"></script>
+  <script>
+    BaZiEmbed.mount('#bazi-widget', {
+      src: 'embed.html',
+      theme: 'light',
+      screen: 'form',
+      maxHeight: 1200,
+      onResult: function (result) {
+        console.log('BaZi result', result);
+      }
+    });
+  </script>
+</body>
+</html>

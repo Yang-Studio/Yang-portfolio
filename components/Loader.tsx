@@ -1,18 +1,20 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { gsap } from '@/lib/motion'
 import { useLanguage, type Language } from '@/components/LanguageProvider'
 
-const LOADER_KEY = 'yang-monograph-loader-v2'
+const LOADER_KEY = 'yang-monograph-loader-v3'
+type Collection = 'games' | 'apps'
 
 export default function Loader() {
+  const router = useRouter()
   const { setLanguage } = useLanguage()
-  const [visible, setVisible] = useState(() =>
-    typeof window === 'undefined' ? true : sessionStorage.getItem(LOADER_KEY) !== 'seen',
-  )
+  const [visible, setVisible] = useState(true)
   const [count, setCount] = useState(0)
   const [readyForLanguage, setReadyForLanguage] = useState(false)
+  const [collection, setCollection] = useState<Collection>('games')
   const rootRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
 
@@ -61,7 +63,10 @@ export default function Loader() {
     gsap
       .timeline({
         defaults: { ease: 'expo.inOut' },
-        onComplete: () => setVisible(false),
+        onComplete: () => {
+          setVisible(false)
+          router.push(collection === 'apps' ? '/projects/yinyang' : '/')
+        },
       })
       .to('.loader-language', { opacity: 0, y: -24, pointerEvents: 'none', duration: 0.35 })
       .to(rootRef.current, { yPercent: -100, duration: 0.9 }, '-=0.05')
@@ -72,31 +77,60 @@ export default function Loader() {
   return (
     <div
       ref={rootRef}
-      className="monograph-loader mono flex flex-col justify-start gap-10 overflow-y-auto p-5 sm:p-8 md:justify-between md:p-16"
+      className="monograph-loader mono flex flex-col justify-start gap-7 overflow-y-auto p-5 sm:p-8 md:justify-between md:p-12"
     >
       <div className="flex items-start justify-between gap-6 text-[10px] uppercase tracking-normal text-paper/70 md:text-[11px]">
         <span>Yang Studio Monograph</span>
         <span className="text-right">2026 Build Brief</span>
       </div>
-      <div className="grid gap-6 md:gap-12">
-        <div className="mb-2 h-px origin-left bg-paper md:mb-6" ref={lineRef} />
+      <div className="grid gap-5 md:gap-7">
+        <div className="mb-1 h-px origin-left bg-paper md:mb-3" ref={lineRef} />
         <div className="flex items-end justify-between gap-6">
-          <span className="font-serif text-[clamp(64px,22vw,220px)] leading-[0.86] tracking-normal text-paper">
+          <span className="font-serif text-[clamp(58px,16vw,160px)] leading-[0.86] tracking-normal text-paper">
             Y
           </span>
           <div className="loader-counter text-right">
-            <p className="text-[clamp(48px,16vw,144px)] leading-none text-paper">{String(count).padStart(2, '0')}</p>
+            <p className="text-[clamp(46px,12vw,112px)] leading-none text-paper">{String(count).padStart(2, '0')}</p>
             <p className="loader-enter mt-3 text-accent opacity-0 md:mt-4">ENTER</p>
           </div>
         </div>
-        <div className="loader-language pointer-events-none grid translate-y-8 gap-6 opacity-0 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="loader-language pointer-events-none grid translate-y-8 gap-7 opacity-0">
           <div>
             <p className="text-[clamp(30px,10vw,72px)] font-serif leading-none text-paper">选择语言</p>
             <p className="mt-2 text-[clamp(20px,7vw,44px)] font-serif italic leading-none text-paper/60 md:mt-3">
               Select language
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <p className="mb-3 text-[10px] uppercase text-paper/50">选择分类 / Select collection</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => setCollection('games')}
+                className={`focus-ring min-h-16 border px-5 py-3 text-left transition ${
+                  collection === 'games'
+                    ? 'border-accent bg-accent/10 text-accent'
+                    : 'border-paper/25 text-paper/65 hover:border-paper/60 hover:text-paper'
+                }`}
+              >
+                <span className="block text-[10px] uppercase opacity-60">Portfolio</span>
+                <span className="mt-1 block text-lg">游戏开发 / Game Development</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setCollection('apps')}
+                className={`focus-ring min-h-16 border px-5 py-3 text-left transition ${
+                  collection === 'apps'
+                    ? 'border-accent bg-accent/10 text-accent'
+                    : 'border-paper/25 text-paper/65 hover:border-paper/60 hover:text-paper'
+                }`}
+              >
+                <span className="block text-[10px] uppercase opacity-60">YinYang</span>
+                <span className="mt-1 block text-lg">App开发 / App Development</span>
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 md:max-w-xl">
             <button
               type="button"
               onClick={() => chooseLanguage('zh')}
