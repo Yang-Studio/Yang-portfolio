@@ -10,7 +10,15 @@ import { useLanguage } from '@/components/LanguageProvider'
 const nameWords = ['Yang', 'Liu']
 
 export default function Hero() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const recruitingSignals =
+    language === 'zh'
+      ? ['Gameplay systems', 'Enemy AI', 'UE5 Blueprint', 'Prototype shipping']
+      : ['Gameplay systems', 'Enemy AI', 'UE5 Blueprint', 'Prototype shipping']
+  const positioning =
+    language === 'zh'
+      ? '系统向游戏设计师 / 技术设计师，能把模糊创意拆成规则、状态、反馈和可测试原型。'
+      : 'Systems-focused game designer / technical designer who turns fuzzy ideas into rules, states, feedback, and testable prototypes.'
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,7 +51,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto grid max-w-[1280px] gap-8 md:gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
         <div className="flex flex-col justify-center md:min-h-[60dvh]">
           <div className="hero-label mb-10 md:mb-12">
-            <PlateLabel plate={t('Plate 01')} label={t('Overture / Game Systems')} active />
+            <PlateLabel plate={t('Plate 01')} label={t('Hiring Signal / Gameplay Systems')} active />
           </div>
 
           <h1 className="overflow-hidden text-[clamp(58px,18vw,150px)] leading-[0.9] tracking-normal md:leading-[0.88]">
@@ -56,13 +64,23 @@ export default function Hero() {
 
           <div className="mt-6 max-w-md md:mt-8">
             <div className="hero-copy zh-support-copy flex flex-col justify-end gap-5 text-ink-soft">
-              <p className="copy-safe">{t('Still developing more demos.')}</p>
+              <p className="copy-safe">{positioning}</p>
+              <div className="grid gap-2 border-y border-rule py-4">
+                <p className="mono text-[11px] uppercase text-ink-soft">{t('What hiring teams can verify')}</p>
+                <div className="flex flex-wrap gap-2">
+                  {recruitingSignals.map((signal) => (
+                    <span key={signal} className="mono border border-rule px-2 py-1 text-[10px] uppercase text-ink">
+                      {signal}
+                    </span>
+                  ))}
+                </div>
+              </div>
               <div className="mono flex flex-wrap gap-x-6 gap-y-2 text-[11px] uppercase text-ink">
                 <Link className="underline decoration-accent underline-offset-4" href="/projects">
-                  {t('Selected work')}
+                  {t('Review project evidence')}
                 </Link>
                 <Link className="underline decoration-accent underline-offset-4" href="/about">
-                  {t('Biography')}
+                  {t('Hiring fit')}
                 </Link>
               </div>
             </div>
@@ -76,7 +94,7 @@ export default function Hero() {
         >
           <div className="mono flex items-center justify-between border-b border-rule px-4 py-3 text-[11px] uppercase text-ink-soft">
             <span>{t('Now showing')}</span>
-            <span>01 / 02</span>
+            <span>{t('Team production proof')}</span>
           </div>
           <Image
             src="https://drive.google.com/thumbnail?id=1f6PUGXv-EytcDkTg9Q5CtEPVl5TFto0E&sz=w2000"
@@ -89,7 +107,7 @@ export default function Hero() {
           <div className="border-t border-rule px-4 py-4">
             <p className="italic">Bubono&apos;s Bumperland</p>
             <p className="mono mt-1 text-[11px] uppercase text-ink-soft">
-              {t('Sys & gameplay prog. / Sep 2024 - May 2025')}
+              {t('Enemy AI + modular gameplay systems / UE5')}
             </p>
           </div>
         </Link>

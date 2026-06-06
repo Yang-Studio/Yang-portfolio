@@ -11,8 +11,8 @@ export default function AboutClient() {
       <div className="mx-auto w-full max-w-[1200px]">
         <PageHero
           kicker="About"
-          title="Yang Liu | systems-focused game designer & engineer"
-          description="I turn abstract ideas into testable, iterative gameplay through systems design and engineering."
+          title="Yang Liu | gameplay systems designer / technical designer"
+          description="I build the bridge between design intent and playable implementation: rules, states, AI behavior, UI feedback, and prototypes that teams can evaluate."
         />
       </div>
 
@@ -31,7 +31,7 @@ export default function AboutClient() {
             </a>
           </div>
           <aside className="glass rounded-2xl p-5 shadow-soft md:p-6">
-            <h3 className="font-display text-xl text-slate">{t("What I'm exploring now")}</h3>
+            <h3 className="font-display text-xl text-slate">{t('Target roles')}</h3>
             <ul className="mt-4 space-y-3 text-slate/80">
               {biography.now.map((item) => (
                 <li key={item} className="flex items-start gap-3">
@@ -57,7 +57,7 @@ export default function AboutClient() {
         </div>
 
         <div className="mt-10 rounded-2xl bg-mist/50 p-5 shadow-soft md:mt-16 md:p-8">
-          <h3 className="font-display text-xl text-slate">{t('A warm timeline')}</h3>
+          <h3 className="font-display text-xl text-slate">{t('Hiring trajectory')}</h3>
           <div className="mt-6 space-y-4">
             {timeline.map((entry) => (
               <div key={entry.year} className="grid gap-2 sm:grid-cols-[88px_1fr] sm:gap-6">
@@ -74,7 +74,7 @@ export default function AboutClient() {
               <p className="text-xs uppercase tracking-[0.4em] text-coral">{t('Connect')}</p>
               <h3 className="mt-2 font-display text-2xl text-slate">{t('Find Yang across the web')}</h3>
               <p className="mt-3 max-w-xl text-slate/70">
-                {t('For collaboration or project ideas, feel free to reach out.')}
+                {t('For roles where gameplay design needs implementation ownership, feel free to reach out.')}
               </p>
             </div>
             <ul className="flex flex-1 flex-col gap-4">

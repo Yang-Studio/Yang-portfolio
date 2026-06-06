@@ -3,7 +3,7 @@ import ProjectsArchive from '@/components/ProjectsArchive'
 
 export const metadata: Metadata = {
   title: 'Projects -- Yang Studio',
-  description: 'Case studies exploring game design, technical art, and prototypes from Yang Studio.',
+  description: 'Project evidence for gameplay systems, enemy AI, UI feedback, prototypes, UX research, and environment art.',
 }
 
 export default function ProjectsPage() {

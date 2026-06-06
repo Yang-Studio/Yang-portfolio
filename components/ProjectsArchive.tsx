@@ -6,6 +6,7 @@ import Link from 'next/link'
 import PlateLabel from '@/components/PlateLabel'
 import { projects } from '@/content/projects'
 import { projectTranslations } from '@/content/projectTranslations'
+import { getLocalizedText, projectRecruitingHighlights } from '@/content/recruitingHighlights'
 import { useLanguage } from '@/components/LanguageProvider'
 import { gsap } from '@/lib/motion'
 
@@ -119,16 +120,16 @@ export default function ProjectsArchive() {
     <div className="bg-paper text-ink">
       <section className="border-b border-rule px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:px-24">
         <div className="mx-auto grid max-w-[1280px] gap-10 md:gap-16 lg:grid-cols-[320px_1fr]">
-          <PlateLabel plate={t('Plate 02 / Index')} label={t('Projects / Complete Archive')} active />
+          <PlateLabel plate={t('Plate 02 / Index')} label={t('Project Evidence / Hiring Read')} active />
           <div className="projects-hero-copy">
             <p className="mono mb-8 text-[11px] uppercase text-ink-soft">{t(`${projects.length} projects on record`)}</p>
             <h1 className="projects-hero-title display-safe max-w-5xl overflow-hidden text-[clamp(48px,18vw,142px)] leading-[0.92] tracking-normal md:leading-[0.9]">
-              <span className="inline-block">{t('Project')}</span>
+              <span className="inline-block">{t('Evidence')}</span>
               <br />
               <span className="inline-block">{t('Index')}</span>
             </h1>
             <p className="copy-safe mt-8 max-w-3xl text-[clamp(20px,6vw,38px)] leading-[1.18] md:mt-10 md:leading-[1.12]">
-              {t('A technical catalogue of game systems, prototypes, visual studies, and playable worlds.')}
+              {t('Each project is framed by what a game team can hire from: role fit, proof of ownership, and the strongest production signal.')}
             </p>
           </div>
         </div>
@@ -139,6 +140,7 @@ export default function ProjectsArchive() {
           {projects.map((project, index) => {
             const translation = language === 'zh' ? projectTranslations[project.slug] : undefined
             const image = project.banner ?? project.cover ?? project.moneyshot
+            const highlight = projectRecruitingHighlights[project.slug]
 
             return (
               <article key={project.slug} className="project-index-row relative isolate overflow-hidden border-b border-rule py-9 md:py-12">
@@ -179,6 +181,18 @@ export default function ProjectsArchive() {
                       <p className="copy-safe mt-5 max-w-2xl text-[clamp(18px,5.2vw,26px)] leading-[1.28] text-ink-soft md:mt-6 md:leading-[1.22]">
                         {translation?.blurb ?? t(project.blurb)}
                       </p>
+                      {highlight && (
+                        <div className="mt-6 grid gap-4 border-t border-rule pt-5 md:grid-cols-[0.85fr_1.15fr]">
+                          <div>
+                            <p className="mono text-[11px] uppercase text-accent">{t('Hiring fit')}</p>
+                            <p className="mt-2 text-lg leading-snug text-ink">{getLocalizedText(highlight.fit, language)}</p>
+                          </div>
+                          <div>
+                            <p className="mono text-[11px] uppercase text-ink-soft">{t('Proof')}</p>
+                            <p className="mt-2 leading-snug text-ink-soft">{getLocalizedText(highlight.proof, language)}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="grid gap-3 border-t border-rule pt-5 md:grid-cols-3">
@@ -186,6 +200,17 @@ export default function ProjectsArchive() {
                       <Meta label={t('Tools')} value={t(project.tools)} />
                       <Meta label={t('Mode')} value={translation?.overviewTeam ?? t(project.overview.team)} />
                     </div>
+                    {highlight && (
+                      <div className="grid gap-3 border-t border-rule pt-5 md:grid-cols-3">
+                        {highlight.bullets.map((bullet, bulletIndex) => (
+                          <Meta
+                            key={bullet.en}
+                            label={`${t('Signal')} ${String(bulletIndex + 1).padStart(2, '0')}`}
+                            value={getLocalizedText(bullet, language)}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </Link>
               </article>

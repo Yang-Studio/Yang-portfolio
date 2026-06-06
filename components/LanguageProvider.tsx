@@ -27,18 +27,35 @@ const DICTIONARY: Record<string, string> = {
   'Plate 02 / Index': '图版 02 / 索引',
   'Project Plate': '项目图版',
   'Overture / Game Systems': '序章 / 游戏系统',
+  'Hiring Signal / Gameplay Systems': '招聘信号 / 玩法系统',
   'Projects / Complete Archive': '项目 / 完整索引',
+  'Project Evidence / Hiring Read': '项目证据 / 招聘速读',
   'Biography / Timeline': '履历 / 时间线',
+  'Candidate Trajectory / Hiring Fit': '候选人路径 / 岗位匹配',
   'Tools / Methods': '工具 / 方法',
   'Process / Decisions': '过程 / 决策',
   'Gallery / Artifacts': '图像 / 过程素材',
   'Results / Reflection': '结果 / 复盘',
+  'Recruiter read': '招聘速读',
+  'Role Fit / Evidence': '岗位匹配 / 证据',
+  'What hiring teams can verify': '招聘团队可以验证',
+  'Hiring fit': '岗位匹配',
+  Proof: '证据',
+  Signal: '信号',
+  Evidence: '证据',
+  'Why it matters': '为什么值得看',
   'Project Index': '项目索引',
   '7 projects on record': '收录 7 个项目',
+  '9 projects on record': '收录 9 个项目',
   'A technical catalogue of game systems, prototypes, visual studies, and playable worlds.':
     '一份关于游戏系统、原型、视觉实验与可游玩世界的技术目录。',
+  'Each project is framed by what a game team can hire from: role fit, proof of ownership, and the strongest production signal.':
+    '每个项目都按游戏团队会招聘什么来组织：岗位匹配、负责证据和最强制作信号。',
   'Main projects.': '主要项目。',
   'Main Projects / 2024 - Now': '主要项目 / 2024 至今',
+  'Recruiter Shortlist / Proof First': '招聘短名单 / 证据优先',
+  'The fastest read: team production, solo ownership, and player-facing systems.':
+    '最快速的阅读路径：团队制作、独立负责、面向玩家的系统。',
   'Two project plates. One team system. One solo architecture study.':
     '主要项目。',
   'I make games where the systems talk to each other.': '做会回应的游戏系统。',
@@ -47,9 +64,14 @@ const DICTIONARY: Record<string, string> = {
   'Still developing more demos.': '仍在开发更多 demo。',
   'Selected work': '精选作品',
   Biography: '履历',
+  'Review project evidence': '查看项目证据',
+  'Team production proof': '团队制作证据',
+  'Enemy AI + modular gameplay systems / UE5': '敌人 AI + 模块化玩法系统 / UE5',
   'Now showing': '当前展示',
   'Open to full-time roles': '开放全职机会',
   'Open to more opportunities': '开放更多机会',
+  'Target roles': '目标岗位',
+  'Hiring trajectory': '招聘视角路径',
   'STEM OPT': 'STEM OPT',
   'Sys & gameplay prog. / 2024 - now': '系统与玩法程序 / 2024.09 - 2025.05',
   'Sys & gameplay prog. / Sep 2024 - May 2025': '系统与玩法程序 / 2024.09 - 2025.05',
@@ -58,6 +80,22 @@ const DICTIONARY: Record<string, string> = {
     '2021 年进入 SCAD，开始游戏开发与交互设计 BFA 学习。',
   'Entered SCAD for BFA Game Development and Interactive Design.':
     '2021 年进入 SCAD，开始游戏开发与交互设计 BFA 学习。',
+  'Entered SCAD for BFA Game Development and Interactive Design; built a foundation across design, programming, UX, and production.':
+    '进入 SCAD 游戏开发与交互设计 BFA，建立设计、程序、UX 和制作基础。',
+  'Entered SCAD for BFA Game Development and Interactive Design; built breadth across game design, programming, UX, and visual production.':
+    '进入 SCAD 游戏开发与交互设计 BFA，建立游戏设计、程序、UX 和视觉制作的综合基础。',
+  'Started proving solo ownership through environment studies, small systems prototypes, and readable design documentation.':
+    '通过环境练习、小型系统原型和清晰设计文档，开始证明独立负责能力。',
+  'Developed early prototypes and scene studies, building the habit of explaining design intent through playable or visual evidence.':
+    '制作早期原型和场景练习，形成用可玩或视觉证据解释设计意图的习惯。',
+  'Moved into stronger production evidence: Shanhe as a solo vertical slice and Bubono as a long-running UE5 team project.':
+    '进入更强的制作证据阶段：Shanhe 是独立垂直切片，Bubono 是长期 UE5 团队项目。',
+  'Built Shanhe as a solo UE5 vertical slice and joined Bubono as systems and enemy programmer on a long-running team project.':
+    '完成 Shanhe 独立 UE5 垂直切片，并在长期团队项目 Bubono 中担任系统与敌人程序。',
+  'Target role: gameplay systems designer, technical designer, or junior gameplay programmer on a team that values prototyping and readable player feedback.':
+    '目标岗位：玩法系统设计师、技术设计师，或重视原型与清晰玩家反馈的初级玩法程序。',
+  'Open to gameplay systems designer, technical designer, and junior gameplay programmer opportunities.':
+    '开放玩法系统设计师、技术设计师和初级玩法程序机会。',
   "First ship. Joins Bubono's Bumperland as Systems and Gameplay Programmer.":
     '2024 年与团队开始开发 Bubono’s Bumperland。',
   "Started Bubono's Bumperland with the team.":
@@ -116,6 +154,11 @@ const DICTIONARY: Record<string, string> = {
   'Year / 2025 - now': '年份 / 2025 至今',
   'Year / Mar 2024 - May 2024': '时间 / 2024.03 - 2024.05',
   'Mode / Solo demo': '模式 / 独立 Demo',
+  'Role / UI and systems': '职责 / UI 与系统',
+  'Year / 2024': '年份 / 2024',
+  'Mode / 4-person team': '模式 / 4 人团队',
+  'Dialogue, objective, HUD, interaction, and combat-feedback systems for a third-person facility-escape prototype.':
+    '为第三人称设施逃脱原型搭建对话、目标、HUD、交互和战斗反馈系统。',
   'Systems & Enemy Programmer': '系统与敌人程序',
   'Hand-drawn': '手绘',
   'Scene Modeling': '场景建模',
@@ -180,6 +223,18 @@ const DICTIONARY: Record<string, string> = {
   'A personal studio exploring the space where logic meets emotion. I prototype tactile interfaces, adaptive AI, and coral-hued worlds you can feel.':
     '\u4e00\u4e2a\u63a2\u7d22\u903b\u8f91\u4e0e\u60c5\u611f\u4ea4\u6c47\u5904\u7684\u4e2a\u4eba\u5de5\u4f5c\u5ba4\u3002\u6211\u539f\u578b\u5316\u89e6\u611f\u754c\u9762\u3001\u81ea\u9002\u5e94 AI\uff0c\u4ee5\u53ca\u5e26\u6709\u73ca\u745a\u8272\u8c03\u3001\u53ef\u89e6\u53ef\u611f\u7684\u4e16\u754c\u3002',
   'Core practice': '\u6838\u5fc3\u5b9e\u8df5',
+  'Systems Design': '系统设计',
+  Implementation: '工程实现',
+  'Team Fit': '团队匹配',
+  'Core loop, rule, state, and feedback definition': '核心循环、规则、状态和反馈定义',
+  'Combat, mission, UI, and pacing systems': '战斗、任务、UI 和节奏系统',
+  'Prototype-first validation and iteration': '原型优先的验证与迭代',
+  'Unreal Engine gameplay systems and Blueprints': 'Unreal Engine 玩法系统与蓝图',
+  'Behavior trees, data tables, HUD, and interaction logic': '行为树、数据表、HUD 与交互逻辑',
+  'Small tools and production support for faster iteration': '用于加速迭代的小工具与制作支持',
+  'Clear documentation of decisions and tradeoffs': '清晰记录决策与取舍',
+  'Comfortable moving between design, art, and engineering needs': '能在设计、美术和工程需求之间切换',
+  'Reliable scope control for student, jam, and team projects': '在课程、Jam 和团队项目中有可靠范围控制',
   'Systems-driven worlds, emotionally tuned mechanics, and playtesting rituals that invite empathy.':
     '\u4ee5\u7cfb\u7edf\u9a71\u52a8\u4e16\u754c\uff0c\u8c03\u6821\u60c5\u611f\u673a\u5236\uff0c\u5e76\u7528\u6d4b\u8bd5\u4eea\u5f0f\u5f15\u53d1\u5171\u60a6\u3002',
   'Unreal + Blueprints, Unity DOTS, Houdini pipelines, and bespoke tools that keep teams flowing.':
@@ -200,6 +255,12 @@ const DICTIONARY: Record<string, string> = {
   'Designer-engineer weaving play, systems, and emotion.': '\u5c06\u73a9\u6cd5\u3001\u7cfb\u7edf\u4e0e\u60c5\u611f\u7ec7\u5408\u7684\u8bbe\u8ba1\u5de5\u7a0b\u5e08\u3002',
   'I am a systems-focused game designer who also handles engineering implementation.':
     '\u6211\u662f\u4e00\u540d\u4ee5\u7cfb\u7edf\u8bbe\u8ba1\u4e3a\u6838\u5fc3\u7684\u6e38\u620f\u8bbe\u8ba1\u5e08\uff0c\u540c\u65f6\u8d1f\u8d23\u5de5\u7a0b\u5b9e\u73b0\u3002',
+  'I am strongest where design and implementation meet: gameplay systems, enemy behavior, UI feedback, and prototype structure.':
+    '我最强的部分在设计和实现的交界处：玩法系统、敌人行为、UI 反馈和原型结构。',
+  'For a game team, the value is practical: I can take an unclear mechanic, define its rules and states, build a playable version, read the feedback, and keep the design moving without waiting for every dependency to be perfect.':
+    '对游戏团队来说，我的价值是实用的：能把不清晰的机制定义成规则和状态，做出可玩版本，读取反馈，并在依赖尚未完全到位时继续推进设计。',
+  'The portfolio is organized around evidence: team production in Bubono, solo ownership in Shanhe, UI/system support in AukAdyssey, fast art-to-build execution in Ink, and environment presentation in Bio-Lab.':
+    '这个作品集按证据组织：Bubono 证明团队制作，Shanhe 证明独立负责，AukAdyssey 证明 UI/系统支持，Ink 证明快速从美术到可玩版本，Bio-Lab 证明环境展示。',
   'Demo Reel': '\u6f14\u793a\u96c6\u9526',
   'My work usually starts with gameplay structure, weaving in narrative, space, and interaction to build systems players can understand and explore repeatedly. I am skilled at breaking fuzzy ideas into clear rules, states, and feedback, then validating quickly through prototypes.':
     '\u6211\u7684\u5de5\u4f5c\u901a\u5e38\u4ece\u73a9\u6cd5\u7ed3\u6784\u51fa\u53d1\uff0c\u7ed3\u5408\u53d9\u4e8b\u3001\u7a7a\u95f4\u4e0e\u4ea4\u4e92\uff0c\u6784\u5efa\u53ef\u4ee5\u88ab\u73a9\u5bb6\u53cd\u590d\u7406\u89e3\u548c\u63a2\u7d22\u7684\u7cfb\u7edf\u3002\u6211\u64c5\u957f\u628a\u6a21\u7cca\u7684\u521b\u610f\u62c6\u89e3\u4e3a\u6e05\u6670\u7684\u89c4\u5219\u3001\u72b6\u6001\u4e0e\u53cd\u9988\uff0c\u5e76\u901a\u8fc7\u539f\u578b\u5feb\u901f\u9a8c\u8bc1\u3002',
@@ -232,6 +293,15 @@ const DICTIONARY: Record<string, string> = {
   "What I'm exploring now": '\u6b63\u5728\u63a2\u7d22',
   'A warm timeline': '\u6e29\u6696\u65f6\u95f4\u7ebf',
   'View resume': '\u67e5\u770b\u7b80\u5386',
+  'Yang Liu | gameplay systems designer / technical designer': 'Yang Liu｜玩法系统设计师 / 技术设计师',
+  'I build the bridge between design intent and playable implementation: rules, states, AI behavior, UI feedback, and prototypes that teams can evaluate.':
+    '我连接设计意图与可玩实现：规则、状态、AI 行为、UI 反馈，以及团队可以评估的原型。',
+  'Gameplay systems designer / technical designer roles': '玩法系统设计师 / 技术设计师岗位',
+  'Junior gameplay programmer roles with design ownership': '带设计职责的初级玩法程序岗位',
+  'Teams that need prototypes, readable feedback, and cross-discipline communication':
+    '需要原型、清晰反馈和跨职能沟通的团队',
+  'For roles where gameplay design needs implementation ownership, feel free to reach out.':
+    '如果岗位需要既懂玩法设计又能负责实现，欢迎联系。',
   'Yang Liu | systems-focused game designer & engineer': 'Yang Liu \uff5c\u7cfb\u7edf\u5411\u6e38\u620f\u8bbe\u8ba1\u5e08\u517c\u5de5\u7a0b\u5e08',
   'I turn abstract ideas into testable, iterative gameplay through systems design and engineering.':
     '\u6211\u901a\u8fc7\u7cfb\u7edf\u8bbe\u8ba1\u4e0e\u5de5\u7a0b\u5b9e\u73b0\uff0c\u8ba9\u62bd\u8c61\u60f3\u6cd5\u771f\u6b63\u53d8\u6210\u53ef\u6d4b\u8bd5\u3001\u53ef\u8fed\u4ee3\u7684\u73a9\u6cd5\u3002',

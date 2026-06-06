@@ -1,48 +1,53 @@
 export const biography = {
-  headline: 'Designer-engineer weaving play, systems, and emotion.',
+  headline: 'Gameplay systems designer with implementation ownership.',
   body: [
-    'I am a systems-focused game designer who also handles engineering implementation.',
-    'My work usually starts with gameplay structure, weaving in narrative, space, and interaction to build systems players can understand and explore repeatedly. I am skilled at breaking fuzzy ideas into clear rules, states, and feedback, then validating quickly through prototypes.',
+    'I am strongest where design and implementation meet: gameplay systems, enemy behavior, UI feedback, and prototype structure.',
+    'For a game team, the value is practical: I can take an unclear mechanic, define its rules and states, build a playable version, read the feedback, and keep the design moving without waiting for every dependency to be perfect.',
+    'The portfolio is organized around evidence: team production in Bubono, solo ownership in Shanhe, UI/system support in AukAdyssey, fast art-to-build execution in Ink, and environment presentation in Bio-Lab.',
   ],
-  now: [],
+  now: [
+    'Gameplay systems designer / technical designer roles',
+    'Junior gameplay programmer roles with design ownership',
+    'Teams that need prototypes, readable feedback, and cross-discipline communication',
+  ],
   resumeUrl: 'https://drive.google.com/file/d/1BFqy3TR7uMUm-4KcGh4al2vgEWXbj985/view?usp=drive_link',
 }
 
 export const coreSkills = [
   {
-    label: 'Game Design',
+    label: 'Systems Design',
     items: [
-      'Core gameplay and systems structure design',
-      'Narrative and level pacing prototyping',
-      'Testable, iterative gameplay frameworks',
+      'Core loop, rule, state, and feedback definition',
+      'Combat, mission, UI, and pacing systems',
+      'Prototype-first validation and iteration',
     ],
   },
   {
-    label: 'Programming',
-    items: ['Unreal Engine (Blueprints + gameplay systems)', 'Unity (DOTS / prototyping)', 'Tooling and procedural pipeline setup'],
+    label: 'Implementation',
+    items: ['Unreal Engine gameplay systems and Blueprints', 'Behavior trees, data tables, HUD, and interaction logic', 'Small tools and production support for faster iteration'],
   },
   {
-    label: 'AI & Systems',
-    items: ['Behavior-driven AI design and implementation', 'Modular systems architecture', 'Internal tools that serve design'],
+    label: 'Team Fit',
+    items: ['Clear documentation of decisions and tradeoffs', 'Comfortable moving between design, art, and engineering needs', 'Reliable scope control for student, jam, and team projects'],
   },
 ]
 
 export const timeline = [
   {
     year: '2021',
-    blurb: 'Entered SCAD for BFA Game Development and Interactive Design.',
+    blurb: 'Entered SCAD for BFA Game Development and Interactive Design; built breadth across game design, programming, UX, and visual production.',
   },
   {
     year: '2023',
-    blurb: 'Shanhe. Solo wuxia action demo with event-driven combat architecture.',
+    blurb: 'Developed early prototypes and scene studies, building the habit of explaining design intent through playable or visual evidence.',
   },
   {
     year: '2024',
-    blurb: "Started Bubono's Bumperland with the team.",
+    blurb: 'Built Shanhe as a solo UE5 vertical slice and joined Bubono as systems and enemy programmer on a long-running team project.',
   },
   {
     year: 'NOW',
-    blurb: 'Currently looking for more opportunities.',
+    blurb: 'Open to gameplay systems designer, technical designer, and junior gameplay programmer opportunities.',
   },
 ]
 

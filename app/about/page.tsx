@@ -3,7 +3,7 @@ import AboutClient from './AboutClient'
 
 export const metadata: Metadata = {
   title: 'About -- Yang Studio',
-  description: 'Yang blends game design, creative coding, and emotion-forward interaction.',
+  description: 'Gameplay systems designer and technical designer focused on playable implementation, AI behavior, UI feedback, and prototypes.',
 }
 
 export default function AboutPage() {

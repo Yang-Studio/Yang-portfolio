@@ -5,6 +5,7 @@ import type { SyntheticEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { projects } from '@/content/projects'
+import { getLocalizedText, projectRecruitingHighlights } from '@/content/recruitingHighlights'
 import { useLanguage } from '@/components/LanguageProvider'
 
 type Sprint = {
@@ -442,6 +443,7 @@ export default function ShanheClient() {
   const [activeFeature, setActiveFeature] = useState<Feature>(FEATURES.find((f) => f.id === 'combo') ?? FEATURES[0])
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [lightboxFallback, setLightboxFallback] = useState<string | null>(null)
+  const recruitingHighlight = projectRecruitingHighlights.shanhe
   const sprintSectionRef = useRef<HTMLDivElement | null>(null)
   const activeFeatureIsEmbed =
     activeFeature.media.includes('youtube.com/embed') ||
@@ -497,7 +499,25 @@ export default function ShanheClient() {
     <div className="project-monograph-custom min-h-screen bg-neutral-950 text-white">
       <div className="mx-auto w-full max-w-6xl space-y-8 px-5 py-8 sm:px-6 md:space-y-12 md:px-10 md:py-12 lg:px-12">
         <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-neutral-900 via-neutral-900/80 to-neutral-900">
-          <div className="absolute inset-0">
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label={translate('Shanhe mood')}
+            className="absolute inset-0 cursor-zoom-in outline-none focus:ring-2 focus:ring-sky-500"
+            onClick={() => {
+              const { primary, fallback } = getDriveImageVariants('/assets/ITGM405/ITGM405_MoneyShot_4.png')
+              setLightboxSrc(primary)
+              setLightboxFallback(fallback || null)
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                const { primary, fallback } = getDriveImageVariants('/assets/ITGM405/ITGM405_MoneyShot_4.png')
+                setLightboxSrc(primary)
+                setLightboxFallback(fallback || null)
+              }
+            }}
+          >
             <Image
               src="/assets/ITGM405/ITGM405_MoneyShot_4.png"
               alt="Shanhe mood"
@@ -533,6 +553,28 @@ export default function ShanheClient() {
               </div>
               <DownloadCta href={SHANHE_DOWNLOAD} download={SHANHE_DOWNLOAD_IS_FILE} />
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-white/10 bg-neutral-900 p-6 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.35em] text-sky-400">{translate('Recruiter read')}</p>
+          <div className="mt-4 grid gap-6 lg:grid-cols-[0.9fr,1.1fr]">
+            <div>
+              <p className="text-sm uppercase tracking-[0.28em] text-neutral-400">{translate('Hiring fit')}</p>
+              <h2 className="mt-3 font-display text-3xl text-white">{getLocalizedText(recruitingHighlight.fit, language)}</h2>
+            </div>
+            <div>
+              <p className="text-sm uppercase tracking-[0.28em] text-neutral-400">{translate('Proof')}</p>
+              <p className="mt-3 text-lg leading-relaxed text-neutral-200">{getLocalizedText(recruitingHighlight.proof, language)}</p>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-3 md:grid-cols-3">
+            {recruitingHighlight.bullets.map((bullet, index) => (
+              <div key={bullet.en} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.28em] text-sky-300">{translate('Signal')} {String(index + 1).padStart(2, '0')}</p>
+                <p className="mt-3 text-neutral-200">{getLocalizedText(bullet, language)}</p>
+              </div>
+            ))}
           </div>
         </section>
 

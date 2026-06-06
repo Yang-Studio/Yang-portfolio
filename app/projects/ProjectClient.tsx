@@ -1,13 +1,15 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import Lightbox, { type LightboxImage } from '@/components/Lightbox'
 import PlateLabel from '@/components/PlateLabel'
 import { useLanguage } from '@/components/LanguageProvider'
 import { projectTranslations } from '@/content/projectTranslations'
 import { projectAssets } from '@/content/projectAssets'
 import { projects, type Project } from '@/content/projects'
+import { getLocalizedText, projectRecruitingHighlights } from '@/content/recruitingHighlights'
 import { gsap } from '@/lib/motion'
 
 export default function ProjectClient({ project }: { project: Project }) {
@@ -24,6 +26,10 @@ export default function ProjectClient({ project }: { project: Project }) {
   const projectIndex = projects.findIndex((item) => item.slug === project.slug)
   const nextProject = projects[(projectIndex + 1) % projects.length]
   const heroImage = project.banner ?? project.cover ?? project.moneyshot
+  const recruitingHighlight = projectRecruitingHighlights[project.slug]
+  const [lightboxImage, setLightboxImage] = useState<LightboxImage | undefined>()
+  const openLightbox = (image: LightboxImage) => setLightboxImage(image)
+  const closeLightbox = () => setLightboxImage(undefined)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -118,7 +124,11 @@ export default function ProjectClient({ project }: { project: Project }) {
             </p>
           </div>
 
-          <div className="case-hero-media border border-paper/20 bg-paper/5">
+          <button
+            type="button"
+            className="case-hero-media block cursor-zoom-in border border-paper/20 bg-paper/5 text-left focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-ink"
+            onClick={() => openLightbox({ src: heroImage, alt: translation?.title ?? project.title, title: translation?.title ?? project.title })}
+          >
             <Image
               src={heroImage}
               alt={translation?.title ?? project.title}
@@ -127,7 +137,7 @@ export default function ProjectClient({ project }: { project: Project }) {
               priority
               className="aspect-[4/3] max-h-[420px] w-full object-cover grayscale md:aspect-[4/5] md:max-h-[620px]"
             />
-          </div>
+          </button>
         </div>
       </section>
 
@@ -140,6 +150,38 @@ export default function ProjectClient({ project }: { project: Project }) {
           <Meta label={t('Status')} value={project.year.includes('2025') ? t('Playable demo') : t('Archive')} />
         </div>
       </section>
+
+      {recruitingHighlight && (
+        <section className="case-reveal border-b border-paper/20 px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:px-24">
+          <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
+            <PlateLabel plate={t('Recruiter read')} label={t('Role Fit / Evidence')} tone="paper" />
+            <div className="grid gap-8">
+              <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr]">
+                <div className="border-t border-paper/20 pt-5">
+                  <p className="mono text-[11px] uppercase text-accent">{t('Hiring fit')}</p>
+                  <p className="copy-safe mt-4 text-[clamp(22px,5.4vw,40px)] leading-[1.12] text-paper">
+                    {getLocalizedText(recruitingHighlight.fit, language)}
+                  </p>
+                </div>
+                <div className="border-t border-paper/20 pt-5">
+                  <p className="mono text-[11px] uppercase text-paper/50">{t('Proof')}</p>
+                  <p className="copy-safe mt-4 text-[clamp(18px,4.6vw,28px)] leading-[1.28] text-paper/72">
+                    {getLocalizedText(recruitingHighlight.proof, language)}
+                  </p>
+                </div>
+              </div>
+              <div className="grid gap-0 border-t border-paper/20 md:grid-cols-3">
+                {recruitingHighlight.bullets.map((bullet, index) => (
+                  <div key={bullet.en} className="border-b border-paper/20 py-5 md:border-r md:px-5">
+                    <p className="mono text-[11px] uppercase text-accent">{t('Signal')} {String(index + 1).padStart(2, '0')}</p>
+                    <p className="mt-4 text-paper/72">{getLocalizedText(bullet, language)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="case-reveal border-b border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
         <div className="mx-auto max-w-[980px]">
@@ -179,7 +221,18 @@ export default function ProjectClient({ project }: { project: Project }) {
                 return (
                   <article key={item.title} className="case-reveal grid gap-8 border-t border-paper/20 pt-8 lg:grid-cols-[1fr_0.85fr]">
                     <div className="overflow-hidden border border-paper/20 bg-paper/5">
-                      <div className="case-parallax">
+                      <button
+                        type="button"
+                        className="case-parallax block w-full cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-ink"
+                        onClick={() =>
+                          openLightbox({
+                            src: item.media,
+                            alt: translatedItem?.title ?? item.title,
+                            title: translatedItem?.title ?? item.title,
+                            caption: translatedItem?.description ?? t(item.description),
+                          })
+                        }
+                      >
                         <Image
                           src={item.media}
                           alt={translatedItem?.title ?? item.title}
@@ -187,7 +240,7 @@ export default function ProjectClient({ project }: { project: Project }) {
                           height={800}
                           className="aspect-[4/3] w-full object-cover grayscale"
                         />
-                      </div>
+                      </button>
                     </div>
                     <div>
                       <p className="mono mb-8 text-[11px] uppercase text-accent">{t('System')} {String(index + 1).padStart(2, '0')}</p>
@@ -226,7 +279,13 @@ export default function ProjectClient({ project }: { project: Project }) {
                   <source src={reelSrc} type="video/mp4" />
                 </video>
               ) : (
-                <Image src={reelSrc} alt={`${project.title} demo reel`} width={1600} height={900} className="w-full object-cover" />
+                <button
+                  type="button"
+                  className="block w-full cursor-zoom-in text-left focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-ink"
+                  onClick={() => openLightbox({ src: reelSrc, alt: `${project.title} demo reel`, title: t('Demo Reel') })}
+                >
+                  <Image src={reelSrc} alt={`${project.title} demo reel`} width={1600} height={900} className="w-full object-cover" />
+                </button>
               )}
             </div>
           </div>
@@ -239,15 +298,26 @@ export default function ProjectClient({ project }: { project: Project }) {
             <PlateLabel plate={t('Plate 04')} label={t('Gallery / Artifacts')} tone="paper" />
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {gallery.map((src, index) => (
-                <div key={src} className="case-reveal overflow-hidden border border-paper/20 bg-paper/5">
+                <button
+                  key={src}
+                  type="button"
+                  className="case-reveal block overflow-hidden border border-paper/20 bg-paper/5 text-left focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-ink"
+                  onClick={() =>
+                    openLightbox({
+                      src,
+                      alt: `${project.title} gallery ${index + 1}`,
+                      title: `${translation?.title ?? project.title} ${t('Gallery / Artifacts')} ${index + 1}`,
+                    })
+                  }
+                >
                   <Image
                     src={src}
                     alt={`${project.title} gallery ${index + 1}`}
                     width={800}
                     height={600}
-                    className="aspect-[4/3] w-full object-cover grayscale transition duration-700 hover:grayscale-0"
+                    className="aspect-[4/3] w-full cursor-zoom-in object-cover grayscale transition duration-700 hover:grayscale-0"
                   />
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -298,6 +368,7 @@ export default function ProjectClient({ project }: { project: Project }) {
           </div>
         </div>
       </section>
+      <Lightbox open={Boolean(lightboxImage)} image={lightboxImage} onClose={closeLightbox} />
     </div>
   )
 }
