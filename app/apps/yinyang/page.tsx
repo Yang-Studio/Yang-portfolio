@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import ProjectClient from '@/app/projects/ProjectClient'
-import { projects } from '@/content/projects'
+import { appProjects } from '@/content/appProjects'
 
-const project = projects.find((item) => item.slug === 'yinyang')!
+const project = appProjects.find((item) => item.slug === 'yinyang')!
 
 export const metadata: Metadata = {
   title: `${project.title} -- Yang Studio`,

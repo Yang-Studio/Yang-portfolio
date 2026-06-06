@@ -24,7 +24,7 @@ export default function ProjectClient({ project }: { project: Project }) {
     `mailto:yangliu.gmdev@gmail.com?subject=${encodeURIComponent(`${project.title} Demo Request`)}`
   const isDownloadFile = downloadHref.startsWith('/') || downloadHref.startsWith('./')
   const projectIndex = projects.findIndex((item) => item.slug === project.slug)
-  const nextProject = projects[(projectIndex + 1) % projects.length]
+  const nextProject = projectIndex >= 0 ? projects[(projectIndex + 1) % projects.length] : undefined
   const heroImage = project.banner ?? project.cover ?? project.moneyshot
   const recruitingHighlight = projectRecruitingHighlights[project.slug]
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | undefined>()
@@ -383,15 +383,22 @@ export default function ProjectClient({ project }: { project: Project }) {
 
       <section className="border-t border-paper/20 px-5 py-12 sm:px-8 md:px-16 md:py-16 lg:px-24">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('Next project')}</p>
-            <Link href={`/projects/${nextProject.slug}`} className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none underline decoration-accent underline-offset-8">
-              {nextProject.title}
-            </Link>
-          </div>
+          {nextProject ? (
+            <div>
+              <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('Next project')}</p>
+              <Link href={`/projects/${nextProject.slug}`} className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none underline decoration-accent underline-offset-8">
+                {nextProject.title}
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('App Development')}</p>
+              <p className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none">YinYang</p>
+            </div>
+          )}
           <div className="flex flex-wrap gap-4">
             {!project.hideDownload && <DownloadButton href={downloadHref} download={isDownloadFile} />}
-            <Link className="focus-ring mono border border-paper/30 px-5 py-3 text-[11px] uppercase transition hover:border-accent hover:text-accent" href="/projects">
+            <Link className="focus-ring mono border border-paper/30 px-5 py-3 text-[11px] uppercase transition hover:border-accent hover:text-accent" href={project.tag === 'App Development' ? '/apps' : '/projects'}>
               {t('Back to index')}
             </Link>
           </div>

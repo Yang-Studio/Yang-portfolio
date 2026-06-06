@@ -1,7 +1,7 @@
 'use client'
 
 import { LayoutGroup, motion } from 'framer-motion'
-import { Tags, Gamepad2, FlaskConical, Palette, Sparkles, Smartphone } from 'lucide-react'
+import { Tags, Gamepad2, FlaskConical, Palette, Sparkles } from 'lucide-react'
 import type { ProjectTag } from '@/content/projects'
 
 export type FilterKey = 'All' | ProjectTag
@@ -12,7 +12,6 @@ const FILTERS: Array<{ key: FilterKey; label: string; icon: React.ComponentType<
   { key: 'Technical', label: 'Technical', icon: FlaskConical },
   { key: 'Art', label: 'Art', icon: Palette },
   { key: 'Prototype', label: 'Prototype', icon: Sparkles },
-  { key: 'App Development', label: 'App Development', icon: Smartphone },
 ]
 
 type Props = {

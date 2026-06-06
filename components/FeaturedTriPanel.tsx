@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Tags, FlaskConical, Palette, Smartphone } from 'lucide-react'
+import { Tags, FlaskConical, Palette } from 'lucide-react'
 import { useLanguage } from '@/components/LanguageProvider'
 import { projects as allProjects, type ProjectTag } from '@/content/projects'
 import { projectTranslations } from '@/content/projectTranslations'
@@ -14,7 +14,6 @@ const TAGS = [
   { key: 'Technical', label: 'Technical', icon: FlaskConical },
   { key: 'Art', label: 'Visual / Art', icon: Palette },
   { key: 'Prototype', label: 'Prototype', icon: FlaskConical },
-  { key: 'App Development', label: 'App Development', icon: Smartphone },
 ] as const
 
 type TagKey = (typeof TAGS)[number]['key']

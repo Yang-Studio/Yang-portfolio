@@ -203,6 +203,7 @@ const DICTIONARY: Record<string, string> = {
   Photographer: '\u6444\u5f71\u5e08',
   Prototype: '\u539f\u578b',
   'App Development': 'App 开发',
+  'Game Development': '游戏开发',
   'Full-stack App Developer': '全栈 App 开发',
   'Solo app development': '个人 App 开发',
   Goal: '\u76ee\u6807',

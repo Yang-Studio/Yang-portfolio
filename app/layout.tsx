@@ -1,13 +1,8 @@
 import type { Metadata } from 'next'
 import { Fraunces, JetBrains_Mono, Noto_Serif_SC } from 'next/font/google'
 import './globals.css'
-import SiteShell from '@/components/SiteShell'
 import { LanguageProvider } from '@/components/LanguageProvider'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Cursor from '@/components/Cursor'
-import Loader from '@/components/Loader'
-import LanguageToggle from '@/components/LanguageToggle'
+import RouteShell from '@/components/RouteShell'
 import type { ReactNode } from 'react'
 
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces' })
@@ -37,14 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         className={`${fraunces.variable} ${notoSerifSc.variable} ${jetbrains.variable} bg-paper text-ink selection:bg-accent selection:text-paper`}
       >
         <LanguageProvider>
-          <SiteShell>
-            <Loader />
-            <Cursor />
-            <Header />
-            <main className="w-full">{children}</main>
-            <Footer />
-            <LanguageToggle />
-          </SiteShell>
+          <RouteShell>{children}</RouteShell>
         </LanguageProvider>
       </body>
     </html>

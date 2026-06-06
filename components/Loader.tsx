@@ -65,7 +65,7 @@ export default function Loader() {
         defaults: { ease: 'expo.inOut' },
         onComplete: () => {
           setVisible(false)
-          router.push(collection === 'apps' ? '/projects/yinyang' : '/')
+          router.push(collection === 'apps' ? '/apps' : '/')
         },
       })
       .to('.loader-language', { opacity: 0, y: -24, pointerEvents: 'none', duration: 0.35 })
