@@ -300,8 +300,10 @@ const DICTIONARY: Record<string, string> = {
   'Junior gameplay programmer roles with design ownership': '带设计职责的初级玩法程序岗位',
   'Teams that need prototypes, readable feedback, and cross-discipline communication':
     '需要原型、清晰反馈和跨职能沟通的团队',
-  'For roles where gameplay design needs implementation ownership, feel free to reach out.':
-    '如果岗位需要既懂玩法设计又能负责实现，欢迎联系。',
+  'Always happy to connect and talk games.':
+    '随时欢迎交流游戏相关的想法。',
+  'Graduated from the Savannah College of Art and Design (SCAD) in Interactive Design and Game Development, with skills spanning both game design and systems engineering. Independently completed the full development cycle of a wuxia-themed ARPG, and served as mechanics director on a team project, leading the design and implementation of the AI system, collision mechanics, and a modular upgrade system. Brings Game Jam experience and the ability to build prototypes quickly under pressure. Proficient with UE5, Unity, C#, and Figma, balancing technical execution with user experience.':
+    '毕业于萨凡纳艺术与设计学院（SCAD）互动设计与游戏开发专业，具备游戏设计与系统开发双向能力。曾独立完成武侠题材 ARPG 的全流程开发，并在团队项目中担任机制总监，主导 AI 系统、碰撞机制与模块化升级系统的设计与实现。有 Game Jam 参赛经历，能在高压环境下快速完成原型。熟悉 UE5、Unity、C# 及 Figma，兼顾技术落地与用户体验。',
   'Yang Liu | systems-focused game designer & engineer': 'Yang Liu \uff5c\u7cfb\u7edf\u5411\u6e38\u620f\u8bbe\u8ba1\u5e08\u517c\u5de5\u7a0b\u5e08',
   'I turn abstract ideas into testable, iterative gameplay through systems design and engineering.':
     '\u6211\u901a\u8fc7\u7cfb\u7edf\u8bbe\u8ba1\u4e0e\u5de5\u7a0b\u5b9e\u73b0\uff0c\u8ba9\u62bd\u8c61\u60f3\u6cd5\u771f\u6b63\u53d8\u6210\u53ef\u6d4b\u8bd5\u3001\u53ef\u8fed\u4ee3\u7684\u73a9\u6cd5\u3002',

@@ -120,17 +120,14 @@ export default function ProjectsArchive() {
     <div className="bg-paper text-ink">
       <section className="border-b border-rule px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:px-24">
         <div className="mx-auto grid max-w-[1280px] gap-10 md:gap-16 lg:grid-cols-[320px_1fr]">
-          <PlateLabel plate={t('Plate 02 / Index')} label={t('Project Evidence / Hiring Read')} active />
+          <PlateLabel plate={t('Plate 02 / Index')} label={t('Projects / Complete Archive')} active />
           <div className="projects-hero-copy">
-            <p className="mono mb-8 text-[11px] uppercase text-ink-soft">{t(`${projects.length} projects on record`)}</p>
-            <h1 className="projects-hero-title display-safe max-w-5xl overflow-hidden text-[clamp(48px,18vw,142px)] leading-[0.92] tracking-normal md:leading-[0.9]">
+            <p className="mono mb-6 text-[11px] uppercase text-ink-soft">{t(`${projects.length} projects on record`)}</p>
+            <h1 className="projects-hero-title display-safe max-w-5xl overflow-hidden text-[clamp(44px,12vw,104px)] leading-[1.0] tracking-tight md:leading-[0.95]">
               <span className="inline-block">{t('Evidence')}</span>
               <br />
               <span className="inline-block">{t('Index')}</span>
             </h1>
-            <p className="copy-safe mt-8 max-w-3xl text-[clamp(20px,6vw,38px)] leading-[1.18] md:mt-10 md:leading-[1.12]">
-              {t('Each project is framed by what a game team can hire from: role fit, proof of ownership, and the strongest production signal.')}
-            </p>
           </div>
         </div>
       </section>

@@ -78,14 +78,6 @@ export default function SelectedWork() {
                       <p className="copy-safe mt-5 text-[clamp(19px,5.6vw,32px)] leading-[1.24] md:mt-8 md:leading-[1.2]">
                         {t(item.tagline)}
                       </p>
-                      {highlight && (
-                        <div className="mt-6 border-t border-rule pt-5">
-                          <p className="mono text-[11px] uppercase text-accent">{t('Why it matters')}</p>
-                          <p className="copy-safe mt-3 text-[18px] leading-[1.32] text-ink-soft">
-                            {getLocalizedText(highlight.fit, language)}
-                          </p>
-                        </div>
-                      )}
                     </div>
                     <div className="grid gap-3 border-t border-rule pt-5">
                       {item.meta.map((row) => (

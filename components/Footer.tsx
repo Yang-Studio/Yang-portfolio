@@ -13,13 +13,7 @@ export default function Footer() {
 
   return (
     <footer className={`border-t ${shellClass}`}>
-      <div className="mx-auto grid w-full max-w-[1280px] gap-10 px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:grid-cols-[1.15fr_2.15fr] lg:gap-16 lg:px-24">
-        <div>
-          <p className={`mono mb-6 text-[11px] uppercase tracking-normal md:mb-8 ${softClass}`}>{t('Plate 05 / Fin')}</p>
-          <h2 className="display-safe zh-footer-title text-[clamp(48px,8vw,112px)] italic leading-[0.95] tracking-normal">
-            {t('Work together?')}
-          </h2>
-        </div>
+      <div className="mx-auto grid w-full max-w-[1280px] gap-10 px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:gap-16 lg:px-24">
         <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-[0.9fr_1.45fr_1fr] lg:gap-x-14">
           <div>
             <p className={`mono mb-4 text-[11px] uppercase tracking-normal ${softClass}`}>{t('Location')}</p>
@@ -27,8 +21,6 @@ export default function Footer() {
               {t('Rincon, Georgia')}
               <br />
               {t('United States')}
-              <br />
-              {t('Open to relocation')}
             </p>
           </div>
           <div>

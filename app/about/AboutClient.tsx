@@ -5,7 +5,8 @@ import { biography, coreSkills, timeline, socialLinks } from '@/content/about'
 import { useLanguage } from '@/components/LanguageProvider'
 
 export default function AboutClient() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const resumeHref = language === 'zh' ? biography.resumeUrlZh : biography.resumeUrl
   return (
     <div className="px-5 sm:px-6 md:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1200px]">
@@ -17,30 +18,21 @@ export default function AboutClient() {
       </div>
 
       <section className="relative mx-auto mt-10 w-full max-w-[1200px] rounded-[24px] border border-white/40 bg-white/65 p-5 shadow-soft backdrop-blur sm:p-8 md:mt-16 md:rounded-[48px] md:p-10">
-        <div className="grid gap-8 md:grid-cols-[2fr,1fr]">
+        <div className="max-w-3xl">
           <div className="space-y-4 text-lg text-slate/80">
             {biography.body.map((paragraph) => (
               <p key={paragraph}>{t(paragraph)}</p>
             ))}
             <a
-              href={biography.resumeUrl}
+              href={resumeHref}
+              target="_blank"
+              rel="noreferrer"
               className="focus-ring inline-flex items-center gap-2 rounded-full border border-coral px-4 py-2 text-coral transition hover:border-sage hover:text-sage"
             >
               {t('View resume')}
               <span aria-hidden="true">-&gt;</span>
             </a>
           </div>
-          <aside className="glass rounded-2xl p-5 shadow-soft md:p-6">
-            <h3 className="font-display text-xl text-slate">{t('Target roles')}</h3>
-            <ul className="mt-4 space-y-3 text-slate/80">
-              {biography.now.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-coral" />
-                  {t(item)}
-                </li>
-              ))}
-            </ul>
-          </aside>
         </div>
 
         <div className="mt-10 grid gap-5 md:mt-16 md:grid-cols-3 md:gap-6">
@@ -74,7 +66,7 @@ export default function AboutClient() {
               <p className="text-xs uppercase tracking-[0.4em] text-coral">{t('Connect')}</p>
               <h3 className="mt-2 font-display text-2xl text-slate">{t('Find Yang across the web')}</h3>
               <p className="mt-3 max-w-xl text-slate/70">
-                {t('For roles where gameplay design needs implementation ownership, feel free to reach out.')}
+                {t('Always happy to connect and talk games.')}
               </p>
             </div>
             <ul className="flex flex-1 flex-col gap-4">

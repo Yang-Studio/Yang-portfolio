@@ -1,9 +1,7 @@
 export const biography = {
   headline: 'Gameplay systems designer with implementation ownership.',
   body: [
-    'I am strongest where design and implementation meet: gameplay systems, enemy behavior, UI feedback, and prototype structure.',
-    'For a game team, the value is practical: I can take an unclear mechanic, define its rules and states, build a playable version, read the feedback, and keep the design moving without waiting for every dependency to be perfect.',
-    'The portfolio is organized around evidence: team production in Bubono, solo ownership in Shanhe, UI/system support in AukAdyssey, fast art-to-build execution in Ink, and environment presentation in Bio-Lab.',
+    'Graduated from the Savannah College of Art and Design (SCAD) in Interactive Design and Game Development, with skills spanning both game design and systems engineering. Independently completed the full development cycle of a wuxia-themed ARPG, and served as mechanics director on a team project, leading the design and implementation of the AI system, collision mechanics, and a modular upgrade system. Brings Game Jam experience and the ability to build prototypes quickly under pressure. Proficient with UE5, Unity, C#, and Figma, balancing technical execution with user experience.',
   ],
   now: [
     'Gameplay systems designer / technical designer roles',
@@ -11,6 +9,7 @@ export const biography = {
     'Teams that need prototypes, readable feedback, and cross-discipline communication',
   ],
   resumeUrl: 'https://drive.google.com/file/d/1BFqy3TR7uMUm-4KcGh4al2vgEWXbj985/view?usp=drive_link',
+  resumeUrlZh: '/resume-zh.pdf',
 }
 
 export const coreSkills = [

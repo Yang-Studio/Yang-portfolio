@@ -11,10 +11,6 @@ const nameWords = ['Yang', 'Liu']
 
 export default function Hero() {
   const { t, language } = useLanguage()
-  const recruitingSignals =
-    language === 'zh'
-      ? ['Gameplay systems', 'Enemy AI', 'UE5 Blueprint', 'Prototype shipping']
-      : ['Gameplay systems', 'Enemy AI', 'UE5 Blueprint', 'Prototype shipping']
   const positioning =
     language === 'zh'
       ? '系统向游戏设计师 / 技术设计师，能把模糊创意拆成规则、状态、反馈和可测试原型。'
@@ -65,17 +61,7 @@ export default function Hero() {
           <div className="mt-6 max-w-md md:mt-8">
             <div className="hero-copy zh-support-copy flex flex-col justify-end gap-5 text-ink-soft">
               <p className="copy-safe">{positioning}</p>
-              <div className="grid gap-2 border-y border-rule py-4">
-                <p className="mono text-[11px] uppercase text-ink-soft">{t('What hiring teams can verify')}</p>
-                <div className="flex flex-wrap gap-2">
-                  {recruitingSignals.map((signal) => (
-                    <span key={signal} className="mono border border-rule px-2 py-1 text-[10px] uppercase text-ink">
-                      {signal}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="mono flex flex-wrap gap-x-6 gap-y-2 text-[11px] uppercase text-ink">
+              <div className="mono flex flex-wrap gap-x-6 gap-y-2 border-t border-rule pt-4 text-[11px] uppercase text-ink">
                 <Link className="underline decoration-accent underline-offset-4" href="/projects">
                   {t('Review project evidence')}
                 </Link>
