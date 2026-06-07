@@ -35,6 +35,7 @@ export default function ProjectDetail({
   const projectIndex = siblings.findIndex((item) => item.slug === project.slug)
   const nextProject = projectIndex >= 0 && siblings.length > 1 ? siblings[(projectIndex + 1) % siblings.length] : undefined
   const heroImage = project.banner ?? project.cover ?? project.moneyshot
+  const isAppProject = backHref === '/apps'
   const recruitingHighlight = projectRecruitingHighlights[project.slug]
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | undefined>()
   const openLightbox = (image: LightboxImage) => setLightboxImage(image)
@@ -225,25 +226,25 @@ export default function ProjectDetail({
 
       {project.demo && (
         <section className="case-reveal border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
-          <div className="mx-auto max-w-[1280px]">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <PlateLabel plate={t('Live App')} label={t('Interactive Demo')} tone="paper" />
+          <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr] lg:items-end">
+            <PlateLabel
+              plate={t(isAppProject ? 'Product Build' : 'Live App')}
+              label={t(isAppProject ? 'Standalone Application' : 'Interactive Demo')}
+              tone="paper"
+            />
+            <div className="border-t border-paper/20 pt-8">
+              <p className="display-safe max-w-4xl text-[clamp(30px,8vw,64px)] italic leading-[1.04]">
+                {t('Open the complete app in a new window.')}
+              </p>
               <a
                 href={project.demo}
                 target="_blank"
                 rel="noreferrer"
-                className="focus-ring mono w-max border border-accent px-5 py-3 text-[11px] uppercase text-accent transition hover:bg-accent hover:text-paper"
+                className="focus-ring mono mt-8 inline-flex w-full items-center justify-between border border-accent px-6 py-5 text-[12px] uppercase text-accent transition hover:bg-accent hover:text-paper sm:w-auto sm:min-w-[280px]"
               >
-                {t('Open App')}
+                <span>{t('Open App')}</span>
+                <span aria-hidden="true">↗</span>
               </a>
-            </div>
-            <div className="mt-10 overflow-hidden border border-paper/20 bg-paper">
-              <iframe
-                src={`${project.demo}?embed=1&screen=home`}
-                title={`${project.title} interactive demo`}
-                className="h-[760px] w-full bg-white md:h-[900px]"
-                loading="lazy"
-              />
             </div>
           </div>
         </section>

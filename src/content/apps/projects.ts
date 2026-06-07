@@ -6,7 +6,7 @@ export const appProjects: Project[] = [
     tag: 'App Development',
     title: 'Cheetah',
     blurb:
-      'A local-first personal finance companion that turns daily bookkeeping, budgets, savings goals, and planned payments into one focused mobile workflow.',
+      'A private money companion that makes daily spending visible and turns budgets, bills, and savings goals into clear next actions.',
     year: '2026',
     role: 'Product Designer / Front-end Developer',
     tools: 'React / JavaScript / LocalStorage',
@@ -15,50 +15,50 @@ export const appProjects: Project[] = [
     moneyshot: '/assets/projects/cheetah/cheetah-cover.webp',
     demo: '/embedded-apps/cheetah/index.html',
     hideDownload: true,
-    status: 'Interactive prototype',
+    status: 'Working prototype',
     overview: {
-      goal: 'Make personal finance tracking feel immediate and encouraging without requiring an account, a cloud service, or a complicated spreadsheet.',
-      team: 'Solo product development',
+      goal: 'Cheetah asks a simple product question: can a finance app help someone act on their money without demanding an account or exposing their financial history?',
+      team: 'Independent product',
       timeline: '2026',
     },
     process: [
       {
-        title: 'Challenge',
-        body: 'Combine transaction capture, account balances, budgets, goals, recurring payments, and trends without overwhelming a mobile interface.',
+        title: 'Product Problem',
+        body: 'Most finance tools separate recording, planning, and reflection. That forces users to reconstruct the relationship between what they spent and what they intended to do.',
       },
       {
-        title: 'Solution',
-        body: 'Organize the product around four repeatable moments: check the current position, record activity, plan upcoming cash flow, and review patterns.',
+        title: 'Design Decision',
+        body: 'The interface is organized around four repeated actions: check the current position, record a transaction, plan upcoming cash flow, and review patterns.',
       },
       {
-        title: 'Result',
-        body: 'A complete browser-based finance prototype with persistent local data, editable categories, account tools, planning workflows, and export options.',
+        title: 'Working Build',
+        body: 'The result is a browser-based product with persistent local data, editable accounts and categories, recurring payments, savings goals, insights, and portable exports.',
       },
     ],
     technical: [
       {
-        title: 'Local-first Ledger',
+        title: 'Private by Default',
         description:
-          'Transactions, accounts, categories, budgets, goals, and preferences persist in the browser. The prototype requires no sign-in and sends no financial data to a server.',
+          'The ledger lives in the browser. No account is required, and transactions, balances, categories, budgets, goals, and preferences are not sent to a remote service.',
         media: '/assets/projects/cheetah/cheetah-cover.webp',
       },
       {
-        title: 'Planning System',
+        title: 'Planning before Reporting',
         description:
-          'Recurring payments, income allocation, category budgets, and savings goals share one planning surface with due-state handling and projected balance feedback.',
+          'Budgets, income allocation, recurring payments, and savings goals share one planning model, so future obligations stay connected to the current balance.',
         media: '/assets/projects/cheetah/cheetah-planning.webp',
       },
       {
-        title: 'Behavioral Feedback',
+        title: 'Feedback that Prompts Action',
         description:
-          'Spending composition, cash-flow metrics, trend charts, budget alerts, streaks, levels, and the Leo companion translate raw entries into readable feedback.',
+          'Charts explain what changed, while budget states, due reminders, progress, and the Leo companion indicate what deserves attention next.',
         media: '/assets/projects/cheetah/cheetah-insights.webp',
       },
     ],
     results: {
       summary:
-        'Delivered a responsive finance application prototype that covers the full loop from recording a transaction to reviewing trends and planning future cash flow.',
-      highlights: ['No-account local storage', 'Integrated budgeting and recurring payments', 'Responsive interactive prototype'],
+        'Cheetah now supports the complete personal-finance loop: capture activity, understand the present, prepare for upcoming obligations, and keep the data under the user’s control.',
+      highlights: ['Private local ledger', 'One connected planning model', 'Working responsive product'],
     },
   },
   {
@@ -66,7 +66,7 @@ export const appProjects: Project[] = [
     tag: 'App Development',
     title: 'YinYang',
     blurb:
-      'A modern BaZi data dashboard combining deterministic local chart calculation, structured interpretation, and privacy-conscious AI synthesis.',
+      'A BaZi charting tool that separates calculation from interpretation: the browser builds the chart, rules explain it, and AI remains optional.',
     year: '2026',
     role: 'Full-stack App Developer',
     tools: 'JavaScript · Node.js · OpenAI API',
@@ -75,50 +75,50 @@ export const appProjects: Project[] = [
     moneyshot: '/assets/projects/yinyang/yinyang-cover.webp',
     demo: '/embedded-apps/yinyang/index.html',
     hideDownload: true,
-    status: 'Live web app',
+    status: 'Working web app',
     overview: {
-      goal: 'Turn a dense traditional BaZi chart into a clear, responsive data product without mixing deterministic calculation with generative interpretation.',
-      team: 'Solo app development',
+      goal: 'Traditional charting tools often present dense results without showing how they were produced. YinYang reorganizes the chart into traceable layers and keeps generated interpretation separate from calculation.',
+      team: 'Independent product',
       timeline: '2026',
     },
     process: [
       {
-        title: 'Challenge',
-        body: 'Present a large amount of calendrical and symbolic data clearly while keeping every calculated value traceable.',
+        title: 'Information Problem',
+        body: 'A complete chart contains many interconnected systems. Showing everything at once makes the result difficult to read, while hiding the details makes it difficult to trust.',
       },
       {
-        title: 'Solution',
-        body: 'Separate the local calculation engine, rule-based analysis, interface rendering, and optional AI synthesis into distinct layers.',
+        title: 'Architecture Decision',
+        body: 'Calculation, rule-based interpretation, interface presentation, and optional AI synthesis are separate layers with different responsibilities.',
       },
       {
-        title: 'Result',
-        body: 'A responsive web app that produces complete charts locally and lets users request a structured AI reading only when needed.',
+        title: 'Working Build',
+        body: 'The app produces a complete chart locally, exposes the reasoning behind its structured reading, and only calls AI when the user explicitly requests a broader synthesis.',
       },
     ],
     technical: [
       {
-        title: 'Deterministic Chart Engine',
+        title: 'Browser-side Chart Engine',
         description:
-          'Calculates pillars, five elements, ten gods, hidden stems, twelve growth stages, luck cycles, and annual timing in the browser with lunar-javascript.',
+          'Pillars, five elements, ten gods, hidden stems, growth stages, luck cycles, and annual timing are calculated deterministically in the browser.',
         media: '/assets/projects/yinyang/yinyang-cover.webp',
       },
       {
-        title: 'Privacy-conscious AI Layer',
+        title: 'Traceable Interpretation',
         description:
-          'Only calculated chart data and the selected birth date, time, and gender are sent for synthesis; name and birthplace stay out of the AI request.',
+          'Rule-based conclusions remain connected to chart evidence, helping users distinguish calculated structure from explanatory interpretation.',
         media: '/assets/projects/yinyang/yinyang-cover.webp',
       },
       {
-        title: 'Embeddable App Architecture',
+        title: 'Optional AI Synthesis',
         description:
-          'Supports standalone and iframe modes, URL-driven setup, responsive height messaging, light and dark themes, and host-page event callbacks.',
+          'AI is an explicit secondary action. It receives calculated chart data for synthesis while excluding the user’s name and birthplace from the request.',
         media: '/assets/projects/yinyang/yinyang-cover.webp',
       },
     ],
     results: {
       summary:
-        'Delivered a deployable BaZi application with local calculation, structured analysis, optional AI synthesis, and a reusable embed interface.',
-      highlights: ['Local-first calculation', 'Structured AI output', 'Responsive standalone and embed modes'],
+        'YinYang turns a dense chart into a readable product without blurring the boundary between calculation, interpretation, and generated commentary.',
+      highlights: ['Deterministic local charting', 'Evidence-linked interpretation', 'AI only when requested'],
     },
   },
 ]

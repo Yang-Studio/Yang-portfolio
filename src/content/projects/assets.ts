@@ -1,9 +1,4 @@
 export const projectAssets: Record<string, string[]> = {
-  cheetah: [
-    '/assets/projects/cheetah/cheetah-cover.webp',
-    '/assets/projects/cheetah/cheetah-planning.webp',
-    '/assets/projects/cheetah/cheetah-insights.webp',
-  ],
   shanhe: [
     '/assets/projects/shanhe/ITGM405.webp',
     '/assets/projects/shanhe/ITGM405_s1_milestone.webp',
@@ -28,21 +23,6 @@ export const projectAssets: Record<string, string[]> = {
     '/assets/projects/bubono-bumperland/bubono-asset-logo.webp',
     '/assets/projects/bubono-bumperland/bubono-prop-bomb.webp',
     '/assets/projects/bubono-bumperland/bubono-enemy-worm.webp',
-  ],
-  'stairs-in-the-woods': [
-    'https://drive.google.com/thumbnail?id=1OwzwHoIYtFThl5p1Ee4Su38DXczQcYn-&sz=w2000',
-    'https://drive.google.com/thumbnail?id=1IIPLNuUsfvHcDY8dMvEU17MNF3Q5J65h&sz=w2000',
-    'https://drive.google.com/thumbnail?id=1O5-caECe9dL2Q_-u7Qk-Z1L9mvNXkhh2&sz=w2000',
-  ],
-  'castle-defense': [
-    'https://drive.google.com/thumbnail?id=1iRz1n3k14Pl7So9Z639bcMF3bTXxu21g&sz=w2000',
-    'https://drive.google.com/thumbnail?id=1Km8T5iAP_y_jTkzFoQYPFavDvmEz1BhC&sz=w2000',
-  ],
-  'bio-lab': [
-    'https://drive.google.com/thumbnail?id=1YG62TLXBIErn6AAwMpl4fBqyudK4pBfL&sz=w2000',
-    'https://drive.google.com/thumbnail?id=161Sg3C2TZ2cywWP2cNEkzxfKzEvfbnKP&sz=w2000',
-    'https://drive.google.com/thumbnail?id=1Mamy5hLfhEcxA480AC48fokRdE4tILoF&sz=w2000',
-    'https://drive.google.com/thumbnail?id=1ba6qTK5NyVKPHmVzb1oc62PHKyYYg-Gb&sz=w2000',
   ],
   aukadyssey: [
     '/assets/projects/aukadyssey/ITGM356.webp',

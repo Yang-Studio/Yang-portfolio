@@ -18,6 +18,7 @@ type Props = {
   label?: string
   titleTop?: string
   titleBottom?: string
+  description?: string
 }
 
 export default function ProjectsArchive({
@@ -27,6 +28,7 @@ export default function ProjectsArchive({
   label = 'Projects / Complete Archive',
   titleTop = 'Evidence',
   titleBottom = 'Index',
+  description,
 }: Props) {
   const { t, language } = useLanguage()
 
@@ -147,6 +149,11 @@ export default function ProjectsArchive({
               <br />
               <span className="inline-block">{t(titleBottom)}</span>
             </h1>
+            {description && (
+              <p className="copy-safe mt-8 max-w-3xl text-[clamp(19px,4vw,28px)] leading-[1.3] text-ink-soft">
+                {t(description)}
+              </p>
+            )}
           </div>
         </div>
       </section>

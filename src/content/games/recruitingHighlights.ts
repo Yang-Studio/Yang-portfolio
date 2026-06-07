@@ -106,30 +106,6 @@ export const projectRecruitingHighlights: Record<string, ProjectRecruitingHighli
       },
     ],
   },
-  'bio-lab': {
-    fit: {
-      en: 'Best signal for environment modeling, prop density, and presentation polish.',
-      zh: '最能证明环境建模、道具密度和展示打磨能力的项目。',
-    },
-    proof: {
-      en: 'Built a pure sci-fi biolab scene focused on layout, equipment silhouettes, material contrast, and lighting.',
-      zh: '完成纯科幻生化实验室场景，重点在空间布局、设备轮廓、材质对比和灯光。',
-    },
-    bullets: [
-      {
-        en: 'Can model a believable functional space, not just isolated props.',
-        zh: '能建模可信的功能空间，而不是只做单个道具。',
-      },
-      {
-        en: 'Uses lighting and material contrast to direct attention.',
-        zh: '会用灯光和材质对比组织视觉重点。',
-      },
-      {
-        en: 'Useful for environment art or level-art support roles.',
-        zh: '适合环境美术或关卡美术支持方向。',
-      },
-    ],
-  },
   terradotta: {
     fit: {
       en: 'Best signal for UX research, synthesis, and stakeholder-ready communication.',
@@ -175,54 +151,6 @@ export const projectRecruitingHighlights: Record<string, ProjectRecruitingHighli
       {
         en: 'Presentation quality is strong enough for portfolio review.',
         zh: '展示完成度足够支撑作品集评审。',
-      },
-    ],
-  },
-  'stairs-in-the-woods': {
-    fit: {
-      en: 'Best signal for environmental pacing, mood, and spatial composition.',
-      zh: '最能证明环境节奏、氛围和空间构图能力的项目。',
-    },
-    proof: {
-      en: 'Built a horror environment study around repeated landmarks, forest occlusion, light, shadow, and reveal timing.',
-      zh: '围绕重复地标、森林遮挡、光影和揭示时机完成恐怖环境练习。',
-    },
-    bullets: [
-      {
-        en: 'Understands how space can create emotion without extra mechanics.',
-        zh: '理解空间如何在没有复杂机制时制造情绪。',
-      },
-      {
-        en: 'Shows useful level-design instincts for sightline and reveal control.',
-        zh: '体现视线和揭示控制上的关卡设计直觉。',
-      },
-      {
-        en: 'Good supporting evidence for atmosphere-focused projects.',
-        zh: '适合作为氛围型项目能力证明。',
-      },
-    ],
-  },
-  'castle-defense': {
-    fit: {
-      en: 'Best signal for early systems thinking, rules clarity, and small-scope prototyping.',
-      zh: '最能证明早期系统思维、规则清晰度和小范围原型能力的项目。',
-    },
-    proof: {
-      en: 'Built a lightweight tower-defense loop around lanes, waves, placement rules, and quick retry pacing.',
-      zh: '围绕路线、波次、放置规则和快速重开节奏完成轻量塔防循环。',
-    },
-    bullets: [
-      {
-        en: 'Shows ability to reduce a genre to readable fundamentals.',
-        zh: '体现把类型玩法拆成清晰基础规则的能力。',
-      },
-      {
-        en: 'Useful evidence for design iteration and simple economy loops.',
-        zh: '可证明设计迭代和轻量经济循环能力。',
-      },
-      {
-        en: 'A concise prototype rather than a production-scale project.',
-        zh: '这是简洁原型，不是生产规模项目。',
       },
     ],
   },

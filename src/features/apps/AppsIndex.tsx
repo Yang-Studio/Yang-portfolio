@@ -6,10 +6,11 @@ export default function AppsIndex() {
     <ProjectsArchive
       items={appProjects}
       basePath="/apps"
-      plate="App / Index"
-      label="Software / Complete Archive"
-      titleTop="Software"
-      titleBottom="Index"
+      plate="App / Products"
+      label="Independent Tools / Working Builds"
+      titleTop="Digital"
+      titleBottom="Products"
+      description="Focused applications built from product decisions, interface systems, and working code."
     />
   )
 }

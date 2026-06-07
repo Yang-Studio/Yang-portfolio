@@ -23,7 +23,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <header className={`sticky top-0 z-[200] border-b backdrop-blur ${shellClass}`}>
         <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-5 py-4 md:px-16 md:py-5 lg:px-24">
           <Link href="/" className="focus-ring mono shrink-0 text-[11px] uppercase tracking-normal transition hover:text-accent">
-            Yang App Studio
+            Yang / App Lab
           </Link>
           <nav className="flex min-w-0 items-center gap-4 md:gap-10">
             <Link href="/apps" className={`${linkClass} ${pathname?.startsWith('/apps') ? activeClass : ''}`}>
@@ -39,17 +39,17 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <footer className={`border-t ${footerClass}`}>
         <div className="mx-auto grid w-full max-w-[1280px] gap-8 px-5 py-12 sm:px-8 md:px-16 lg:grid-cols-3 lg:px-24">
           <div>
-            <p className={`mono mb-3 text-[11px] uppercase ${softClass}`}>Practice</p>
-            <p>Independent App Development</p>
+            <p className={`mono mb-3 text-[11px] uppercase ${softClass}`}>{t('Practice')}</p>
+            <p>{t('Independent products, prototypes, and interface systems.')}</p>
           </div>
           <div>
-            <p className={`mono mb-3 text-[11px] uppercase ${softClass}`}>Contact</p>
+            <p className={`mono mb-3 text-[11px] uppercase ${softClass}`}>{t('Contact')}</p>
             <a className="underline decoration-accent underline-offset-4" href="mailto:yangliu.gmdev@gmail.com">
               yangliu.gmdev@gmail.com
             </a>
           </div>
           <div>
-            <p className={`mono mb-3 text-[11px] uppercase ${softClass}`}>Index</p>
+            <p className={`mono mb-3 text-[11px] uppercase ${softClass}`}>{t('Collection')}</p>
             <Link className="underline decoration-accent underline-offset-4" href="/">
               {t('Back to main index')}
             </Link>

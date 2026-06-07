@@ -32,6 +32,12 @@ const DICTIONARY: Record<string, string> = {
   'App / Index': 'App / 索引',
   'Software / Complete Archive': '软件 / 完整索引',
   Software: '软件',
+  'App / Products': 'App / 产品',
+  'Independent Tools / Working Builds': '独立工具 / 可运行版本',
+  Digital: '数字',
+  Products: '产品',
+  'Focused applications built from product decisions, interface systems, and working code.':
+    '以产品判断、界面系统和可运行代码构建的独立应用。',
   'Project Evidence / Hiring Read': '项目证据 / 招聘速读',
   'Biography / Timeline': '履历 / 时间线',
   'Candidate Trajectory / Hiring Fit': '候选人路径 / 岗位匹配',
@@ -137,6 +143,11 @@ const DICTIONARY: Record<string, string> = {
   'Live web app': '在线 Web App',
   'Live App': '在线 App',
   'Interactive Demo': '交互演示',
+  'Working prototype': '可用原型',
+  'Working web app': '可用 Web App',
+  'Product Build': '产品版本',
+  'Standalone Application': '独立应用',
+  'Open the complete app in a new window.': '在新窗口中打开完整应用。',
   'Open App': '打开 App',
   'System 01': '系统 01',
   'System 02': '系统 02',
@@ -144,6 +155,10 @@ const DICTIONARY: Record<string, string> = {
   Learned: '复盘',
   Project: '项目',
   Index: '索引',
+  Practice: '方向',
+  Contact: '联系',
+  Collection: '项目集合',
+  'Independent products, prototypes, and interface systems.': '独立产品、可用原型与界面系统。',
   'Selected Work / 2024 - Now': '精选作品 / 2024 至今',
   "Bubono's Bumperland": 'Bubono 的碰碰车乐园',
   Shanhe: '山河',
@@ -274,15 +289,13 @@ const DICTIONARY: Record<string, string> = {
     '我最强的部分在设计和实现的交界处：玩法系统、敌人行为、UI 反馈和原型结构。',
   'For a game team, the value is practical: I can take an unclear mechanic, define its rules and states, build a playable version, read the feedback, and keep the design moving without waiting for every dependency to be perfect.':
     '对游戏团队来说，我的价值是实用的：能把不清晰的机制定义成规则和状态，做出可玩版本，读取反馈，并在依赖尚未完全到位时继续推进设计。',
-  'The portfolio is organized around evidence: team production in Bubono, solo ownership in Shanhe, UI/system support in AukAdyssey, fast art-to-build execution in Ink, and environment presentation in Bio-Lab.':
-    '这个作品集按证据组织：Bubono 证明团队制作，Shanhe 证明独立负责，AukAdyssey 证明 UI/系统支持，Ink 证明快速从美术到可玩版本，Bio-Lab 证明环境展示。',
+  'The portfolio is organized around evidence: team production in Bubono, solo ownership in Shanhe, UI/system support in AukAdyssey, and fast art-to-build execution in Ink.':
+    '这个作品集按证据组织：Bubono 证明团队制作，Shanhe 证明独立负责，AukAdyssey 证明 UI/系统支持，Ink 证明快速从美术到可玩版本。',
   'Demo Reel': '\u6f14\u793a\u96c6\u9526',
   'My work usually starts with gameplay structure, weaving in narrative, space, and interaction to build systems players can understand and explore repeatedly. I am skilled at breaking fuzzy ideas into clear rules, states, and feedback, then validating quickly through prototypes.':
     '\u6211\u7684\u5de5\u4f5c\u901a\u5e38\u4ece\u73a9\u6cd5\u7ed3\u6784\u51fa\u53d1\uff0c\u7ed3\u5408\u53d9\u4e8b\u3001\u7a7a\u95f4\u4e0e\u4ea4\u4e92\uff0c\u6784\u5efa\u53ef\u4ee5\u88ab\u73a9\u5bb6\u53cd\u590d\u7406\u89e3\u548c\u63a2\u7d22\u7684\u7cfb\u7edf\u3002\u6211\u64c5\u957f\u628a\u6a21\u7cca\u7684\u521b\u610f\u62c6\u89e3\u4e3a\u6e05\u6670\u7684\u89c4\u5219\u3001\u72b6\u6001\u4e0e\u53cd\u9988\uff0c\u5e76\u901a\u8fc7\u539f\u578b\u5feb\u901f\u9a8c\u8bc1\u3002',
   "Bubono's Bumperland\nSystems-driven RPG (core project)\nLed overall gameplay structure and core systems design\nBuilt multi-themed branching worlds (Burg / Abyss / Big Bang)\nDesigned distinct spatial pacing and play experiences under shared rules\nShanhe\nWuxia-themed systems and narrative exploration\nUsed \"jianghu relationships\" instead of numeric growth as the core driver\nDesigned choice-led storylines and branching structure\nExplored how reversal-driven narrative lands within gameplay pacing":
     "Bubono's Bumperland\n\u7cfb\u7edf\u5411 RPG\uff08\u6838\u5fc3\u9879\u76ee\uff09\n\u8d1f\u8d23\u6574\u4f53\u73a9\u6cd5\u7ed3\u6784\u4e0e\u6838\u5fc3\u7cfb\u7edf\u8bbe\u8ba1\n\u6784\u5efa\u591a\u4e3b\u9898\u5206\u652f\u4e16\u754c\uff08Burg / Abyss / Big Bang\uff09\n\u5728\u5171\u4eab\u89c4\u5219\u4e0b\uff0c\u8bbe\u8ba1\u4e0d\u540c\u7a7a\u95f4\u8282\u594f\u4e0e\u6e38\u73a9\u4f53\u9a8c\nShanhe\uff08\u5c71\u6cb3\uff09\n\u6b66\u4fa0\u9898\u6750\u7cfb\u7edf\u4e0e\u53d9\u4e8b\u63a2\u7d22\n\u4ee5\u201c\u6c5f\u6e56\u5173\u7cfb\u201d\u800c\u975e\u6570\u503c\u6210\u957f\u4f5c\u4e3a\u6838\u5fc3\u9a71\u52a8\u529b\n\u8bbe\u8ba1\u9009\u62e9\u5bfc\u5411\u7684\u5267\u60c5\u4e0e\u5206\u652f\u7ed3\u6784\n\u63a2\u7d22\u53cd\u8f6c\u5f0f\u53d9\u4e8b\u5728\u73a9\u6cd5\u8282\u594f\u4e2d\u7684\u843d\u70b9",
-  'Stairs in the Woods\nEnvironmental and spatial narrative experiment\nExplored the visual and spatial contrast between a realistic forest and low-poly elements\nUsed spatial transitions and teleport structures to express world shifts\nFocused on mood and spatial experience rather than complex mechanics\nInk\n2D platform action prototype\nUsed "drawing/brushstroke" as the core interaction\nExplored how input methods directly shape combat and movement\nFocused on feedback, feel, and pacing control':
-    'Stairs in the Woods\n\u73af\u5883\u4e0e\u7a7a\u95f4\u53d9\u4e8b\u5b9e\u9a8c\n\u56f4\u7ed5\u5199\u5b9e\u68ee\u6797 \u00d7 low-poly \u5143\u7d20\u7684\u89c6\u89c9\u4e0e\u7a7a\u95f4\u51b2\u7a81\n\u901a\u8fc7\u7a7a\u95f4\u8f6c\u573a\u4e0e\u4f20\u9001\u7ed3\u6784\u8868\u8fbe\u4e16\u754c\u5207\u6362\n\u805a\u7126\u60c5\u7eea\u8425\u9020\u4e0e\u7a7a\u95f4\u4f53\u9a8c\uff0c\u800c\u975e\u590d\u6742\u673a\u5236\nInk\n2D \u5e73\u53f0\u52a8\u4f5c\u539f\u578b\n\u4ee5\u201c\u7ed8\u5236/\u7b14\u89e6\u201d\u4f5c\u4e3a\u6838\u5fc3\u4ea4\u4e92\u65b9\u5f0f\n\u63a2\u7d22\u8f93\u5165\u65b9\u5f0f\u5bf9\u6218\u6597\u4e0e\u79fb\u52a8\u7684\u76f4\u63a5\u5f71\u54cd\n\u805a\u7126\u64cd\u4f5c\u53cd\u9988\u3001\u624b\u611f\u4e0e\u8282\u594f\u63a7\u5236',
   'AukAdyssey\nNarrative-driven RPG prototype\nDesigned systems around "escape and growth"\nAligned story progression with player goals\nValidated early levels and narrative pacing':
     'AukAdyssey\n\u53d9\u4e8b\u5411 RPG \u539f\u578b\n\u8bbe\u8ba1\u56f4\u7ed5\u201c\u9003\u79bb\u4e0e\u6210\u957f\u201d\u7684\u7cfb\u7edf\u7ed3\u6784\n\u5bf9\u9f50\u5267\u60c5\u63a8\u8fdb\u4e0e\u73a9\u5bb6\u76ee\u6807\n\u8fdb\u884c\u65e9\u671f\u5173\u5361\u4e0e\u53d9\u4e8b\u8282\u594f\u9a8c\u8bc1',
   Email: '\u90ae\u7bb1',
