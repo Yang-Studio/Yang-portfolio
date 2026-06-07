@@ -25,6 +25,8 @@ const rules = [
   { name: 'Committed administrator password hash', pattern: /^\s*ADMIN_PASSWORD_HASH\s*=\s*[^\s\r\n]+/gm },
   { name: 'Committed administrator session secret', pattern: /^\s*ADMIN_SESSION_SECRET\s*=\s*[^\s\r\n]+/gm },
   { name: 'Committed analytics salt', pattern: /^\s*ANALYTICS_SALT\s*=\s*[^\s\r\n]+/gm },
+  { name: 'Committed Terra Dotta password', pattern: /^\s*TERRADOTTA_PASSWORD\s*=\s*[^\s\r\n]+/gm },
+  { name: 'Committed Terra Dotta lock secret', pattern: /^\s*TERRADOTTA_LOCK_SECRET\s*=\s*[^\s\r\n]+/gm },
 ]
 
 const files = execFileSync('git', ['ls-files', '-co', '--exclude-standard', '-z'], {

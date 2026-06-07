@@ -62,8 +62,17 @@ export async function getCurrentAdminSession() {
 
 export function verifyAdminPassword(username: string, password: string) {
   const expectedUsername = process.env.ADMIN_USERNAME
+  const expectedPassword = process.env.ADMIN_PASSWORD
   const passwordHash = process.env.ADMIN_PASSWORD_HASH
-  if (!expectedUsername || !passwordHash || username !== expectedUsername) return false
+  if (!expectedUsername || username !== expectedUsername) return false
+
+  if (expectedPassword) {
+    const actual = Buffer.from(password)
+    const expected = Buffer.from(expectedPassword)
+    return actual.length === expected.length && timingSafeEqual(actual, expected)
+  }
+
+  if (!passwordHash) return false
 
   const [algorithm, saltHex, expectedHex] = passwordHash.split('$')
   if (algorithm !== 'scrypt' || !saltHex || !expectedHex) return false

@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync } from 'node:crypto'
+import { randomBytes } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -7,11 +7,9 @@ const username = process.env.ADMIN_SETUP_USERNAME || 'admin'
 const password =
   process.env.ADMIN_SETUP_PASSWORD ||
   Array.from(randomBytes(22), (byte) => alphabet[byte % alphabet.length]).join('')
-const salt = randomBytes(16)
-const passwordHash = scryptSync(password, salt, 64)
 const values = {
   ADMIN_USERNAME: username,
-  ADMIN_PASSWORD_HASH: `scrypt$${salt.toString('hex')}$${passwordHash.toString('hex')}`,
+  ADMIN_PASSWORD: password,
   ADMIN_SESSION_SECRET: randomBytes(48).toString('hex'),
   ANALYTICS_SALT: randomBytes(48).toString('hex'),
 }
@@ -19,7 +17,7 @@ const values = {
 if (process.argv.includes('--write-local')) {
   const envPath = resolve('.env.local')
   const existing = readFileSync(envPath, 'utf8')
-  const managedKeys = new Set(Object.keys(values))
+  const managedKeys = new Set([...Object.keys(values), 'ADMIN_PASSWORD_HASH'])
   const preserved = existing
     .split(/\r?\n/)
     .filter((line) => !managedKeys.has(line.split('=', 1)[0]))
@@ -43,4 +41,4 @@ for (const [key, value] of Object.entries(values)) {
 }
 console.log('')
 console.log(`Temporary admin password: ${password}`)
-console.log('Store the password in a password manager. It cannot be recovered from ADMIN_PASSWORD_HASH.')
+console.log('Store the password in a password manager. Do not commit it to Git.')
