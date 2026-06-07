@@ -1,4 +1,9 @@
 export const projectAssets: Record<string, string[]> = {
+  cheetah: [
+    '/assets/projects/cheetah/cheetah-cover.webp',
+    '/assets/projects/cheetah/cheetah-planning.webp',
+    '/assets/projects/cheetah/cheetah-insights.webp',
+  ],
   shanhe: [
     '/assets/projects/shanhe/ITGM405.webp',
     '/assets/projects/shanhe/ITGM405_s1_milestone.webp',

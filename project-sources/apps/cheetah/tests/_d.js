@@ -1,0 +1,14 @@
+const { JSDOM } = require("jsdom"); const fs=require("fs");
+const dom=new JSDOM(`<!DOCTYPE html><body><div id="root"></div></body>`,{url:"http://localhost"});
+const {window}=dom; global.window=window; global.document=window.document; global.navigator=window.navigator;
+const store={}; window.localStorage={getItem:k=>k in store?store[k]:null,setItem:(k,v)=>store[k]=String(v),removeItem:k=>{},clear:()=>{}}; global.localStorage=window.localStorage;
+window.confirm=()=>true; window.alert=()=>{}; global.IS_REACT_ACT_ENVIRONMENT=true;
+global.React=require("react"); const RD=require("react-dom"),RDC=require("react-dom/client"); global.ReactDOM=Object.assign({},RD,RDC); const {act}=require("react");
+const today=new Date().toISOString().slice(0,10); const d=new Date(); d.setDate(d.getDate()-1); const due=d.toISOString().slice(0,10);
+store["leoledger_jsx_v3"]=JSON.stringify({welcomed:true,transactions:[],accounts:[{id:"daily",name:"日常",balance:800,type:"现金"}],budgets:[],goals:[],planned:[{id:"p1",name:"房租",amount:1200,type:"expense",categoryId:"home",accountId:"daily",dueDate:due,repeat:"每月"}],mascot:{xp:0,streakDays:1,lastEntry:today},pro:false});
+console.error=()=>{};
+eval(fs.readFileSync("LeoLedger.js","utf8"));
+(async()=>{ await act(async()=>{});
+  console.log("seeded due:", due, "today:", today);
+  console.log("persisted planned[0].dueDate:", JSON.parse(localStorage.getItem("leoledger_jsx_v3")).planned[0].dueDate);
+})();

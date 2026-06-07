@@ -2,6 +2,66 @@ import type { Project } from '@/content/projects/types'
 
 export const appProjects: Project[] = [
   {
+    slug: 'cheetah',
+    tag: 'App Development',
+    title: 'Cheetah',
+    blurb:
+      'A local-first personal finance companion that turns daily bookkeeping, budgets, savings goals, and planned payments into one focused mobile workflow.',
+    year: '2026',
+    role: 'Product Designer / Front-end Developer',
+    tools: 'React / JavaScript / LocalStorage',
+    cover: '/assets/projects/cheetah/cheetah-cover.webp',
+    banner: '/assets/projects/cheetah/cheetah-cover.webp',
+    moneyshot: '/assets/projects/cheetah/cheetah-cover.webp',
+    demo: '/embedded-apps/cheetah/index.html',
+    hideDownload: true,
+    status: 'Interactive prototype',
+    overview: {
+      goal: 'Make personal finance tracking feel immediate and encouraging without requiring an account, a cloud service, or a complicated spreadsheet.',
+      team: 'Solo product development',
+      timeline: '2026',
+    },
+    process: [
+      {
+        title: 'Challenge',
+        body: 'Combine transaction capture, account balances, budgets, goals, recurring payments, and trends without overwhelming a mobile interface.',
+      },
+      {
+        title: 'Solution',
+        body: 'Organize the product around four repeatable moments: check the current position, record activity, plan upcoming cash flow, and review patterns.',
+      },
+      {
+        title: 'Result',
+        body: 'A complete browser-based finance prototype with persistent local data, editable categories, account tools, planning workflows, and export options.',
+      },
+    ],
+    technical: [
+      {
+        title: 'Local-first Ledger',
+        description:
+          'Transactions, accounts, categories, budgets, goals, and preferences persist in the browser. The prototype requires no sign-in and sends no financial data to a server.',
+        media: '/assets/projects/cheetah/cheetah-cover.webp',
+      },
+      {
+        title: 'Planning System',
+        description:
+          'Recurring payments, income allocation, category budgets, and savings goals share one planning surface with due-state handling and projected balance feedback.',
+        media: '/assets/projects/cheetah/cheetah-planning.webp',
+      },
+      {
+        title: 'Behavioral Feedback',
+        description:
+          'Spending composition, cash-flow metrics, trend charts, budget alerts, streaks, levels, and the Leo companion translate raw entries into readable feedback.',
+        media: '/assets/projects/cheetah/cheetah-insights.webp',
+      },
+    ],
+    results: {
+      summary:
+        'Delivered a responsive finance application prototype that covers the full loop from recording a transaction to reviewing trends and planning future cash flow.',
+      highlights: ['No-account local storage', 'Integrated budgeting and recurring payments', 'Responsive interactive prototype'],
+    },
+  },
+  {
     slug: 'yinyang',
     tag: 'App Development',
     title: 'YinYang',

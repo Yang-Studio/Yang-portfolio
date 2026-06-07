@@ -6,6 +6,12 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 const sites = [
   {
+    name: 'Cheetah',
+    source: 'project-sources/apps/cheetah',
+    target: 'public/embedded-apps/cheetah',
+    files: ['index.html', 'LeoLedger.js'],
+  },
+  {
     name: 'YinYang',
     source: 'project-sources/apps/yinyang',
     target: 'public/embedded-apps/yinyang',

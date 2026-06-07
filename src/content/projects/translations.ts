@@ -11,6 +11,37 @@ export type ProjectTranslation = {
 }
 
 export const projectTranslations: Record<string, ProjectTranslation> = {
+  cheetah: {
+    title: 'Cheetah',
+    blurb: '一款本地优先的个人财务助手，将日常记账、预算、储蓄目标与计划付款整合为清晰集中的移动端工作流。',
+    role: '产品设计 / 前端开发',
+    overviewGoal: '无需注册账号、云服务或复杂表格，也能让个人财务记录保持即时、清晰并具有持续使用的动力。',
+    overviewTeam: '个人产品开发',
+    overviewTimeline: '2026',
+    process: [
+      { title: '挑战', body: '在移动端界面中同时容纳账单、账户余额、预算、目标、周期付款与趋势，又不让信息变得拥挤。' },
+      { title: '方案', body: '围绕四个高频时刻组织产品：查看当前状况、快速记录、规划未来现金流、回顾消费模式。' },
+      { title: '结果', body: '完成可在浏览器运行的财务原型，支持本地持久化、分类与账户管理、计划流程以及数据导出。' },
+    ],
+    technical: [
+      {
+        title: '本地优先账本',
+        description: '账单、账户、分类、预算、目标与偏好都保存在浏览器中；无需登录，也不会把财务数据发送到服务器。',
+      },
+      {
+        title: '综合规划系统',
+        description: '周期付款、收入分配、分类预算和储蓄目标集中在同一规划界面，并提供到期处理与预计余额反馈。',
+      },
+      {
+        title: '行为反馈设计',
+        description: '通过消费占比、现金流指标、趋势图、预算提醒、连续记录、等级与 Leo 伙伴，将原始账目转化为易读反馈。',
+      },
+    ],
+    results: {
+      summary: '交付了覆盖完整财务循环的响应式应用原型，从记录一笔账到查看趋势、规划未来现金流均可直接操作。',
+      highlights: ['无需账号的本地存储', '预算与周期付款整合', '响应式可交互原型'],
+    },
+  },
   yinyang: {
     title: 'YinYang',
     blurb: '现代八字数据仪表盘，将本地确定性排盘、结构化解读与注重隐私的 AI 综合分析整合在同一款 Web App 中。',
