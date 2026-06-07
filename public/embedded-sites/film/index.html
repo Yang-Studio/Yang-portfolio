@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Film Archive — Monograph</title>
+    <meta name="description" content="A film-photography archive presented as a museum catalogue — building, landscape, portrait and street photography." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Select a discipline">
+      <div class="intro-grain" aria-hidden="true"></div>
+      <div class="intro-inner">
+        <div class="intro-top">
+          <span class="intro-mark">Y</span>
+          <span class="intro-brand">Yang Studio <em>Monograph</em></span>
+        </div>
+        <p class="intro-prompt">
+          <span>选择领域</span>
+          <span>Select a discipline</span>
+        </p>
+        <div class="intro-choices">
+          <button type="button" class="intro-choice" id="enterPhoto">
+            <span class="intro-choice-no">01</span>
+            <span class="intro-choice-zh">摄影</span>
+            <span class="intro-choice-en">Photography</span>
+            <span class="intro-choice-go">进入图录 · Enter →</span>
+          </button>
+          <a class="intro-choice" id="enterGames" href="/games">
+            <span class="intro-choice-no">02</span>
+            <span class="intro-choice-zh">游戏</span>
+            <span class="intro-choice-en">Games</span>
+            <span class="intro-choice-go">前往作品 · Visit →</span>
+          </a>
+        </div>
+        <p class="intro-foot">Yang Liu · 2026</p>
+      </div>
+    </div>
+    <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+    <header class="site-header" aria-label="Film Archive">
+      <a class="brand" href="/" aria-label="Back to Yang Studio collections">
+        <span class="brand-mark">F</span>
+        <span class="brand-name">Film Archive <em>Monograph</em></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#categories" data-i18n="nav.subjects">题材</a>
+        <a href="#gallery" data-i18n="nav.catalogue">图录</a>
+        <a href="#index" data-i18n="nav.index">索引</a>
+        <button id="langToggle" class="lang-toggle" type="button" aria-label="Switch language">EN</button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-label="Archive prologue">
+        <div class="hero-image-wrap">
+          <img id="heroImage" class="hero-image" alt="" />
+          <div class="hero-shade"></div>
+          <div class="film-grain" aria-hidden="true"></div>
+        </div>
+        <div class="hero-content">
+          <p class="plate plate-light">
+            <span class="plate-no" data-i18n="plate.01">图版 01</span>
+            <span class="plate-sep">/</span>
+            <span class="plate-name" data-i18n="hero.plate">序章 · Prologue</span>
+          </p>
+          <h1>Film<br />Archive</h1>
+          <p class="hero-copy" data-i18n="hero.copy">一部以胶片为媒介的影像图录。按建筑、风光、人像与街头四类题材重新编排，以博物馆式的图版顺序逐帧呈现。</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#gallery" data-i18n="hero.enter">进入图录</a>
+            <a class="secondary-action" href="#categories" data-i18n="hero.subjects">浏览题材</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Archive summary">
+          <div>
+            <span id="photoCount">302</span>
+            <small data-i18n="panel.frames">帧</small>
+          </div>
+          <div>
+            <span id="categoryCount">4</span>
+            <small data-i18n="panel.categories">题材</small>
+          </div>
+          <div>
+            <span>35mm</span>
+            <small data-i18n="panel.medium">胶片</small>
+          </div>
+        </aside>
+      </section>
+
+      <section id="categories" class="category-section">
+        <div class="section-heading">
+          <p class="plate">
+            <span class="plate-no" data-i18n="plate.02">图版 02</span>
+            <span class="plate-sep">/</span>
+            <span class="plate-name" data-i18n="cat.plate">题材 · Subjects</span>
+          </p>
+          <h2 data-i18n="cat.heading">按题材编排的图版</h2>
+        </div>
+        <div id="categoryRail" class="category-rail" aria-label="Photography category list"></div>
+      </section>
+
+      <section id="gallery" class="gallery-section">
+        <div class="gallery-head">
+          <div>
+            <p class="plate">
+              <span class="plate-no" data-i18n="plate.03">图版 03</span>
+              <span class="plate-sep">/</span>
+              <span class="plate-name" data-i18n="gal.plate">图录 · Catalogue</span>
+            </p>
+            <h2 id="galleryTitle">全部影像</h2>
+          </div>
+          <div class="gallery-meta">
+            <span id="activeCount"></span>
+            <button id="shuffleButton" class="icon-button" type="button" aria-label="Shuffle gallery">
+              <span id="shuffleLabel" data-i18n="gal.shuffle">重排 · Shuffle</span>
+            </button>
+          </div>
+        </div>
+        <div id="filters" class="filter-bar" aria-label="Filter by category"></div>
+        <div class="gallery-tools" aria-label="Catalogue tools">
+          <label class="search-wrap" for="searchInput">
+            <span data-i18n="gal.searchLabel">检索</span>
+            <input id="searchInput" type="search" autocomplete="off" data-i18n-placeholder="gal.searchPlaceholder" placeholder="片种、编号或题材" />
+          </label>
+          <label class="select-wrap" for="stockSelect">
+            <span data-i18n="gal.stockLabel">片种</span>
+            <select id="stockSelect"></select>
+          </label>
+          <div id="viewMode" class="view-mode" role="group" aria-label="View mode">
+            <button class="view-button active" type="button" data-view="mosaic" data-i18n="view.mosaic">拼贴</button>
+            <button class="view-button" type="button" data-view="contact" data-i18n="view.contact">样张</button>
+            <button class="view-button" type="button" data-view="focus" data-i18n="view.focus">焦点</button>
+          </div>
+        </div>
+        <div id="photoGrid" class="photo-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="index" class="index-section">
+        <div class="section-heading">
+          <p class="plate plate-light">
+            <span class="plate-no" data-i18n="plate.04">图版 04</span>
+            <span class="plate-sep">/</span>
+            <span class="plate-name" data-i18n="idx.plate">索引 · Index</span>
+          </p>
+          <h2 data-i18n="idx.heading">类别索引</h2>
+        </div>
+        <div id="categoryIndex" class="index-grid"></div>
+      </section>
+
+      <footer id="colophon" class="colophon" aria-label="Colophon">
+        <p class="plate plate-light">
+          <span class="plate-no" data-i18n="plate.05">图版 05</span>
+          <span class="plate-sep">/</span>
+          <span class="plate-name" data-i18n="foot.plate">终章 · Colophon</span>
+        </p>
+        <h2 data-i18n="foot.heading">关于这份档案</h2>
+        <div class="colophon-grid">
+          <div>
+            <small data-i18n="foot.placeLabel">拍摄地</small>
+            <p data-i18n="foot.place">美国 · 加利福尼亚、怀俄明、亚利桑那等地</p>
+          </div>
+          <div>
+            <small data-i18n="foot.mediumLabel">媒介</small>
+            <p data-i18n="foot.medium">135 / 黑白与彩色胶片 · 底片扫描</p>
+          </div>
+          <div>
+            <small data-i18n="foot.noteLabel">制作说明</small>
+            <p data-i18n="foot.note">共 302 帧，依题材编入图版。版权所有 © 2026。</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo preview">
+      <button id="closeLightbox" class="close-button" type="button" data-i18n="close">关闭</button>
+      <button id="prevPhoto" class="lightbox-nav prev" type="button" aria-label="Previous photo">‹</button>
+      <button id="nextPhoto" class="lightbox-nav next" type="button" aria-label="Next photo">›</button>
+      <div class="lightbox-stage">
+        <figure>
+          <img id="lightboxImage" alt="" />
+          <figcaption id="lightboxCaption"></figcaption>
+        </figure>
+        <aside id="lightboxDetails" class="lightbox-details" aria-label="Frame details"></aside>
+      </div>
+      <div id="filmstrip" class="filmstrip" aria-label="Nearby frames"></div>
+    </div>
+
+    <script>
+      (function () {
+        var intro = document.getElementById("intro");
+        if (!intro) return;
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("direct") === "1") {
+          intro.style.display = "none";
+          return;
+        }
+        var root = document.documentElement;
+        root.classList.add("intro-open");
+        var photo = document.getElementById("enterPhoto");
+        function enter() {
+          intro.classList.add("is-dismissed");
+          root.classList.remove("intro-open");
+          window.setTimeout(function () { intro.style.display = "none"; }, 720);
+        }
+        if (photo) {
+          photo.addEventListener("click", enter);
+          try { photo.focus(); } catch (e) {}
+        }
+        // The Games choice is a normal link and navigates to the original portfolio.
+      })();
+    </script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

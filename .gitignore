@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+__pycache__/
+*.py[cod]
 
 # next.js
 /.next/
@@ -20,9 +22,14 @@
 # production
 /build
 
+# local source masters
+/project-sources/photography/film-archive/originals/
+
 # misc
 .DS_Store
 *.pem
+/.codex-screenshots/
+/.codex-*.log
 
 # debug
 npm-debug.log*

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:static": "node scripts/sync-static-sites.mjs",
+    "optimize:images": "python scripts/optimize-public-images.py"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",

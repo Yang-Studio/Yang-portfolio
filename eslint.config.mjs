@@ -12,8 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    "YinYang/**",
-    "public/yinyang/**",
+    "project-sources/**",
+    "public/embedded-apps/**",
+    "public/embedded-sites/**",
   ]),
 ]);
 
