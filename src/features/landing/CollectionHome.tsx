@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage, type Language } from '@/components/providers/LanguageProvider'
+import AdminLoginPanel from '@/features/admin/AdminLoginPanel'
 
 type Collection = 'games' | 'apps' | 'photography'
 
@@ -105,6 +106,7 @@ export default function CollectionHome() {
               English
             </button>
           </div>
+          <AdminLoginPanel />
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { Fraunces, JetBrains_Mono, Noto_Serif_SC } from 'next/font/google'
 import './globals.css'
 import RouteShell from '@/components/layout/RouteShell'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
+import AnalyticsTracker from '@/components/analytics/AnalyticsTracker'
 import type { ReactNode } from 'react'
 
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces' })
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <LanguageProvider>
           <RouteShell>{children}</RouteShell>
+          <AnalyticsTracker />
         </LanguageProvider>
       </body>
     </html>

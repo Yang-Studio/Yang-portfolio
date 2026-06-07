@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 
@@ -35,6 +36,9 @@ export default function Footer() {
               <a className="underline decoration-accent underline-offset-4" href="https://github.com/Yang-Studio">
                 GitHub
               </a>
+              <Link className="underline decoration-accent underline-offset-4" href="/privacy">
+                {t('Privacy')} / 隐私设置
+              </Link>
             </div>
           </div>
           <div>
