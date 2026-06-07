@@ -133,8 +133,7 @@
     birth: { name: '', year: 1996, month: 5, day: 18, hour: 9, minute: 30, gender: 'male', place: '上海', trueSolarTime: false, longitude: 121.47, meridian: 120 },
     chart: null,
     analysis: null,
-    year: new Date().getFullYear(),
-    aiCache: {}
+    year: new Date().getFullYear()
   };
 
   var app = document.getElementById('app');
@@ -186,12 +185,6 @@
 
   function notifyScreen(name) {
     postEmbedMessage('bazi:screen', { screen: name });
-  }
-
-  function resetPageScroll() {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
   }
 
   function el(tag, attrs, children) {
@@ -301,7 +294,6 @@
       });
     }
     app.appendChild(screen);
-    resetPageScroll();
     notifyScreen('history');
   }
 
@@ -310,54 +302,16 @@
     app.innerHTML = '';
     app.className = 'app-home';
     var screen = el('div', { class: 'screen home' }, [
-      el('div', { class: 'home-visual', 'aria-hidden': 'true' }, [
-        el('div', { class: 'orbit orbit-one' }),
-        el('div', { class: 'orbit orbit-two' }),
-        el('div', { class: 'home-symbol' }, [
-          el('span', { class: 'symbol-yang' }, ['阳']),
-          el('span', { class: 'symbol-divider' }),
-          el('span', { class: 'symbol-yin' }, ['阴'])
-        ]),
-        el('div', { class: 'home-elements' }, ['木', '火', '土', '金', '水'].map(function (item) {
-          return el('span', {}, [item]);
-        }))
+      el('div', {}, [
+        el('div', { class: 'logo-mark', html: logoIcon() }),
+        el('h1', { class: 'title' }, ['BaZi']),
+        el('p', { class: 'subtitle' }, ['现代八字排盘工具']),
       ]),
-      el('div', { class: 'home-copy' }, [
-        el('div', { class: 'home-brand' }, [
-          el('div', { class: 'logo-mark', html: logoIcon() }),
-          el('span', { class: 'eyebrow' }, ['YINYANG / 命理数据工具'])
-        ]),
-        el('h1', { class: 'home-title' }, [
-          el('span', {}, ['看见结构，']),
-          el('span', { class: 'home-title-accent' }, ['理解节律。'])
-        ]),
-        el('p', { class: 'home-lead' }, [
-          '从出生时间生成四柱、五行与大运数据，用清晰的结构化视图理解命盘，不把结果包装成确定性预测。'
-        ]),
-        el('div', { class: 'home-features' }, [
-          homeFeature('01', '本地排盘', '核心命盘数据在浏览器中计算'),
-          homeFeature('02', '可追溯解读', '每项判断都附带结构依据'),
-          homeFeature('03', '隐私优先', '姓名与出生地点不进入 AI 请求')
-        ]),
-        el('div', { class: 'home-actions' }, [
-          el('button', { class: 'btn home-cta', onclick: renderForm }, ['开始排盘', el('span', { 'aria-hidden': 'true' }, ['↗'])]),
-          el('p', { class: 'home-note' }, ['无需注册 · 支持明暗主题 · 数据保存在本设备'])
-        ])
-      ])
+      el('p', { class: 'subtitle' }, ['通过出生时间生成四柱结构，查看五行分布与大运周期。']),
+      el('button', { class: 'btn', onclick: renderForm }, ['开始排盘'])
     ]);
     app.appendChild(screen);
-    resetPageScroll();
     notifyScreen('home');
-  }
-
-  function homeFeature(index, title, description) {
-    return el('div', { class: 'home-feature' }, [
-      el('span', { class: 'home-feature-index' }, [index]),
-      el('div', {}, [
-        el('strong', {}, [title]),
-        el('small', {}, [description])
-      ])
-    ]);
   }
 
   // ---------- screen 2: birth info ----------
@@ -403,7 +357,7 @@
     placeInput.addEventListener('input', setCoordsFromPlace);
     setCoordsFromPlace();
 
-    var coordsBox = el('div', { id: 'tst-coords', class: 'coords-box field-wide' }, [
+    var coordsBox = el('div', { id: 'tst-coords' }, [
       field('出生地经度', lonInput),
       field('时区标准经线', merInput),
       coordHint
@@ -418,80 +372,46 @@
     tstCb.checked = b.trueSolarTime;
     tstCb.addEventListener('change', function () { coordsBox.style.display = tstCb.checked ? '' : 'none'; });
 
-    var screen = el('div', { class: 'screen form-screen' }, [
-      el('header', { class: 'form-heading' }, [
-        el('span', { class: 'eyebrow' }, ['STEP 01 / 基础信息']),
-        el('h1', { class: 'title' }, ['建立你的命盘']),
-        el('p', { class: 'subtitle' }, ['时间决定四柱结构，地点仅在启用真太阳时时用于校正。'])
-      ]),
-      el('div', { class: 'form-layout' }, [
-        el('aside', { class: 'form-guide' }, [
-          el('div', { class: 'form-guide-mark', html: logoIcon() }),
-          el('p', { class: 'form-guide-kicker' }, ['排盘说明']),
-          el('h2', {}, ['准确输入时间，保留可验证的计算过程。']),
-          el('p', {}, ['系统会先在本地生成四柱、藏干、十神和周期数据，再将规则结果组织为可阅读的结构报告。']),
-          el('ul', {}, [
-            el('li', {}, ['姓名可以留空']),
-            el('li', {}, ['不确定分钟时可先使用整点']),
-            el('li', {}, ['海外出生可手动调整经度与标准经线'])
-          ])
-        ]),
-        el('div', { class: 'form-panel' }, [
-          el('div', { class: 'form-grid' }, [
-            field('姓名 / 称呼', nameInput),
-            field('性别', genderSeg, true),
-            field('出生日期', dateInput),
-            field('出生时间', timeInput),
-            field('出生地点', placeInput, false, 'field-wide'),
-            datalist,
-            field('真太阳时', tstSwitch, true, 'field-wide'),
-            coordsBox
-          ]),
-          el('div', { class: 'form-help' }, [
-            el('span', { class: 'form-help-icon' }, ['i']),
-            el('p', {}, ['真太阳时按出生地经度与均时差校正钟表时间，可能影响时柱与节气边界。'])
-          ]),
-          el('button', { class: 'btn form-submit', onclick: function () {
-            b.name = nameInput.value.trim();
-            b.year = +dateInput.value.slice(0, 4); b.month = +dateInput.value.slice(5, 7); b.day = +dateInput.value.slice(8, 10);
-            b.hour = +timeInput.value.slice(0, 2); b.minute = +timeInput.value.slice(3, 5);
-            b.place = placeInput.value.trim();
-            b.trueSolarTime = tstCb.checked;
-            b.longitude = parseFloat(lonInput.value); b.meridian = parseFloat(merInput.value);
-            if (isNaN(b.longitude)) b.longitude = 120;
-            if (isNaN(b.meridian)) b.meridian = 120;
-            compute();
-          } }, ['生成排盘', el('span', { 'aria-hidden': 'true' }, ['→'])])
-        ])
-      ])
+    var screen = el('div', { class: 'screen' }, [
+      el('h1', { class: 'title', style: 'margin:8px 0 24px' }, ['出生信息']),
+      field('姓名 / 称呼', nameInput),
+      field('出生日期', dateInput),
+      field('出生时间', timeInput),
+      field('性别', genderSeg, true),
+      field('出生地点', placeInput),
+      datalist,
+      field('真太阳时', tstSwitch, true),
+      coordsBox,
+      el('p', { class: 'caption', style: 'margin:12px 4px 24px' },
+        ['真太阳时按出生地经度与均时差校正钟表时间，可能影响时柱与节气边界。']),
+      el('button', { class: 'btn', onclick: function () {
+        b.name = nameInput.value.trim();
+        b.year = +dateInput.value.slice(0, 4); b.month = +dateInput.value.slice(5, 7); b.day = +dateInput.value.slice(8, 10);
+        b.hour = +timeInput.value.slice(0, 2); b.minute = +timeInput.value.slice(3, 5);
+        b.place = placeInput.value.trim();
+        b.trueSolarTime = tstCb.checked;
+        b.longitude = parseFloat(lonInput.value); b.meridian = parseFloat(merInput.value);
+        if (isNaN(b.longitude)) b.longitude = 120;
+        if (isNaN(b.meridian)) b.meridian = 120;
+        compute();
+      } }, ['生成排盘'])
     ]);
     app.appendChild(screen);
-    resetPageScroll();
     notifyScreen('form');
   }
 
-  function field(label, control, inline, extraClass) {
+  function field(label, control, inline) {
     if (inline) {
-      return el('div', { class: 'field ' + (extraClass || '') }, [
+      return el('div', { class: 'field' }, [
         el('div', { class: 'field-main' }, [el('label', {}, [label])]),
         control
       ]);
     }
-    return el('div', { class: 'field ' + (extraClass || '') }, [
+    return el('div', { class: 'field' }, [
       el('div', { class: 'field-main' }, [el('label', {}, [label]), control])
     ]);
   }
   function segBtn(txt, on, cb) { return el('button', { class: on ? 'on' : '', onclick: cb }, [txt]); }
-
-  function resultNavButton(label, targetId) {
-    return el('button', {
-      type: 'button',
-      onclick: function () {
-        var target = document.getElementById(targetId);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, [label]);
-  }
 
   // ---------- compute & go to result ----------
   function compute() {
@@ -503,7 +423,6 @@
     });
     state.analysis = window.BaZiAnalysis.analyze(state.chart);
     state.year = new Date().getFullYear();
-    state.aiCache = {};
     if (!EMBED_MODE) addHistory(b, state.chart);
     renderResult();
   }
@@ -519,7 +438,6 @@
     // hero
     var dm = c.dayMaster;
     screen.appendChild(el('div', { class: 'hero' }, [
-      el('span', { class: 'eyebrow' }, ['命盘总览 / CHART OVERVIEW']),
       el('div', { class: 'name' }, [c.input.name || '—']),
       el('div', { class: 'birth' }, [c.input.rawDate + '  ' + c.input.rawTime + '  ' + c.input.gender +
         (c.input.trueSolarTime ? '  · 真太阳时 ' + c.input.time : '')]),
@@ -530,13 +448,10 @@
       ])
     ]));
 
-    screen.appendChild(el('nav', { class: 'result-nav', 'aria-label': '结果页导航' }, [
-      resultNavButton('命盘', 'section-chart'),
-      resultNavButton('周期', 'section-cycles'),
-      resultNavButton('解读', 'section-analysis'),
-      resultNavButton('AI 推理', 'section-ai'),
-      resultNavButton('更多', 'section-more')
-    ]));
+    screen.appendChild(resultSummary(c, state.analysis));
+    screen.appendChild(resultNav());
+
+    var overview = resultSection('result-overview', '01', '命盘概览', '先看四柱结构、五行重心、十神分布与当前周期。');
 
     // four pillars
     var grid = el('div', { class: 'pillars' });
@@ -551,13 +466,13 @@
       ]);
       grid.appendChild(card);
     });
-    var chartPanel = el('section', { class: 'overview-panel overview-chart', id: 'section-chart' }, [
-      secHead('四柱结构'),
-      grid,
-      el('p', { class: 'caption overview-hint' }, ['点击任一柱查看藏干、十神与十二长生明细。'])
-    ]);
+    overview.appendChild(grid);
 
-    // five elements
+    // five elements and ten gods
+    var structureGrid = el('div', { class: 'structure-grid' });
+    var elementsBlock = el('div', { class: 'structure-block' }, [
+      el('h3', { class: 'subsection-title' }, ['五行结构指数'])
+    ]);
     var elBox = el('div', { class: 'card' });
     c.fiveElements.forEach(function (f) {
       var span = el('span', { class: 'fill-' + EL_CLASS[f.element] });
@@ -573,23 +488,23 @@
         animateNumber(row.querySelector('.epct'), f.percent, '%');
       }, 60); });
     });
+    elementsBlock.appendChild(elBox);
 
-    // ten gods
+    var godsBlock = el('div', { class: 'structure-block' }, [
+      el('h3', { class: 'subsection-title' }, ['十神分布'])
+    ]);
     var tagBox = el('div', { class: 'card' }, [el('div', { class: 'tags' },
       c.tenGods.map(function (g) {
         return el('span', { class: 'tag' }, [g.name, g.count > 1 ? el('span', { class: 'cnt' }, ['×' + g.count]) : null]);
       })
     )]);
-    var structurePanel = el('section', { class: 'overview-panel overview-structure' }, [
-      secHead('五行分布'),
-      elBox,
-      secHead('十神', null, true),
-      tagBox
-    ]);
-    screen.appendChild(el('div', { class: 'result-overview' }, [chartPanel, structurePanel]));
+    godsBlock.appendChild(tagBox);
+    structureGrid.appendChild(elementsBlock);
+    structureGrid.appendChild(godsBlock);
+    overview.appendChild(structureGrid);
 
     // luck cycle
-    screen.appendChild(secHead('大运', 'section-cycles'));
+    overview.appendChild(el('h3', { class: 'subsection-title' }, ['大运周期']));
     var tl = el('div', { class: 'timeline' });
     var nowYear = new Date().getFullYear();
     c.luckCycle.forEach(function (d, i) {
@@ -603,39 +518,43 @@
       ]));
     });
     var tlWrap = el('div', { class: 'timeline-wrap' }, [tl]);
-    screen.appendChild(tlWrap);
-    screen.appendChild(el('p', { class: 'caption', style: 'margin:0 4px' },
+    overview.appendChild(tlWrap);
+    overview.appendChild(el('p', { class: 'caption', style: 'margin:0 4px' },
       ['起运：出生后约 ' + c.luckStart.years + ' 年 ' + c.luckStart.months + ' 个月（' + c.luckStart.date + '）']));
 
     // annual luck
-    screen.appendChild(secHead('流年'));
+    overview.appendChild(el('h3', { class: 'subsection-title' }, ['流年观察']));
     var annualBox = el('div', { class: 'card', id: 'annual-box' });
-    screen.appendChild(annualBox);
+    overview.appendChild(annualBox);
     renderAnnual(annualBox);
+    screen.appendChild(overview);
 
-    // plain-language data analysis
-    renderPlainAnalysis(screen, c, state.analysis);
-    renderMeaningGuide(screen, c, state.analysis);
-    renderIntegratedReport(screen, c, state.analysis);
-    renderAiAnalysis(screen, c, state.analysis);
+    var conclusions = resultSection('result-conclusions', '02', '核心结论', '把强弱、喜忌和组合关系翻译成对这个人的具体影响。');
+    renderPlainAnalysis(conclusions, c, state.analysis, false);
+    screen.appendChild(conclusions);
 
-    // hidden sections and rule-level details
-    screen.appendChild(secHead('更多', 'section-more'));
+    var details = resultSection('result-details', '03', '完整依据', '需要追溯每项含义和判断链时，再展开对应内容。');
+    details.appendChild(collapse('典籍与方法', sourceMethodology(state.analysis), '查看规则来源、引用范围和本产品的量化边界'));
+    var fullReading = el('div', { class: 'long-reading' });
+    renderMeaningGuide(fullReading, c, state.analysis);
+    renderIntegratedReport(fullReading, c, state.analysis);
+    details.appendChild(collapse('完整联合解读', fullReading, '四柱、五行、十神、纳音、神煞与周期的逐项结论'));
+
     var ruleDetails = el('div');
     renderAnalysis(ruleDetails, c, state.analysis);
-    screen.appendChild(collapse('规则明细', ruleDetails));
+    details.appendChild(collapse('规则明细', ruleDetails, '查看旺衰、喜忌与格局的计算理由'));
 
     var inferenceDetails = el('div');
     renderInferences(inferenceDetails, state.analysis);
-    screen.appendChild(collapse('细分解读', inferenceDetails));
+    details.appendChild(collapse('细分解读', inferenceDetails, '事业、财富、关系、学习、健康与时机'));
 
-    screen.appendChild(collapse('纳音', nayinList(c, state.analysis)));
-    screen.appendChild(collapse('神煞', shenshaList(c.hidden.shensha, c)));
-    screen.appendChild(collapse('十二长生', kvList(c.hidden.changsheng.map(function (n) { return [n.label, n.value]; }))));
-    screen.appendChild(collapse('空亡 · 胎元 · 命宫', hiddenCoreList(c, state.analysis)));
+    details.appendChild(collapse('纳音', nayinList(c, state.analysis), '查看每柱纳音对对应人生领域的修正'));
+    details.appendChild(collapse('神煞', shenshaList(c.hidden.shensha, c), '作为辅助信号查看落柱与现实作用'));
+    details.appendChild(collapse('十二长生', kvList(c.hidden.changsheng.map(function (n) { return [n.label, n.value]; })), '查看四柱气势所处阶段'));
+    details.appendChild(collapse('空亡 · 胎元 · 命宫', hiddenCoreList(c, state.analysis), '查看底层气质与延迟、落空类信号'));
+    screen.appendChild(details);
 
     app.appendChild(screen);
-    resetPageScroll();
     // auto-center current luck pillar
     var cur = tl.querySelector('.luck.current');
     if (cur) tlWrap.scrollLeft = cur.offsetLeft - 24;
@@ -651,178 +570,62 @@
     });
   }
 
-  function renderAiAnalysis(screen, c, an) {
-    screen.appendChild(secHead('AI 综合推理', 'section-ai'));
-
-    var question = el('textarea', {
-      class: 'ai-question',
-      rows: '3',
-      maxlength: '600',
-      placeholder: '可选：例如重点分析事业方向、关系模式，或当前大运与流年的共同作用'
-    });
-    var status = el('div', { class: 'ai-status', role: 'status', 'aria-live': 'polite' });
-    var output = el('div', { class: 'ai-output' });
-    var button = el('button', { class: 'btn ai-run', type: 'button' }, ['生成 AI 综合解读']);
-
-    button.addEventListener('click', async function () {
-      var focus = question.value.trim();
-      var requestYear = state.year;
-      var chartKey = c.pillars.map(function (p) { return p.ganzhi; }).join('-');
-      var cacheKey = chartKey + '|' + requestYear + '|' + focus;
-      if (state.aiCache[cacheKey]) {
-        renderAiOutput(output, state.aiCache[cacheKey].result, state.aiCache[cacheKey].meta);
-        status.textContent = '已显示本次命盘的缓存结果。';
-        return;
-      }
-
-      button.disabled = true;
-      button.textContent = '正在联合推理…';
-      status.className = 'ai-status loading';
-      status.textContent = '正在综合四柱、藏干、喜忌、特殊因素与运势周期，通常需要几十秒。';
-      output.innerHTML = '';
-
-      try {
-        var response = await fetch('/api/ai-analysis', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chart: c,
-            analysis: an,
-            year: requestYear,
-            question: focus
-          })
-        });
-        var data = await response.json().catch(function () { return {}; });
-        if (!response.ok) throw new Error(data.error || 'AI 推理请求失败。');
-        state.aiCache[cacheKey] = data;
-        renderAiOutput(output, data.result, data.meta);
-        status.className = 'ai-status success';
-        status.textContent = '已基于当前命盘与 ' + requestYear + ' 年流年完成联合推理。';
-        postEmbedMessage('bazi:aiResult', {
-          result: data.result,
-          meta: data.meta,
-          year: requestYear
-        });
-      } catch (error) {
-        status.className = 'ai-status error';
-        status.textContent = error.message || 'AI 推理失败，请稍后重试。';
-      } finally {
-        button.disabled = false;
-        button.textContent = '生成 AI 综合解读';
-      }
-    });
-
-    screen.appendChild(el('section', { class: 'card ai-panel' }, [
-      el('div', { class: 'ai-intro' }, [
-        el('p', { class: 'ai-lead' }, ['基于完整命盘做联合判断，直接说明各项信号作用在这个人身上的结果。']),
-        el('p', { class: 'caption' }, ['仅发送出生日期、时间及计算后的命盘结构；姓名和出生地点不会发送。AI 内容用于文化研究与自我观察，不替代医疗、法律或投资意见。'])
-      ]),
-      question,
-      button,
-      status,
-      output
-    ]));
-  }
-
-  function renderAiOutput(root, result, meta) {
-    root.innerHTML = '';
-    if (!result || typeof result !== 'object') {
-      root.appendChild(el('p', { class: 'ai-empty' }, ['AI 返回内容无法解析，请重新生成。']));
-      return;
-    }
-
-    root.appendChild(el('div', { class: 'ai-summary' }, [
-      el('div', { class: 'ai-eyebrow' }, ['综合结论']),
-      el('h3', { class: 'ai-headline' }, [result.headline || '命盘联合分析']),
-      el('p', { class: 'ai-overall' }, [result.overall || ''])
-    ]));
-
-    appendAiItems(root, '四柱落点', result.pillar_conclusions, function (item) {
-      return aiConclusion(item.label, item.conclusion, item.evidence);
-    });
-    appendAiItems(root, '特殊因素的实际作用', result.special_factors, function (item) {
-      return aiConclusion(item.name, item.conclusion, item.evidence, item.weight);
-    });
-    appendAiItems(root, '关键判断', result.key_findings, function (item) {
-      return aiConclusion(item.title, item.conclusion, item.evidence);
-    });
-
-    if (Array.isArray(result.domains) && result.domains.length) {
-      var domains = el('div', { class: 'ai-section' }, [
-        el('h4', { class: 'ai-section-title' }, ['现实领域'])
-      ]);
-      result.domains.forEach(function (domain) {
-        domains.appendChild(el('div', { class: 'ai-domain' }, [
-          el('div', { class: 'ai-domain-head' }, [
-            el('h5', {}, [domain.name || '领域']),
-            el('p', {}, [domain.conclusion || ''])
-          ]),
-          aiBulletGroup('优势', domain.strengths),
-          aiBulletGroup('风险', domain.risks),
-          aiBulletGroup('建议', domain.advice),
-          aiEvidence(domain.evidence)
-        ]));
-      });
-      root.appendChild(domains);
-    }
-
-    if (result.timing) {
-      root.appendChild(el('div', { class: 'ai-section' }, [
-        el('h4', { class: 'ai-section-title' }, ['大运与流年']),
-        aiConclusion('当前大运', result.timing.current_cycle, []),
-        aiConclusion('所选流年', result.timing.current_year, []),
-        aiConclusion('共同作用', result.timing.interaction, []),
-        aiBulletGroup('阶段重点', result.timing.focus)
-      ]));
-    }
-
-    root.appendChild(el('div', { class: 'ai-section' }, [
-      el('h4', { class: 'ai-section-title' }, ['可执行建议']),
-      aiBulletGroup('', result.actions),
-      result.limits ? el('p', { class: 'ai-limits' }, [result.limits]) : null,
-      meta ? el('p', { class: 'ai-meta' }, [
-        '模型 ' + (meta.model || 'OpenAI') + ' · ' + new Date(meta.generatedAt || Date.now()).toLocaleString('zh-CN')
-      ]) : null
-    ]));
-  }
-
-  function appendAiItems(root, title, items, builder) {
-    if (!Array.isArray(items) || !items.length) return;
-    var section = el('div', { class: 'ai-section' }, [
-      el('h4', { class: 'ai-section-title' }, [title])
-    ]);
-    items.forEach(function (item) { section.appendChild(builder(item)); });
-    root.appendChild(section);
-  }
-
-  function aiConclusion(label, conclusion, evidence, badge) {
-    return el('div', { class: 'ai-conclusion' }, [
-      el('div', { class: 'ai-conclusion-head' }, [
-        el('strong', {}, [label || '结论']),
-        badge ? el('span', { class: 'ai-weight' }, [badge]) : null
-      ]),
-      el('p', {}, [conclusion || '信号有限，暂不作明确判断。']),
-      aiEvidence(evidence)
+  function resultSummary(c, an) {
+    var current = currentLuck(c, an);
+    var annual = window.BaZiAnalysis.annualFavor(c, an.yongShen, state.year);
+    return el('div', { class: 'result-summary', 'aria-label': '命盘关键指标' }, [
+      summaryMetric('强弱', an.strength.band, an.strength.percent + '%'),
+      summaryMetric('喜用', an.yongShen.favorable.map(function (f) { return f.el; }).join('、') || '流通', '平衡方向'),
+      summaryMetric('当前大运', current ? current.cycle.ganzhi : '未匹配', current ? current.view.verdict : '—'),
+      summaryMetric('所选流年', String(state.year), annual.verdict, 'quick-year-summary')
     ]);
   }
 
-  function aiEvidence(items) {
-    if (!Array.isArray(items) || !items.length) return null;
-    return el('div', { class: 'ai-evidence' }, [
-      el('span', {}, ['依据']),
-      el('div', {}, items.map(function (item) { return el('small', {}, [item]); }))
+  function summaryMetric(label, value, note, id) {
+    var attrs = { class: 'summary-metric' };
+    if (id) attrs.id = id;
+    return el('div', attrs, [
+      el('span', { class: 'summary-label' }, [label]),
+      el('strong', { class: 'summary-value' }, [value]),
+      el('span', { class: 'summary-note' }, [note])
     ]);
   }
 
-  function aiBulletGroup(title, items) {
-    if (!Array.isArray(items) || !items.length) return null;
-    return el('div', { class: 'ai-bullets' }, [
-      title ? el('strong', {}, [title]) : null,
-      el('ul', {}, items.map(function (item) { return el('li', {}, [item]); }))
+  function resultNav() {
+    var items = [
+      ['概览', 'result-overview'],
+      ['结论', 'result-conclusions'],
+      ['依据', 'result-details']
+    ];
+    return el('nav', { class: 'result-nav', 'aria-label': '结果页导航' }, items.map(function (item, index) {
+      return el('button', {
+        type: 'button',
+        'aria-current': index === 0 ? 'true' : 'false',
+        onclick: function (event) {
+          var target = document.getElementById(item[1]);
+          var nav = event.currentTarget.parentNode;
+          Array.prototype.forEach.call(nav.querySelectorAll('button'), function (button) {
+            button.setAttribute('aria-current', button === event.currentTarget ? 'true' : 'false');
+          });
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, [item[0]]);
+    }));
+  }
+
+  function resultSection(id, number, title, description) {
+    return el('section', { class: 'result-section', id: id }, [
+      el('div', { class: 'result-section-head' }, [
+        el('span', { class: 'section-number' }, [number]),
+        el('div', {}, [
+          el('h2', { class: 'section-title' }, [title]),
+          el('p', { class: 'section-description' }, [description])
+        ])
+      ])
     ]);
   }
 
-  function renderPlainAnalysis(screen, c, an) {
+  function renderPlainAnalysis(screen, c, an, showHeading) {
     var st = an.strength;
     var bl = an.balance;
     var topGods = c.tenGods.slice(0, 3).map(function (g) {
@@ -841,7 +644,7 @@
     var missing = bl.missing.length ? bl.missing.join('、') : '无明显缺项';
     var strengthBasis = st.reasons.slice(0, 3).join(' ');
 
-    screen.appendChild(secHead('数据解读', 'section-analysis'));
+    if (showHeading !== false) screen.appendChild(secHead('数据解读'));
     screen.appendChild(el('div', { class: 'card plain-analysis' }, [
       el('p', { class: 'plain-lead' }, [
         '这张盘可以先当作一份结构报告来看：日主是 ' + c.dayMaster.label +
@@ -856,6 +659,10 @@
         metric('喜用', fav || '流通', unfav ? '忌 ' + unfav : '忌神不重', ''),
         metric('当前运', current ? current.cycle.ganzhi : '未匹配', current ? current.view.verdict : '查看时间轴', '')
       ]),
+      el('div', { class: 'confidence-summary' }, [
+        el('span', { class: 'confidence-badge ' + an.confidence.level }, [an.confidence.label]),
+        el('span', {}, ['整体推衍置信度：' + an.confidence.note])
+      ]),
       plainPoint('强弱判断', '生扶与克泄耗的比例是核心判断口径：生扶 ' + st.support +
         '，克泄耗 ' + st.drain + '，因此落在「' + st.band + '」。这比只看日主所属五行更可靠。', strengthBasis),
       plainPoint('五行结构', '能量最集中在「' + bl.strongest.element + '」（' + bl.strongest.percent +
@@ -863,6 +670,8 @@
         '%），缺项判断为：' + missing + '。后续解读会优先看最旺元素是否继续被放大，以及最弱元素是否得到补充。', bl.note),
       plainPoint('十神模式', '出现较多的是 ' + topGods +
         '。十神用于观察行为模式：哪些动力反复出现，哪些动力不足；数量越集中，表现越稳定，也越容易形成偏向。', an.personality.summary),
+      plainPoint('地支关系', an.relations.summary,
+        '地支合冲刑害来自传统支神关系，本系统只作为辅助信号，不单独定吉凶。'),
       plainPoint('平衡取向', fav ? '当前更适合观察与「' + fav + '」相关的补充力量；需要少放大的元素是「' +
         (unfav || '不明显') + '」。这不是简单吉凶，而是结构平衡上的“加什么、减什么”。' :
         '当前结构较平衡，重点在保持五行流动，不需要过度强化某一种元素。', an.yongShen.note),
@@ -875,7 +684,7 @@
     ]));
 
     if (an.inferences && an.inferences.domains && an.inferences.domains.length) {
-      screen.appendChild(secHead('细分分析'));
+      screen.appendChild(el('h3', { class: 'subsection-title' }, ['现实落点']));
       screen.appendChild(el('div', { class: 'domain-grid' },
         an.inferences.domains.map(function (dm) { return domainCard(dm); })
       ));
@@ -919,7 +728,7 @@
   function renderMeaningGuide(screen, c, an) {
     var annual = window.BaZiEngine.annual(c, state.year);
     var fav = window.BaZiAnalysis.annualFavor(c, an.yongShen, state.year);
-    screen.appendChild(secHead('代表含义', 'section-meaning'));
+    screen.appendChild(secHead('代表含义'));
     screen.appendChild(el('div', { class: 'meaning-grid' }, [
       meaningCard('四柱代表什么', c.pillars.map(function (p) {
         return meaningItem(p.label, p.ganzhi, pillarContext(p, an));
@@ -1204,7 +1013,7 @@
     var goodLuck = an.luck.cycles.filter(function (x) { return x.verdict === '有利'; }).slice(0, 4);
     var badLuck = an.luck.cycles.filter(function (x) { return x.verdict === '不利'; }).slice(0, 4);
 
-    screen.appendChild(secHead('综合研判', 'section-report'));
+    screen.appendChild(secHead('综合研判'));
     screen.appendChild(el('div', { class: 'card integrated-report' }, [
       el('p', { class: 'plain-lead' }, [
         overallConclusion(c, an, current, annual)
@@ -1352,6 +1161,11 @@
     box.appendChild(el('div', { style: 'display:flex;justify-content:center;margin-top:12px' }, [verdictBadge(fav.verdict)]));
     box.appendChild(el('p', { class: 'caption', style: 'text-align:center;margin:8px 0 0' },
       ['本年五行 ' + fav.elements.join('·') + ' 对喜用「' + state.analysis.yongShen.favorable.map(function (f) { return f.el; }).join('') + '」而言：' + fav.verdict + '。']));
+    var quickYear = document.getElementById('quick-year-summary');
+    if (quickYear) {
+      quickYear.querySelector('.summary-value').textContent = String(state.year);
+      quickYear.querySelector('.summary-note').textContent = fav.verdict;
+    }
   }
 
   // verdict badge: 有利 / 平稳 / 不利
@@ -1364,18 +1178,20 @@
   function renderAnalysis(screen, c, an) {
     screen.appendChild(secHead('命理分析'));
     screen.appendChild(el('p', { class: 'caption disclaimer' }, [an.disclaimer]));
+    screen.appendChild(methodSummaryCard(an));
 
     // 1. day-master strength
     var st = an.strength;
     var strBar = el('span', { class: 'fill-accent' });
-    var strCard = analysisCard('日主旺衰', st.band, [
+    var strCard = analysisCard('日主旺衰', st.band + ' · ' + st.confidence.label, [
       el('div', { class: 'strength-meter' }, [
         el('div', { class: 'meter-track' }, [strBar]),
         el('div', { class: 'meter-labels' }, [
           el('span', {}, ['弱']), el('span', {}, ['中和']), el('span', {}, ['强'])
         ])
       ]),
-      el('p', { class: 'an-note' }, ['生扶力量约占 ' + st.percent + '%（生扶 ' + st.support + ' ∶ 克泄耗 ' + st.drain + '）。'])
+      el('p', { class: 'an-note' }, ['生扶力量约占 ' + st.percent + '%（生扶 ' + st.support + ' ∶ 克泄耗 ' + st.drain + '）。']),
+      el('p', { class: 'an-note' }, [st.modelNote])
     ], st.reasons);
     screen.appendChild(strCard);
     requestAnimationFrame(function () { setTimeout(function () { strBar.style.width = st.percent + '%'; }, 80); });
@@ -1391,7 +1207,8 @@
     var ysBody = [
       el('div', { class: 'kv' }, [el('span', { class: 'k' }, ['喜用神']), favWrap]),
       el('div', { class: 'kv' }, [el('span', { class: 'k' }, ['忌神']), unfavWrap]),
-      el('p', { class: 'an-note' }, [ys.note])
+      el('p', { class: 'an-note' }, [ys.note]),
+      el('p', { class: 'an-note' }, ['置信度：' + ys.confidence.label + '。' + ys.confidence.note])
     ];
     (ys.extra || []).forEach(function (x) { ysBody.push(el('p', { class: 'an-note alt' }, [x])); });
     screen.appendChild(analysisCard('用神喜忌', '扶抑法', ysBody, [
@@ -1402,16 +1219,24 @@
 
     // 3. 格局
     screen.appendChild(analysisCard('格局', an.geJu.name, [
-      el('p', { class: 'an-note' }, [an.geJu.note])
+      el('p', { class: 'an-note' }, [an.geJu.note]),
+      el('p', { class: 'an-note' }, ['置信度：' + an.geJu.confidence.label + '。' + an.geJu.confidence.note])
     ]));
 
-    // 4. five-element balance
+    // 4. branch relations
+    screen.appendChild(analysisCard('地支关系', an.relations.confidence.label, [
+      el('p', { class: 'an-note' }, [an.relations.summary])
+    ], an.relations.items.length
+      ? an.relations.items.map(function (item) { return item.text; })
+      : ['未见明显合冲刑害成组关系。']));
+
+    // 5. five-element balance
     var bl = an.balance;
     screen.appendChild(analysisCard('五行平衡', bl.strongest.element + ' 最旺', [
       el('p', { class: 'an-note' }, [bl.note])
     ]));
 
-    // 5. personality
+    // 6. personality
     var pe = an.personality;
     screen.appendChild(analysisCard('性格特质', '', [
       el('p', { class: 'an-note' }, [pe.summary]),
@@ -1423,7 +1248,7 @@
       }))
     ]));
 
-    // 6. career & wealth
+    // 7. career & wealth
     var ca = an.career;
     screen.appendChild(analysisCard('事业财富', '', [
       el('p', { class: 'an-note' }, [ca.note]),
@@ -1432,7 +1257,7 @@
       }))
     ]));
 
-    // 7. luck-cycle reading
+    // 8. luck-cycle reading
     screen.appendChild(analysisCard('大运走势', '', [
       el('p', { class: 'an-note' }, [an.luck.summary])
     ]));
@@ -1462,6 +1287,51 @@
       });
       screen.appendChild(card);
     });
+  }
+
+  function methodSummaryCard(an) {
+    return el('div', { class: 'card method-summary' }, [
+      el('div', { class: 'method-summary-head' }, [
+        el('span', { class: 'an-title' }, ['整体推衍置信度']),
+        el('span', { class: 'confidence-badge ' + an.confidence.level }, [an.confidence.label])
+      ]),
+      el('p', { class: 'an-note' }, [an.confidence.note]),
+      el('p', { class: 'method-caption' }, ['置信度表示传统规则之间的一致程度，不代表科学验证概率。'])
+    ]);
+  }
+
+  function sourceMethodology(an) {
+    var root = el('div', { class: 'source-methodology' });
+    root.appendChild(el('div', { class: 'source-confidence' }, [
+      el('span', {}, ['整体置信度']),
+      el('strong', {}, [an.confidence.label]),
+      el('p', {}, [an.confidence.note])
+    ]));
+
+    root.appendChild(el('h3', { class: 'source-subtitle' }, ['方法边界']));
+    root.appendChild(el('ul', { class: 'method-list' }, (an.methodology || []).map(function (note) {
+      return el('li', {}, [note]);
+    })));
+
+    root.appendChild(el('h3', { class: 'source-subtitle' }, ['参考典籍与计算来源']));
+    var list = el('div', { class: 'source-list' });
+    (an.sources || []).forEach(function (source) {
+      list.appendChild(el('a', {
+        class: 'source-item',
+        href: source.url,
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      }, [
+        el('span', { class: 'source-title' }, [source.title]),
+        el('span', { class: 'source-focus' }, [source.focus]),
+        el('span', { class: 'source-note' }, [source.note])
+      ]));
+    });
+    root.appendChild(list);
+    root.appendChild(el('p', { class: 'method-caption' }, [
+      '典籍用于说明规则沿革和取法依据。不同版本、注本和流派可能存在差异，因此系统不把单条古诀直接当作确定结论。'
+    ]));
+    return root;
   }
 
   // a card with a title, optional pill, body nodes, and an optional reasoning <details>
@@ -1520,11 +1390,7 @@
   }
 
   // ---------- small builders ----------
-  function secHead(t, id, tight) {
-    var attrs = { class: 'sec-head' + (tight ? ' tight' : '') };
-    if (id) attrs.id = id;
-    return el('div', attrs, [el('h2', { class: 'section-title' }, [t])]);
-  }
+  function secHead(t) { return el('div', { class: 'sec-head' }, [el('h2', { class: 'section-title' }, [t])]); }
   function kvList(pairs) {
     return el('div', {}, pairs.map(function (p) {
       return el('div', { class: 'kv' }, [el('span', { class: 'k' }, [p[0]]), el('span', { class: 'v' }, [p[1]])]);
@@ -1569,9 +1435,15 @@
       ])
     ]);
   }
-  function collapse(title, body) {
+  function collapse(title, body, description) {
     return el('details', { class: 'collapse' }, [
-      el('summary', {}, [el('span', {}, [title]), el('span', { class: 'chev', html: chevIcon() })]),
+      el('summary', {}, [
+        el('span', { class: 'collapse-heading' }, [
+          el('span', { class: 'collapse-title' }, [title]),
+          description ? el('span', { class: 'collapse-description' }, [description]) : null
+        ]),
+        el('span', { class: 'chev', html: chevIcon() })
+      ]),
       el('div', { class: 'cbody' }, [body])
     ]);
   }
@@ -1612,9 +1484,8 @@
       resizeQueued = true;
       requestAnimationFrame(sendHeight);
     }
-    var observerRoot = document.body || document.documentElement;
-    new MutationObserver(queueHeight).observe(observerRoot, { childList: true, subtree: true, attributes: true });
-    if (window.ResizeObserver) new ResizeObserver(queueHeight).observe(observerRoot);
+    new MutationObserver(queueHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+    if (window.ResizeObserver) new ResizeObserver(queueHeight).observe(document.body);
     window.addEventListener('load', queueHeight);
     window.addEventListener('message', function (event) {
       if (event.source !== window.parent || !event.data || event.data.source !== 'bazi-host') return;
@@ -1624,7 +1495,6 @@
       } else if (message.type === 'bazi:reset') {
         state.chart = null;
         state.analysis = null;
-        state.aiCache = {};
         renderForm();
       } else if (message.type === 'bazi:setBirth' || message.type === 'bazi:calculate') {
         if (message.birth && typeof message.birth === 'object') {

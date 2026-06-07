@@ -87,9 +87,6 @@
     if (message.type === 'bazi:result' && typeof instance.options.onResult === 'function') {
       instance.options.onResult(message, instance.api);
     }
-    if (message.type === 'bazi:aiResult' && typeof instance.options.onAiResult === 'function') {
-      instance.options.onAiResult(message, instance.api);
-    }
   });
 
   root.BaZiEmbed = { mount: mount };

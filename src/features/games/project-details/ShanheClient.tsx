@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import { projects } from '@/content/games/projects'
-import { getLocalizedText, projectRecruitingHighlights } from '@/content/games/recruitingHighlights'
+import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
 
 type Sprint = {
   id: string
@@ -490,7 +490,7 @@ export default function ShanheClient() {
   const [activeFeature, setActiveFeature] = useState<Feature>(FEATURES.find((f) => f.id === 'combo') ?? FEATURES[0])
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [lightboxFallback, setLightboxFallback] = useState<string | null>(null)
-  const recruitingHighlight = projectRecruitingHighlights.shanhe
+  const projectHighlight = projectHighlights.shanhe
   const sprintSectionRef = useRef<HTMLDivElement | null>(null)
   const activeFeatureIsEmbed =
     activeFeature.media.includes('youtube.com/embed') ||
@@ -571,22 +571,22 @@ export default function ShanheClient() {
         </section>
 
         <section className="rounded-3xl border border-white/10 bg-neutral-900 p-6 shadow-soft">
-          <p className="text-xs uppercase tracking-[0.35em] text-sky-400">{translate('Recruiter read')}</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-sky-400">{translate('Project notes')}</p>
           <div className="mt-4 grid gap-6 lg:grid-cols-[0.9fr,1.1fr]">
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-neutral-400">{translate('Hiring fit')}</p>
-              <h2 className="mt-3 font-display text-3xl text-white">{getLocalizedText(recruitingHighlight.fit, language)}</h2>
+              <p className="text-sm uppercase tracking-[0.28em] text-neutral-400">{translate('Creative focus')}</p>
+              <h2 className="mt-3 font-display text-3xl text-white">{getLocalizedText(projectHighlight.focus, language)}</h2>
             </div>
             <div>
-              <p className="text-sm uppercase tracking-[0.28em] text-neutral-400">{translate('Proof')}</p>
-              <p className="mt-3 text-lg leading-relaxed text-neutral-200">{getLocalizedText(recruitingHighlight.proof, language)}</p>
+              <p className="text-sm uppercase tracking-[0.28em] text-neutral-400">{translate('Project evidence')}</p>
+              <p className="mt-3 text-lg leading-relaxed text-neutral-200">{getLocalizedText(projectHighlight.evidence, language)}</p>
             </div>
           </div>
           <div className="mt-6 grid gap-3 md:grid-cols-3">
-            {recruitingHighlight.bullets.map((bullet, index) => (
-              <div key={bullet.en} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <p className="text-xs uppercase tracking-[0.28em] text-sky-300">{translate('Signal')} {String(index + 1).padStart(2, '0')}</p>
-                <p className="mt-3 text-neutral-200">{getLocalizedText(bullet, language)}</p>
+            {projectHighlight.notes.map((note, index) => (
+              <div key={note.en} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.28em] text-sky-300">{translate('Note')} {String(index + 1).padStart(2, '0')}</p>
+                <p className="mt-3 text-neutral-200">{getLocalizedText(note, language)}</p>
               </div>
             ))}
           </div>

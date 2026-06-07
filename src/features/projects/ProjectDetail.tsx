@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/providers/LanguageProvider'
 import Lightbox, { type LightboxImage } from '@/components/ui/Lightbox'
 import PlateLabel from '@/components/ui/PlateLabel'
 import { projects } from '@/content/games/projects'
-import { getLocalizedText, projectRecruitingHighlights } from '@/content/games/recruitingHighlights'
+import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
 import { projectAssets } from '@/content/projects/assets'
 import { projectTranslations } from '@/content/projects/translations'
 import type { Project } from '@/content/projects/types'
@@ -36,7 +36,7 @@ export default function ProjectDetail({
   const nextProject = projectIndex >= 0 && siblings.length > 1 ? siblings[(projectIndex + 1) % siblings.length] : undefined
   const heroImage = project.banner ?? project.cover ?? project.moneyshot
   const isAppProject = backHref === '/apps'
-  const recruitingHighlight = projectRecruitingHighlights[project.slug]
+  const projectHighlight = projectHighlights[project.slug]
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | undefined>()
   const openLightbox = (image: LightboxImage) => setLightboxImage(image)
   const closeLightbox = () => setLightboxImage(undefined)
@@ -164,30 +164,30 @@ export default function ProjectDetail({
         </div>
       </section>
 
-      {recruitingHighlight && (
+      {projectHighlight && (
         <section className="case-reveal border-b border-paper/20 px-5 py-14 sm:px-8 md:px-16 md:py-20 lg:px-24">
           <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
-            <PlateLabel plate={t('Recruiter read')} label={t('Role Fit / Evidence')} tone="paper" />
+            <PlateLabel plate={t('Project notes')} label={t('Creative Focus / Evidence')} tone="paper" />
             <div className="grid gap-8">
               <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr]">
                 <div className="border-t border-paper/20 pt-5">
-                  <p className="mono text-[11px] uppercase text-accent">{t('Hiring fit')}</p>
+                  <p className="mono text-[11px] uppercase text-accent">{t('Creative focus')}</p>
                   <p className="copy-safe mt-4 text-[clamp(22px,5.4vw,40px)] leading-[1.12] text-paper">
-                    {getLocalizedText(recruitingHighlight.fit, language)}
+                    {getLocalizedText(projectHighlight.focus, language)}
                   </p>
                 </div>
                 <div className="border-t border-paper/20 pt-5">
-                  <p className="mono text-[11px] uppercase text-paper/50">{t('Proof')}</p>
+                  <p className="mono text-[11px] uppercase text-paper/50">{t('Project evidence')}</p>
                   <p className="copy-safe mt-4 text-[clamp(18px,4.6vw,28px)] leading-[1.28] text-paper/72">
-                    {getLocalizedText(recruitingHighlight.proof, language)}
+                    {getLocalizedText(projectHighlight.evidence, language)}
                   </p>
                 </div>
               </div>
               <div className="grid gap-0 border-t border-paper/20 md:grid-cols-3">
-                {recruitingHighlight.bullets.map((bullet, index) => (
-                  <div key={bullet.en} className="border-b border-paper/20 py-5 md:border-r md:px-5">
-                    <p className="mono text-[11px] uppercase text-accent">{t('Signal')} {String(index + 1).padStart(2, '0')}</p>
-                    <p className="mt-4 text-paper/72">{getLocalizedText(bullet, language)}</p>
+                {projectHighlight.notes.map((note, index) => (
+                  <div key={note.en} className="border-b border-paper/20 py-5 md:border-r md:px-5">
+                    <p className="mono text-[11px] uppercase text-accent">{t('Note')} {String(index + 1).padStart(2, '0')}</p>
+                    <p className="mt-4 text-paper/72">{getLocalizedText(note, language)}</p>
                   </div>
                 ))}
               </div>

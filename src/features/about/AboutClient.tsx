@@ -49,7 +49,7 @@ export default function AboutClient() {
         </div>
 
         <div className="mt-10 rounded-2xl bg-mist/50 p-5 shadow-soft md:mt-16 md:p-8">
-          <h3 className="font-display text-xl text-slate">{t('Hiring trajectory')}</h3>
+          <h3 className="font-display text-xl text-slate">{t('Personal Development Path')}</h3>
           <div className="mt-6 space-y-4">
             {timeline.map((entry) => (
               <div key={entry.year} className="grid gap-2 sm:grid-cols-[88px_1fr] sm:gap-6">

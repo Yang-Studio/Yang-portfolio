@@ -13,8 +13,8 @@ export default function Hero() {
   const { t, language } = useLanguage()
   const positioning =
     language === 'zh'
-      ? '系统向游戏设计师 / 技术设计师，能把模糊创意拆成规则、状态、反馈和可测试原型。'
-      : 'Systems-focused game designer / technical designer who turns fuzzy ideas into rules, states, feedback, and testable prototypes.'
+      ? '围绕游戏系统、交互反馈和可玩原型展开创作，把模糊想法拆成规则、状态与玩家能感受到的体验。'
+      : 'A personal archive of game systems, interaction feedback, and playable prototypes shaped from rules, states, and player-facing feel.'
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -41,13 +41,13 @@ export default function Hero() {
         -81.5151 W
       </div>
       <div className="mono absolute bottom-12 right-8 z-10 hidden text-right text-[11px] uppercase text-ink-soft md:block lg:right-24">
-        {t('Open to more opportunities')}
+        {t('Personal archive')}
       </div>
 
       <div className="relative z-10 mx-auto grid max-w-[1280px] gap-8 md:gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
         <div className="flex flex-col justify-center md:min-h-[60dvh]">
           <div className="hero-label mb-10 md:mb-12">
-            <PlateLabel plate={t('Plate 01')} label={t('Hiring Signal / Gameplay Systems')} active />
+            <PlateLabel plate={t('Plate 01')} label={t('Featured Work / Game Systems')} active />
           </div>
 
           <h1 className="overflow-hidden text-[clamp(58px,18vw,150px)] leading-[0.9] tracking-normal md:leading-[0.88]">
@@ -63,10 +63,10 @@ export default function Hero() {
               <p className="copy-safe">{positioning}</p>
               <div className="mono flex flex-wrap gap-x-6 gap-y-2 border-t border-rule pt-4 text-[11px] uppercase text-ink">
                 <Link className="underline decoration-accent underline-offset-4" href="/projects">
-                  {t('Review project evidence')}
+                  {t('Explore featured work')}
                 </Link>
                 <Link className="underline decoration-accent underline-offset-4" href="/about">
-                  {t('Hiring fit')}
+                  {t('Personal path')}
                 </Link>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function Hero() {
         >
           <div className="mono flex items-center justify-between border-b border-rule px-4 py-3 text-[11px] uppercase text-ink-soft">
             <span>{t('Now showing')}</span>
-            <span>{t('Team production proof')}</span>
+            <span>{t('Selected build')}</span>
           </div>
           <Image
             src="https://drive.google.com/thumbnail?id=1f6PUGXv-EytcDkTg9Q5CtEPVl5TFto0E&sz=w2000"

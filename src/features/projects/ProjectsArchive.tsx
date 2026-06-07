@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import PlateLabel from '@/components/ui/PlateLabel'
 import { projects } from '@/content/games/projects'
-import { getLocalizedText, projectRecruitingHighlights } from '@/content/games/recruitingHighlights'
+import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
 import { projectTranslations } from '@/content/projects/translations'
 import type { Project } from '@/content/projects/types'
 import { gsap } from '@/lib/motion'
@@ -26,7 +26,7 @@ export default function ProjectsArchive({
   basePath = '/projects',
   plate = 'Plate 02 / Index',
   label = 'Projects / Complete Archive',
-  titleTop = 'Evidence',
+  titleTop = 'Project',
   titleBottom = 'Index',
   description,
 }: Props) {
@@ -163,7 +163,7 @@ export default function ProjectsArchive({
           {items.map((project, index) => {
             const translation = language === 'zh' ? projectTranslations[project.slug] : undefined
             const image = project.banner ?? project.cover ?? project.moneyshot
-            const highlight = projectRecruitingHighlights[project.slug]
+            const highlight = projectHighlights[project.slug]
 
             return (
               <article key={project.slug} className="project-index-row relative isolate overflow-hidden border-b border-rule py-9 md:py-12">
@@ -207,12 +207,12 @@ export default function ProjectsArchive({
                       {highlight && (
                         <div className="mt-6 grid gap-4 border-t border-rule pt-5 md:grid-cols-[0.85fr_1.15fr]">
                           <div>
-                            <p className="mono text-[11px] uppercase text-accent">{t('Hiring fit')}</p>
-                            <p className="mt-2 text-lg leading-snug text-ink">{getLocalizedText(highlight.fit, language)}</p>
+                            <p className="mono text-[11px] uppercase text-accent">{t('Creative focus')}</p>
+                            <p className="mt-2 text-lg leading-snug text-ink">{getLocalizedText(highlight.focus, language)}</p>
                           </div>
                           <div>
-                            <p className="mono text-[11px] uppercase text-ink-soft">{t('Proof')}</p>
-                            <p className="mt-2 leading-snug text-ink-soft">{getLocalizedText(highlight.proof, language)}</p>
+                            <p className="mono text-[11px] uppercase text-ink-soft">{t('Project evidence')}</p>
+                            <p className="mt-2 leading-snug text-ink-soft">{getLocalizedText(highlight.evidence, language)}</p>
                           </div>
                         </div>
                       )}
@@ -225,11 +225,11 @@ export default function ProjectsArchive({
                     </div>
                     {highlight && (
                       <div className="grid gap-3 border-t border-rule pt-5 md:grid-cols-3">
-                        {highlight.bullets.map((bullet, bulletIndex) => (
+                        {highlight.notes.map((note, bulletIndex) => (
                           <Meta
-                            key={bullet.en}
-                            label={`${t('Signal')} ${String(bulletIndex + 1).padStart(2, '0')}`}
-                            value={getLocalizedText(bullet, language)}
+                            key={note.en}
+                            label={`${t('Note')} ${String(bulletIndex + 1).padStart(2, '0')}`}
+                            value={getLocalizedText(note, language)}
                           />
                         ))}
                       </div>

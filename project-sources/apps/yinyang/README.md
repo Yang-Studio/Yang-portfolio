@@ -1,49 +1,27 @@
 # BaZi · 现代八字数据仪表盘
 
-一个现代、极简的八字排盘工具。基础命盘由本地规则引擎计算，AI 只读取计算结果做联合推理，不负责重算四柱。
+一个现代、极简的八字排盘工具。命盘和解读均由本地规则引擎计算。
+
+推衍方法以《子平真诠》《滴天髓》《三命通会》《渊海子平》的常见规则为参考，并在页面中显示来源、适用边界和置信度。五行百分比是产品用于可视化的结构指数，不是古籍原有的固定计分法。
 
 ## 启动
-
-1. 在项目根目录创建 `.env.local`：
-
-```dotenv
-OPENAI_API_KEY=你的_OpenAI_API_Key
-OPENAI_MODEL=gpt-5.2
-```
-
-2. 启动服务：
 
 ```powershell
 npm start
 ```
 
-3. 打开：
+打开：
 
 ```text
 http://127.0.0.1:4173
 ```
 
-`.env.local` 已被 Git 忽略，服务端也会拒绝通过 HTTP 读取该文件。不要把 API Key 写进 `assets/app.js`、HTML 或任何浏览器代码。
-
-部署到服务器时可设置：
+部署到服务器时，可在 `.env.local` 中设置监听地址：
 
 ```dotenv
 HOST=0.0.0.0
 PORT=4173
 ```
-
-## AI 综合推理
-
-结果页中的 AI 功能需要用户主动点击，不会自动产生 API 费用。请求只发送：
-
-- 出生日期、时间、性别与真太阳时开关
-- 已计算的四柱、五行、十神、藏干、十二长生
-- 纳音、神煞、空亡、胎元、命宫
-- 大运、所选流年与本地规则分析结果
-
-姓名和出生地点不会发送给 OpenAI。输出固定为结构化 JSON，覆盖四柱落点、特殊因素、七个现实领域、大运流年联动与行动建议。
-
-如果页面提示“额度不足”，需要在 OpenAI Platform 为该 API 项目配置有效的计费额度。
 
 ## 嵌入网站
 
@@ -60,9 +38,6 @@ PORT=4173
     maxHeight: 1600,
     onResult(message) {
       console.log('排盘结果', message);
-    },
-    onAiResult(message) {
-      console.log('AI 联合推理结果', message.result);
     }
   });
 </script>
@@ -117,10 +92,10 @@ widget.destroy();
 index.html              独立页面
 embed.html              iframe 页面
 embed-example.html      嵌入示例
-server.js               静态服务与 OpenAI 代理
+server.js               本地静态服务
 assets/engine.js        排盘引擎
 assets/analysis.js      本地规则分析
-assets/app.js           页面与 AI 结果渲染
+assets/app.js           页面与结果渲染
 assets/embed-host.js    宿主网站嵌入 API
 assets/styles.css       视觉样式
 assets/lunar.js         lunar-javascript

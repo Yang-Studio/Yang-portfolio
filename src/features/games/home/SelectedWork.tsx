@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import PlateLabel from '@/components/ui/PlateLabel'
 import { projects } from '@/content/games/projects'
-import { getLocalizedText, projectRecruitingHighlights } from '@/content/games/recruitingHighlights'
+import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
 
 const selected = [
   {
@@ -41,9 +41,9 @@ export default function SelectedWork() {
     <section id="work" className="monograph-section px-5 sm:px-8 md:px-16 lg:px-24">
       <div className="mx-auto max-w-[1280px]">
         <div className="mb-14 grid gap-8 md:mb-20 lg:grid-cols-[320px_1fr] lg:gap-12">
-          <PlateLabel plate={t('Plate 02')} label={t('Recruiter Shortlist / Proof First')} active />
+          <PlateLabel plate={t('Plate 02')} label={t('Featured Work / Selected Projects')} active />
           <p className="display-safe zh-section-lede max-w-3xl text-[clamp(28px,4vw,56px)] leading-[1.05]">
-            {t('The fastest read: team production, solo ownership, and player-facing systems.')}
+            {t('Three core pieces: a team production, a solo vertical slice, and a player-facing systems prototype.')}
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export default function SelectedWork() {
           {selected.map((item) => {
             const project = projects.find((entry) => entry.slug === item.slug)
             if (!project) return null
-            const highlight = projectRecruitingHighlights[item.slug]
+            const highlight = projectHighlights[item.slug]
 
             return (
               <article key={item.slug} className="reveal border-t border-rule pt-6 md:pt-8">
@@ -87,7 +87,7 @@ export default function SelectedWork() {
                       ))}
                       {highlight && (
                         <p className="mono text-[11px] uppercase text-ink">
-                          {getLocalizedText(highlight.bullets[0], language)}
+                          {getLocalizedText(highlight.notes[0], language)}
                         </p>
                       )}
                     </div>

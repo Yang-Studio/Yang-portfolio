@@ -19,6 +19,43 @@
   var GEN = { 木: '火', 火: '土', 土: '金', 金: '水', 水: '木' };       // X 生 GEN[X]
   var KE = { 木: '土', 土: '水', 水: '火', 火: '金', 金: '木' };        // X 克 KE[X]
   var EL_EN = { 木: 'Wood', 火: 'Fire', 土: 'Earth', 金: 'Metal', 水: 'Water' };
+  var SOURCE_LIBRARY = [
+    {
+      id: 'ZPZQ',
+      title: '《子平真诠》',
+      focus: '月令、格局、用神成败',
+      url: 'https://www.anhappy.com/share/books/others/books/%E5%9B%BD%E5%AD%A6/%E5%AD%90%E5%B9%B3%E7%9C%9F%E8%AF%A0-%E6%B2%88%E5%AD%9D%E7%9E%BB%E5%8E%9F%E8%91%97.pdf',
+      note: '以月令为取格与取用的核心，但仍需配合气候和四柱结构。'
+    },
+    {
+      id: 'DTS',
+      title: '《滴天髓》',
+      focus: '旺衰、中和、病药与通变',
+      url: 'https://zh.wikisource.org/zh-hans/%E6%BB%B4%E5%A4%A9%E9%AB%93',
+      note: '强调衰旺真机与中和，不宜只看单一五行数量。'
+    },
+    {
+      id: 'SMTH',
+      title: '《三命通会》',
+      focus: '十神、神煞、格局与岁运综合',
+      url: 'https://zh.wikisource.org/zh-hans/%E4%B8%89%E5%91%BD%E9%80%9A%E6%9C%83',
+      note: '汇集子平法与神煞法，适合作为规则条目的交叉来源。'
+    },
+    {
+      id: 'YHZP',
+      title: '《渊海子平》',
+      focus: '四柱、十神、纳音、空亡、大运基础规则',
+      url: 'https://zh.wikisource.org/zh-hans/%E6%B7%B5%E6%B5%B7%E5%AD%90%E5%B9%B3',
+      note: '早期系统整理四柱命法，作为基础名义和神煞表的来源之一。'
+    },
+    {
+      id: 'LUNAR',
+      title: 'lunar-javascript',
+      focus: '节气、四柱、胎元、命宫等历法计算',
+      url: 'https://github.com/6tail/lunar-javascript',
+      note: '本产品的排盘计算依赖该开源历法库，解读规则由本地代码实现。'
+    }
+  ];
 
   // ten-god *category* of element X relative to day element D
   function relGroup(D, X) {
@@ -94,8 +131,11 @@
     else if (ratio <= 0.75) { band = '身强（偏强）'; key = 'strong'; }
     else { band = '从强 / 极强'; key = 'veryStrong'; }
 
+    var confidence = strengthConfidence(ratio, !!deLing, rooted.length);
     return { element: D, support: round1(support), drain: round1(drain), ratio: ratio,
-      percent: Math.round(ratio * 100), band: band, key: key, deLing: !!deLing, reasons: reasons };
+      percent: Math.round(ratio * 100), band: band, key: key, deLing: !!deLing,
+      reasons: reasons, confidence: confidence, sourceIds: ['DTS', 'SMTH', 'YHZP'],
+      modelNote: '百分比是本产品将月令、天干、藏干和根气量化后的结构指数，不等同于古籍中的固定分值。' };
   }
 
   // ---------- 2. 用神 / 喜忌 ----------
@@ -121,25 +161,99 @@
 
     var fav = uniqEl(favGroups.map(function (g) { return { el: elementOf(g, D), group: g }; }));
     var unfav = uniqEl(unfavGroups.map(function (g) { return { el: elementOf(g, D), group: g }; }));
-    return { favorable: fav, unfavorable: unfav, note: note, extra: extra };
+    return { favorable: fav, unfavorable: unfav, note: note, extra: extra,
+      confidence: yongConfidence(st), sourceIds: ['ZPZQ', 'DTS'] };
   }
 
   // ---------- 3. 格局 ----------
   function geJu(chart) {
     var D = chart.dayMaster.element;
     var monthZhi = chart.pillars[1].zhi;
-    // month-command main hidden stem -> ten god
+    var visibleStems = chart.pillars.map(function (p) { return p.gan; });
+    var matched = chart.pillars[1].hidden.filter(function (h) {
+      return visibleStems.indexOf(h.gan) >= 0;
+    });
     var mainHidden = chart.pillars[1].hidden[0];
-    var group = relGroup(D, mainHidden.element);
-    var god = mainHidden.shishen || '';
+    var chosen = matched[0] || mainHidden;
+    var group = relGroup(D, chosen.element);
+    var god = chosen.shishen || '';
     var nameMap = {
       正官: '正官格', 七杀: '七杀格', 正财: '正财格', 偏财: '偏财格',
       正印: '正印格', 偏印: '偏印格', 食神: '食神格', 伤官: '伤官格',
       比肩: '建禄 / 比肩格', 劫财: '月劫格'
     };
     var name = nameMap[god] || (group + '格');
-    var note = '以月令「' + monthZhi + '」本气（' + mainHidden.element + mainHidden.gan + '）透取，月令本气十神为「' + god + '」，故立「' + name + '」。';
-    return { name: name, god: god, note: note };
+    var note = matched.length
+      ? '月令「' + monthZhi + '」藏干中「' + chosen.gan + chosen.element + '」透于天干，十神为「' + god + '」，故暂立「' + name + '」。'
+      : '月令「' + monthZhi + '」藏干未见明确透干，暂以本气「' + mainHidden.gan + mainHidden.element + '」取格，十神为「' + god + '」，故为「' + name + '」。';
+    return { name: name, god: god, note: note, transparent: !!matched.length,
+      chosenGan: chosen.gan, sourceIds: ['ZPZQ', 'SMTH'],
+      confidence: matched.length
+        ? confidence('high', '月令藏干已透出，格局取法较清晰。')
+        : confidence('medium', '月令未透干，按本气取格；需结合全盘和岁运复核。') };
+  }
+
+  // ---------- 3b. 地支关系 ----------
+  var LIUHE = { 子丑: '六合', 寅亥: '六合', 卯戌: '六合', 辰酉: '六合', 巳申: '六合', 午未: '六合' };
+  var CHONG = { 子午: '冲', 丑未: '冲', 寅申: '冲', 卯酉: '冲', 辰戌: '冲', 巳亥: '冲' };
+  var HAI = { 子未: '害', 丑午: '害', 寅巳: '害', 卯辰: '害', 申亥: '害', 酉戌: '害' };
+  var PO = { 子酉: '破', 丑辰: '破', 寅亥: '破', 卯午: '破', 巳申: '破', 未戌: '破' };
+  var XING = { 子卯: '刑', 寅巳: '刑', 巳申: '刑', 寅申: '刑', 丑未: '刑', 未戌: '刑', 丑戌: '刑' };
+  var SANHE = [
+    { name: '申子辰三合水局', zhis: ['申', '子', '辰'], element: '水' },
+    { name: '亥卯未三合木局', zhis: ['亥', '卯', '未'], element: '木' },
+    { name: '寅午戌三合火局', zhis: ['寅', '午', '戌'], element: '火' },
+    { name: '巳酉丑三合金局', zhis: ['巳', '酉', '丑'], element: '金' }
+  ];
+  var SANHUI = [
+    { name: '寅卯辰三会木方', zhis: ['寅', '卯', '辰'], element: '木' },
+    { name: '巳午未三会火方', zhis: ['巳', '午', '未'], element: '火' },
+    { name: '申酉戌三会金方', zhis: ['申', '酉', '戌'], element: '金' },
+    { name: '亥子丑三会水方', zhis: ['亥', '子', '丑'], element: '水' }
+  ];
+
+  function branchRelations(chart) {
+    var branches = chart.pillars.map(function (p) { return { label: p.label, zhi: p.zhi }; });
+    var items = [];
+    for (var i = 0; i < branches.length; i++) {
+      for (var j = i + 1; j < branches.length; j++) {
+        var a = branches[i], b = branches[j];
+        var types = [
+          relationType(CHONG, a.zhi, b.zhi),
+          relationType(LIUHE, a.zhi, b.zhi),
+          relationType(XING, a.zhi, b.zhi),
+          relationType(HAI, a.zhi, b.zhi),
+          relationType(PO, a.zhi, b.zhi)
+        ].filter(Boolean);
+        types.forEach(function (type) {
+          items.push({ type: type, labels: [a.label, b.label], zhis: [a.zhi, b.zhi],
+            text: a.label + a.zhi + ' 与 ' + b.label + b.zhi + ' 形成「' + type + '」' });
+        });
+      }
+    }
+    SANHE.concat(SANHUI).forEach(function (group) {
+      var hits = group.zhis.filter(function (z) { return branches.some(function (b) { return b.zhi === z; }); });
+      if (hits.length >= 2) {
+        items.push({ type: hits.length === 3 ? '成局' : '半合/半会', labels: branches.filter(function (b) { return hits.indexOf(b.zhi) >= 0; }).map(function (b) { return b.label; }),
+          zhis: hits, element: group.element, text: group.name + (hits.length === 3 ? '成局' : '有半合/半会信号') });
+      }
+    });
+    var self = {};
+    branches.forEach(function (b) {
+      if (['辰', '午', '酉', '亥'].indexOf(b.zhi) >= 0) {
+        self[b.zhi] = self[b.zhi] || [];
+        self[b.zhi].push(b.label);
+      }
+    });
+    Object.keys(self).forEach(function (zhi) {
+      if (self[zhi].length > 1) items.push({ type: '自刑', labels: self[zhi], zhis: [zhi], text: self[zhi].join('、') + ' 同见' + zhi + '，有「自刑」信号' });
+    });
+    return {
+      items: items,
+      summary: items.length ? '本盘地支关系以「' + items.slice(0, 4).map(function (x) { return x.text; }).join('；') + '」为主。' : '本盘未见明显合冲刑害成组关系，判断重心回到月令、旺衰和十神。',
+      sourceIds: ['YHZP', 'SMTH'],
+      confidence: confidence(items.length ? 'medium' : 'high', items.length ? '合冲刑害会改变五行气势，已作为辅助权重提示；是否化成新局仍需看月令和透干。' : '未见明显地支结构干扰，基础旺衰判断受关系项影响较小。')
+    };
   }
 
   // ---------- 4. five-element balance ----------
@@ -370,14 +484,19 @@
   function analyze(chart) {
     var st = strength(chart);
     var ys = yongShen(chart, st);
+    var relations = branchRelations(chart);
     var result = {
       strength: st,
       yongShen: ys,
       geJu: geJu(chart),
       balance: balance(chart),
+      relations: relations,
       personality: personality(chart),
       career: career(chart),
       luck: luck(chart, ys),
+      sources: SOURCE_LIBRARY,
+      confidence: overallConfidence(st, ys, relations),
+      methodology: methodologyNotes(),
       disclaimer: '以上为传统命理「扶抑法」的规则化推演，属文化与分析框架，非科学预测，仅供参考与自我观照。'
     };
     result.inferences = infer(chart, result);
@@ -386,6 +505,36 @@
 
   // helpers
   function round1(n) { return Math.round(n * 10) / 10; }
+  function relationType(map, a, b) { return map[a + b] || map[b + a] || ''; }
+  function confidence(level, note) {
+    var labelMap = { high: '较高', medium: '中等', low: '需复核' };
+    return { level: level, label: labelMap[level] || level, note: note };
+  }
+  function strengthConfidence(ratio, deLing, roots) {
+    var distance = Math.min(Math.abs(ratio - 0.42), Math.abs(ratio - 0.58));
+    if (distance < 0.04) return confidence('low', '旺衰接近分界线，单靠量化指数不足以定性，需要结合调候、透干和合冲。');
+    if ((ratio < 0.42 && !deLing) || (ratio > 0.58 && roots >= 2)) return confidence('high', '月令、根气与生扶比例方向一致，旺衰判断较稳。');
+    return confidence('medium', '月令、根气或生扶比例存在拉扯，按中等置信度处理。');
+  }
+  function yongConfidence(st) {
+    if (st.confidence.level === 'high') return confidence('high', '喜忌与旺衰方向一致，可作为主要平衡取向。');
+    if (st.key === 'veryWeak' || st.key === 'veryStrong') return confidence('low', '极端强弱可能涉及从格或专旺格，需人工复核。');
+    return confidence('medium', '喜忌按扶抑法给出，但仍需结合格局、调候和岁运复核。');
+  }
+  function overallConfidence(st, ys, relations) {
+    var levels = [st.confidence.level, ys.confidence.level, relations.confidence.level];
+    if (levels.indexOf('low') >= 0) return confidence('low', '存在接近分界、从格可能或地支关系干扰，结论应作为倾向而非定论。');
+    if (levels.every(function (x) { return x === 'high'; })) return confidence('high', '旺衰、喜忌和地支结构方向较一致。');
+    return confidence('medium', '核心判断可用，但部分信息需结合岁运和具体问题继续复核。');
+  }
+  function methodologyNotes() {
+    return [
+      '本产品以子平法为主线：先定四柱和月令，再看旺衰、格局、喜忌、十神与岁运。',
+      '五行百分比是为了可视化而设计的结构指数，并非古籍中的固定算法。',
+      '神煞、纳音、空亡、胎元、命宫只作为辅助信号，不覆盖月令、旺衰、喜忌和大运主线。',
+      '不同古籍和流派存在取法差异；当信号冲突时，页面会降低置信度或提示需要复核。'
+    ];
+  }
   function uniqEl(arr) {
     var seen = {}, out = [];
     arr.forEach(function (x) { if (x.el && !seen[x.el]) { seen[x.el] = 1; out.push(x); } });
@@ -395,7 +544,7 @@
     return chart.tenGods.reduce(function (a, g) { return a + (names.indexOf(g.name) >= 0 ? g.count : 0); }, 0);
   }
 
-  var api = { analyze: analyze, annualFavor: annualFavor, strength: strength, yongShen: yongShen };
+  var api = { analyze: analyze, annualFavor: annualFavor, strength: strength, yongShen: yongShen, sources: SOURCE_LIBRARY };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.BaZiAnalysis = api;
 })(typeof window !== 'undefined' ? window : globalThis);

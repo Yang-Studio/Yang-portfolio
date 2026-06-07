@@ -27,7 +27,7 @@ const DICTIONARY: Record<string, string> = {
   'Plate 02 / Index': '图版 02 / 索引',
   'Project Plate': '项目图版',
   'Overture / Game Systems': '序章 / 游戏系统',
-  'Hiring Signal / Gameplay Systems': '招聘信号 / 玩法系统',
+  'Featured Work / Game Systems': '精选作品 / 游戏系统',
   'Projects / Complete Archive': '项目 / 完整索引',
   'App / Index': 'App / 索引',
   'Software / Complete Archive': '软件 / 完整索引',
@@ -38,19 +38,18 @@ const DICTIONARY: Record<string, string> = {
   Products: '产品',
   'Focused applications built from product decisions, interface systems, and working code.':
     '以产品判断、界面系统和可运行代码构建的独立应用。',
-  'Project Evidence / Hiring Read': '项目证据 / 招聘速读',
+  'Project notes': '项目记录',
+  'Creative Focus / Evidence': '创作重点 / 项目证据',
   'Biography / Timeline': '履历 / 时间线',
-  'Candidate Trajectory / Hiring Fit': '候选人路径 / 岗位匹配',
+  'Personal Development Path': '个人发展路径',
   'Tools / Methods': '工具 / 方法',
   'Process / Decisions': '过程 / 决策',
   'Gallery / Artifacts': '图像 / 过程素材',
   'Results / Reflection': '结果 / 复盘',
-  'Recruiter read': '招聘速读',
-  'Role Fit / Evidence': '岗位匹配 / 证据',
-  'What hiring teams can verify': '招聘团队可以验证',
-  'Hiring fit': '岗位匹配',
+  'Creative focus': '创作重点',
+  'Project evidence': '项目证据',
   Proof: '证据',
-  Signal: '信号',
+  Note: '记录',
   Evidence: '证据',
   'Why it matters': '为什么值得看',
   'Project Index': '项目索引',
@@ -59,13 +58,13 @@ const DICTIONARY: Record<string, string> = {
   '10 projects on record': '收录 10 个项目',
   'A technical catalogue of game systems, prototypes, visual studies, and playable worlds.':
     '一份关于游戏系统、原型、视觉实验与可游玩世界的技术目录。',
-  'Each project is framed by what a game team can hire from: role fit, proof of ownership, and the strongest production signal.':
-    '每个项目都按游戏团队会招聘什么来组织：岗位匹配、负责证据和最强制作信号。',
+  'Each project is framed through creative focus, process evidence, and the clearest playable result.':
+    '每个项目都围绕创作重点、过程证据和最清晰的可玩结果来组织。',
   'Main projects.': '主要项目。',
   'Main Projects / 2024 - Now': '主要项目 / 2024 至今',
-  'Recruiter Shortlist / Proof First': '招聘短名单 / 证据优先',
-  'The fastest read: team production, solo ownership, and player-facing systems.':
-    '最快速的阅读路径：团队制作、独立负责、面向玩家的系统。',
+  'Featured Work / Selected Projects': '精选作品 / 代表项目',
+  'Three core pieces: a team production, a solo vertical slice, and a player-facing systems prototype.':
+    '三个核心作品：一个团队制作、一个独立垂直切片、一个面向玩家的系统原型。',
   'Two project plates. One team system. One solo architecture study.':
     '主要项目。',
   'I make games where the systems talk to each other.': '做会回应的游戏系统。',
@@ -74,15 +73,12 @@ const DICTIONARY: Record<string, string> = {
   'Still developing more demos.': '仍在开发更多 demo。',
   'Selected work': '精选作品',
   Biography: '履历',
-  'Review project evidence': '查看项目证据',
-  'Team production proof': '团队制作证据',
+  'Explore featured work': '查看精选作品',
+  'Personal path': '个人路径',
+  'Selected build': '精选版本',
   'Enemy AI + modular gameplay systems / UE5': '敌人 AI + 模块化玩法系统 / UE5',
   'Now showing': '当前展示',
-  'Open to full-time roles': '开放全职机会',
-  'Open to more opportunities': '开放更多机会',
-  'Target roles': '目标岗位',
-  'Hiring trajectory': '招聘视角路径',
-  'STEM OPT': 'STEM OPT',
+  'Personal archive': '个人档案',
   'Sys & gameplay prog. / 2024 - now': '系统与玩法程序 / 2024.09 - 2025.05',
   'Sys & gameplay prog. / Sep 2024 - May 2025': '系统与玩法程序 / 2024.09 - 2025.05',
   'Systems first. Mood second. Cut the rest.': '',
@@ -99,13 +95,13 @@ const DICTIONARY: Record<string, string> = {
   'Developed early prototypes and scene studies, building the habit of explaining design intent through playable or visual evidence.':
     '制作早期原型和场景练习，形成用可玩或视觉证据解释设计意图的习惯。',
   'Moved into stronger production evidence: Shanhe as a solo vertical slice and Bubono as a long-running UE5 team project.':
-    '进入更强的制作证据阶段：Shanhe 是独立垂直切片，Bubono 是长期 UE5 团队项目。',
+    '进入更完整的制作阶段：Shanhe 是独立垂直切片，Bubono 是长期 UE5 团队项目。',
+  'Built Shanhe as a solo vertical slice and Bubono as a long-running UE5 team project, strengthening systems, AI, and feedback design.':
+    '完成 Shanhe 独立垂直切片，并在长期 UE5 团队项目 Bubono 中继续加强系统、AI 和反馈设计。',
   'Built Shanhe as a solo UE5 vertical slice and joined Bubono as systems and enemy programmer on a long-running team project.':
     '完成 Shanhe 独立 UE5 垂直切片，并在长期团队项目 Bubono 中担任系统与敌人程序。',
-  'Target role: gameplay systems designer, technical designer, or junior gameplay programmer on a team that values prototyping and readable player feedback.':
-    '目标岗位：玩法系统设计师、技术设计师，或重视原型与清晰玩家反馈的初级玩法程序。',
-  'Open to gameplay systems designer, technical designer, and junior gameplay programmer opportunities.':
-    '开放玩法系统设计师、技术设计师和初级玩法程序机会。',
+  'Continuing to build personal projects across game systems, app tools, photography, and interface experiments.':
+    '继续推进个人项目，覆盖游戏系统、App 工具、摄影和界面实验。',
   "First ship. Joins Bubono's Bumperland as Systems and Gameplay Programmer.":
     '2024 年与团队开始开发 Bubono’s Bumperland。',
   "Started Bubono's Bumperland with the team.":
@@ -114,17 +110,12 @@ const DICTIONARY: Record<string, string> = {
     'eLogistics。制作面向内部培训的仓储模拟原型。',
   'Shanghe. Solo wuxia action demo with event-driven combat architecture.':
     '《山河》。独立开发的武侠动作 Demo，采用事件驱动战斗架构。',
-  'Open to full-time roles in the U.S. Work-authorized via STEM OPT.':
-    '现在正在寻找更多机会。',
-  'Currently looking for more opportunities.':
-    '现在正在寻找更多机会。',
   'Work together?': '合作？',
   Location: '位置',
   Elsewhere: '链接',
   Colophon: '制作说明',
   'Rincon, Georgia': '佐治亚州 Rincon',
   'United States': '美国',
-  'Open to relocation': '可接受搬迁',
   'Set in Fraunces and JetBrains Mono.': '字体：Fraunces / JetBrains Mono。',
   'Built with Next.js and GSAP.': '构建：Next.js / GSAP。',
   'Copyright': '版权所有',
@@ -324,10 +315,10 @@ const DICTIONARY: Record<string, string> = {
   'Yang Liu | gameplay systems designer / technical designer': 'Yang Liu｜玩法系统设计师 / 技术设计师',
   'I build the bridge between design intent and playable implementation: rules, states, AI behavior, UI feedback, and prototypes that teams can evaluate.':
     '我连接设计意图与可玩实现：规则、状态、AI 行为、UI 反馈，以及团队可以评估的原型。',
-  'Gameplay systems designer / technical designer roles': '玩法系统设计师 / 技术设计师岗位',
-  'Junior gameplay programmer roles with design ownership': '带设计职责的初级玩法程序岗位',
-  'Teams that need prototypes, readable feedback, and cross-discipline communication':
-    '需要原型、清晰反馈和跨职能沟通的团队',
+  'Gameplay systems and technical design practice': '玩法系统与技术设计练习',
+  'Solo prototypes with design and implementation ownership': '独立负责设计与实现的原型',
+  'Personal projects that connect prototypes, readable feedback, and cross-discipline communication':
+    '连接原型、清晰反馈和跨领域表达的个人项目',
   'Always happy to connect and talk games.':
     '随时欢迎交流游戏相关的想法。',
   'Graduated from the Savannah College of Art and Design (SCAD) in Interactive Design and Game Development, with skills spanning both game design and systems engineering. Independently completed the full development cycle of a wuxia-themed ARPG, and served as mechanics director on a team project, leading the design and implementation of the AI system, collision mechanics, and a modular upgrade system. Brings Game Jam experience and the ability to build prototypes quickly under pressure. Proficient with UE5, Unity, C#, and Figma, balancing technical execution with user experience.':
@@ -346,8 +337,8 @@ const DICTIONARY: Record<string, string> = {
   'Agile Development': '\u654f\u6377\u5f00\u53d1',
   'Agile development loops to ship fast while staying adaptive.': '\u654f\u6377\u8fed\u4ee3\uff0c\u4fdd\u6301\u5feb\u901f\u4ea4\u4ed8\u4e0e\u7075\u6d3b\u8c03\u6574\u3002',
   "Let's collaborate": '\u4e00\u8d77\u5408\u4f5c',
-  "If you're hiring a designer who excels at level structure and pacing, please explore my projects and design process.":
-    '\u5982\u679c\u4f60\u6b63\u5728\u62db\u8058\u5584\u4e8e\u5173\u5361\u7ed3\u6784\u4e0e\u8282\u594f\u63a7\u5236\u7684\u8bbe\u8ba1\u5e08\uff0c\u6b22\u8fce\u67e5\u770b\u6211\u7684\u9879\u76ee\u4e0e\u8bbe\u8ba1\u8fc7\u7a0b\u3002',
+  'This site collects projects around game systems, interface experiments, app tools, and visual studies.':
+    '这个网站收录游戏系统、界面实验、App 工具和视觉研究相关的个人项目。',
   'Explore social channels': '\u524d\u5f80\u793e\u4ea4\u9891\u9053',
   Connect: '\u8054\u7cfb',
   'No devlog notes under': '\u8be5\u5206\u7c7b\u4e0b\u6682\u65e0\u7b14\u8bb0\uff1a',
