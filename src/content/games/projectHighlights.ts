@@ -10,6 +10,30 @@ export type ProjectHighlight = {
 }
 
 export const projectHighlights: Record<string, ProjectHighlight> = {
+  'pubg-signal-wheel': {
+    focus: {
+      en: 'A tactical-system design proposal focused on fast team communication, precise marker logic, and match-health safeguards.',
+      zh: '一个战术系统策划案，重点是快速团队沟通、精准标点逻辑和局内生态保护。',
+    },
+    evidence: {
+      en: 'Closed the system loop from input flow and raycast placement to anti-spam cooldowns, downed-state restrictions, and season-driven DataTable configuration.',
+      zh: '从输入流、射线标点到反刷屏、倒地状态限制和赛季化 DataTable 配置，完整闭合系统逻辑。',
+    },
+    notes: [
+      {
+        en: 'Turns a common battle royale ping feature into a documented ruleset with edge cases.',
+        zh: '把常见战术竞技报点功能拆成包含边界情况的规则集。',
+      },
+      {
+        en: 'Balances combat usability with information accuracy and abuse prevention.',
+        zh: '在战斗可用性、信息准确度和防滥用之间做平衡。',
+      },
+      {
+        en: 'Uses data-driven thinking so live-ops text, audio, and icons can change without code rewrites.',
+        zh: '用数据驱动思维支持运营更换文本、语音和图标，而不需要改代码。',
+      },
+    ],
+  },
   'bubono-bumperland': {
     focus: {
       en: 'A systems-heavy team project about collision combat, enemy AI, and readable player feedback.',

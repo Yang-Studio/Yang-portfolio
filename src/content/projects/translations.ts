@@ -11,6 +11,50 @@ export type ProjectTranslation = {
 }
 
 export const projectTranslations: Record<string, ProjectTranslation> = {
+  'pubg-signal-wheel': {
+    title: 'PUBG 策划分析',
+    blurb: '一份面向 PUBG 类战术竞技的局内信号轮盘系统策划案，覆盖交互流、射线标点、反刷屏、倒地状态限制与赛季化配置表。',
+    role: '系统策划',
+    overviewGoal: '设计一个快速、准确、可防滥用的局内信号轮盘，让不开麦玩家也能完成高频战术沟通。',
+    overviewTeam: '个人策划分析',
+    overviewTimeline: '系统案 - V1.0',
+    process: [
+      {
+        title: '问题',
+        body: '战术竞技需要快速非语音沟通，但系统必须在战斗中足够顺手，标点必须准确，同时还要防止队友恶意刷屏破坏体验。',
+      },
+      {
+        title: '方案',
+        body: '围绕按下呼出、拖拽选择、松开触发建立操作闭环，并加入准星射线标点、物资自动识别、距离自适应 3D UI、频控限制和状态机降级。',
+      },
+      {
+        title: '结果',
+        body: '形成一份闭环系统案，将玩家输入、HUD 自定义、世界坐标标点、网络同步限制和赛季化内容配置串成完整逻辑。',
+      },
+    ],
+    technical: [
+      {
+        title: '输入流与 HUD 布局',
+        description: '采用“按下呼出 - 拖拽选择 - 松开触发”的三步流。移动端默认靠近开火键区域，并允许调整大小、位置和透明度；高频信号可拆成独立快捷键。',
+      },
+      {
+        title: 'Raycast 标点与物资识别',
+        description: '标点从玩家相机沿准星方向发射射线，敌人和位置标记取第一个 Block 碰撞点；物资提醒读取命中物体绑定的 ItemID，再从 Item_Table 中取 Item_Name，避免直接显示模型名。',
+      },
+      {
+        title: '队友可见性与反刷屏',
+        description: '队友可在小地图与 3D 画面看到标点和距离。图标 0-50 米保持 100%，50-200 米线性缩到 40%，200 米外保底 40%；5 秒内发送 3 次以上信号会进入 10 秒仅自己可见的禁言状态。',
+      },
+      {
+        title: '配置表与状态机限制',
+        description: '用 Signal_Slot_Config 管理格子动作，用 Signal_Asset_Table 通过 Season_ID 和 Action_Type 联合索引文本与音频。倒地玩家只保留“请求救援”，并将射线距离强制设为 0，死亡后禁用全部信号。',
+      },
+    ],
+    results: {
+      summary: '完成一份 V1.0 局内信号轮盘系统策划案，在操作效率、信息准确度、赛季运营配置和局内生态保护之间建立清晰规则。',
+      highlights: ['按住拖拽释放的轮盘交互', 'Raycast 与 ItemID 标点逻辑', '频控禁言机制', '赛季化 DataTable 配置'],
+    },
+  },
   cheetah: {
     title: 'Cheetah',
     blurb: '一款注重隐私的个人财务助手，让日常消费清晰可见，并把预算、账单和储蓄目标转化为明确的下一步行动。',

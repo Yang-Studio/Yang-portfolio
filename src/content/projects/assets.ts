@@ -1,4 +1,7 @@
 export const projectAssets: Record<string, string[]> = {
+  'pubg-signal-wheel': [
+    '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+  ],
   shanhe: [
     '/assets/projects/shanhe/ITGM405.webp',
     '/assets/projects/shanhe/ITGM405_s1_milestone.webp',

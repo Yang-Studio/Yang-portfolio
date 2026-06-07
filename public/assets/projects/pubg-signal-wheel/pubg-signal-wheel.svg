@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">PUBG Signal Wheel Planning Analysis</title>
+  <desc id="desc">A tactical communication wheel diagram with minimap, raycast marker, cooldown, and data table labels.</desc>
+  <rect width="1200" height="900" fill="#ece7dd"/>
+  <path d="M1020 0h180v900H870z" fill="#d9d2c6" opacity=".35"/>
+  <path d="M0 710h1200v190H0z" fill="#111" opacity=".06"/>
+  <g fill="none" stroke="#1f1d1a" stroke-width="2" opacity=".18">
+    <path d="M80 120h360M80 180h220M80 240h300M80 300h160"/>
+    <path d="M840 120h260M840 180h190M840 240h240"/>
+  </g>
+  <g transform="translate(600 430)">
+    <circle r="220" fill="#f6f2ea" stroke="#1f1d1a" stroke-width="3"/>
+    <circle r="70" fill="#1f1d1a"/>
+    <circle r="18" fill="#c6402f"/>
+    <g stroke="#1f1d1a" stroke-width="3">
+      <path d="M0-220V-70"/>
+      <path d="M190.5-110L60.6-35"/>
+      <path d="M190.5 110L60.6 35"/>
+      <path d="M0 220V70"/>
+      <path d="M-190.5 110L-60.6 35"/>
+      <path d="M-190.5-110L-60.6-35"/>
+    </g>
+    <g font-family="JetBrains Mono, Consolas, monospace" font-size="22" fill="#1f1d1a">
+      <text x="-76" y="-150">ENEMY</text>
+      <text x="98" y="-52">ITEM</text>
+      <text x="98" y="72">HELP</text>
+      <text x="-42" y="165">SAFE?</text>
+      <text x="-184" y="72">MOVE</text>
+      <text x="-190" y="-52">VOICE</text>
+    </g>
+  </g>
+  <g transform="translate(88 560)">
+    <rect width="278" height="180" rx="14" fill="#1f1d1a"/>
+    <rect x="18" y="18" width="242" height="144" rx="8" fill="#ece7dd"/>
+    <path d="M38 126c48-80 107-80 166-20 20 20 35 20 43 4" fill="none" stroke="#1f1d1a" stroke-width="4"/>
+    <circle cx="174" cy="82" r="12" fill="#c6402f"/>
+    <text x="34" y="46" font-family="JetBrains Mono, Consolas, monospace" font-size="18" fill="#1f1d1a">MINIMAP</text>
+    <text x="34" y="150" font-family="JetBrains Mono, Consolas, monospace" font-size="16" fill="#1f1d1a">distance + marker</text>
+  </g>
+  <g transform="translate(845 555)">
+    <rect width="270" height="178" rx="14" fill="#f6f2ea" stroke="#1f1d1a" stroke-width="3"/>
+    <text x="24" y="42" font-family="JetBrains Mono, Consolas, monospace" font-size="20" fill="#c6402f">DATA TABLE</text>
+    <g font-family="JetBrains Mono, Consolas, monospace" font-size="15" fill="#1f1d1a">
+      <text x="24" y="76">Slot_ID</text>
+      <text x="132" y="76">Action_Type</text>
+      <path d="M24 88h220" stroke="#1f1d1a" opacity=".35"/>
+      <text x="24" y="114">01</text>
+      <text x="132" y="114">ENEMY_ALERT</text>
+      <text x="24" y="142">02</text>
+      <text x="132" y="142">ITEM_SHARE</text>
+    </g>
+  </g>
+  <g transform="translate(806 180)" fill="none" stroke="#c6402f" stroke-width="5">
+    <path d="M0 0c118 34 188 100 236 202"/>
+    <path d="M238 204l-33-17 37-11z" fill="#c6402f"/>
+  </g>
+  <g transform="translate(120 112)" font-family="Fraunces, Georgia, serif" fill="#1f1d1a">
+    <text font-size="76" font-style="italic">PUBG</text>
+    <text y="72" font-size="42">Signal Wheel</text>
+  </g>
+  <g transform="translate(122 226)" font-family="JetBrains Mono, Consolas, monospace" fill="#1f1d1a">
+    <text font-size="18">RAYCAST / HUD / COOLDOWN / SEASON_ID</text>
+    <text y="34" font-size="16" opacity=".7">system planning analysis</text>
+  </g>
+  <g transform="translate(854 116)" font-family="JetBrains Mono, Consolas, monospace" fill="#1f1d1a">
+    <text font-size="18">5s &gt;= 3</text>
+    <text y="30" font-size="16" opacity=".72">mute 10s</text>
+    <text y="72" font-size="18">0m raycast</text>
+    <text y="102" font-size="16" opacity=".72">knocked state</text>
+  </g>
+</svg>

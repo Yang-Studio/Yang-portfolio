@@ -38,6 +38,64 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: 'pubg-signal-wheel',
+    tag: 'Technical',
+    title: 'PUBG Signal Wheel Analysis',
+    blurb: 'A tactical-communication system design case study for a PUBG-style signal wheel, covering interaction flow, raycast marker logic, anti-spam rules, downed-state restrictions, and season-driven DataTable configuration.',
+    year: '2026',
+    role: 'System Designer',
+    tools: 'System Design · DataTable · UX Flow',
+    cover: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+    banner: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+    moneyshot: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+    hideDownload: true,
+    overview: {
+      goal: 'Design a fast, accurate, and abuse-resistant in-match signal wheel for tactical battle royale communication.',
+      team: 'Solo planning analysis',
+      timeline: 'System proposal - V1.0',
+    },
+    process: [
+      {
+        title: 'Challenge',
+        body: 'Battle royale teams need fast non-voice communication, but the system must stay usable during combat, avoid vague markers, and prevent teammates from spamming alerts.',
+      },
+      {
+        title: 'Solution',
+        body: 'Built a closed-loop system around press-drag-release input, crosshair raycast placement, automatic item identification, distance-aware 3D UI, frequency control, and state-machine restrictions.',
+      },
+      {
+        title: 'Result',
+        body: 'A complete system plan that connects player input, HUD customization, world marker logic, network broadcast limits, and season-driven content configuration.',
+      },
+    ],
+    technical: [
+      {
+        title: 'Input Flow & HUD Placement',
+        description: 'Defined a press-to-open, drag-to-select, release-to-send flow. On mobile, the wheel sits near the fire-control area and supports custom size, position, and opacity; high-frequency signals can be split into one-tap shortcuts.',
+        media: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+      },
+      {
+        title: 'Raycast Marker & Item Recognition',
+        description: 'World markers use a camera-to-crosshair raycast. Enemy and location pings use the first blocking collider, while item-sharing pings read the hit object ItemID and resolve the display name through an Item_Table instead of printing raw asset names.',
+        media: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+      },
+      {
+        title: 'Team Visibility & Anti-Spam Control',
+        description: 'Teammates receive minimap markers plus 3D icons with distance labels. Icon scale remains 100% from 0-50m, shrinks to 40% from 50-200m, then clamps at 40%; players sending 3 or more signals in 5 seconds enter a 10-second self-only mute state.',
+        media: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+      },
+      {
+        title: 'DataTable & Player State Rules',
+        description: 'Separated slot logic from seasonal text and audio assets through Signal_Slot_Config and Signal_Asset_Table keyed by Season_ID and Action_Type. Knocked players are downgraded to a single Help signal with raycast distance forced to 0; dead players lose all signal functions.',
+        media: '/assets/projects/pubg-signal-wheel/pubg-signal-wheel.svg',
+      },
+    ],
+    results: {
+      summary: 'Completed a V1.0 system design proposal for a tactical signal wheel that balances quick input, precise information, configurable live-ops content, and match-health safeguards.',
+      highlights: ['Press-drag-release signal flow', 'Raycast and ItemID marker logic', 'Frequency-control mute state', 'Season-driven DataTable design'],
+    },
+  },
+  {
     slug: 'eshaver',
     tag: 'Art',
     title: 'E. Shaver Bookseller',
