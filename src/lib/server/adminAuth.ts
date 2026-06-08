@@ -1,11 +1,11 @@
-import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto'
+import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { cookies } from 'next/headers'
 
 const ADMIN_COOKIE = 'yang_admin_session'
 const SESSION_SECONDS = 60 * 60 * 8
 
 type AdminSession = {
-  username: string
+  scope: 'admin'
   expiresAt: number
 }
 
@@ -22,17 +22,26 @@ const fromBase64url = (input: string) => {
   return Buffer.from(padded, 'base64').toString('utf8')
 }
 
-const sessionSecret = () => process.env.ADMIN_SESSION_SECRET || ''
+const adminPassword = () => process.env.ADMIN_PASSWORD || ''
 
-const sign = (payload: string) => base64url(createHmac('sha256', sessionSecret()).update(payload).digest())
+const sessionSecret = () => {
+  const password = adminPassword()
+  return password ? createHash('sha256').update(`yang-admin-session:${password}`).digest() : undefined
+}
+
+const sign = (payload: string) => {
+  const secret = sessionSecret()
+  if (!secret) throw new Error('ADMIN_PASSWORD is not configured.')
+  return base64url(createHmac('sha256', secret).update(payload).digest())
+}
 
 export const adminCookieName = ADMIN_COOKIE
 export const adminCookieMaxAge = SESSION_SECONDS
 
-export function createAdminSession(username: string) {
-  if (!sessionSecret()) throw new Error('ADMIN_SESSION_SECRET is not configured.')
-
-  const payload = base64url(JSON.stringify({ username, expiresAt: Date.now() + SESSION_SECONDS * 1000 }))
+export function createAdminSession() {
+  const payload = base64url(
+    JSON.stringify({ scope: 'admin', expiresAt: Date.now() + SESSION_SECONDS * 1000 } satisfies AdminSession),
+  )
   return `${payload}.${sign(payload)}`
 }
 
@@ -48,7 +57,7 @@ export function readAdminSession(token?: string): AdminSession | undefined {
 
   try {
     const session = JSON.parse(fromBase64url(payload)) as AdminSession
-    if (!session.username || !session.expiresAt || session.expiresAt < Date.now()) return undefined
+    if (session.scope !== 'admin' || !session.expiresAt || session.expiresAt < Date.now()) return undefined
     return session
   } catch {
     return undefined
@@ -60,30 +69,11 @@ export async function getCurrentAdminSession() {
   return readAdminSession(cookieStore.get(ADMIN_COOKIE)?.value)
 }
 
-export function verifyAdminPassword(username: string, password: string) {
-  const expectedUsername = process.env.ADMIN_USERNAME
-  const expectedPassword = process.env.ADMIN_PASSWORD
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH
-  if (!expectedUsername || username !== expectedUsername) return false
+export function verifyAdminPassword(password: string) {
+  const configuredPassword = adminPassword()
+  if (!configuredPassword) return false
 
-  if (expectedPassword) {
-    const actual = Buffer.from(password)
-    const expected = Buffer.from(expectedPassword)
-    return actual.length === expected.length && timingSafeEqual(actual, expected)
-  }
-
-  if (!passwordHash) return false
-
-  const [algorithm, saltHex, expectedHex] = passwordHash.split('$')
-  if (algorithm !== 'scrypt' || !saltHex || !expectedHex) return false
-
-  const actual = scryptSync(password, Buffer.from(saltHex, 'hex'), Buffer.from(expectedHex, 'hex').length)
-  const expected = Buffer.from(expectedHex, 'hex')
+  const actual = Buffer.from(password)
+  const expected = Buffer.from(configuredPassword)
   return actual.length === expected.length && timingSafeEqual(actual, expected)
-}
-
-export function generatePasswordHash(password: string) {
-  const salt = randomBytes(16)
-  const hash = scryptSync(password, salt, 64)
-  return `scrypt$${salt.toString('hex')}$${hash.toString('hex')}`
 }

@@ -87,21 +87,17 @@ The site includes an optional, consent-based analytics backend for Vercel deploy
 - Raw IP addresses, latitude/longitude, postal codes, names, email addresses, and precise home addresses are not stored.
 - Records older than 180 days are deleted automatically.
 - `/admin` requires an HttpOnly signed session cookie.
-- `/projects/terradotta` is password protected. It reads `TERRADOTTA_PASSWORD` first and falls back to `ADMIN_PASSWORD`.
+- `/projects/terradotta` is password protected with `TERRADOTTA_PASSWORD`.
 
 Setup:
 
 1. In the Vercel project, install the Neon integration and connect a Postgres database. This injects `DATABASE_URL`.
-2. Run `npm run admin:credentials` locally.
-3. Add the generated `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, and `ANALYTICS_SALT` values to Vercel.
+2. Add `ADMIN_PASSWORD` and `TERRADOTTA_PASSWORD` to Vercel.
+3. Both login forms require only their corresponding password.
 4. Redeploy the project.
 5. Use the admin form on `/` to open `/admin`.
 
-Optional Terra Dotta lock:
-
-- Set `TERRADOTTA_PASSWORD` if the project page should use a separate password.
-- Set `TERRADOTTA_LOCK_SECRET` if the project page should use a separate cookie-signing secret.
-- If omitted, the page lock reuses `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`.
+The signed login cookies and anonymized visitor identifiers are derived server-side from these passwords. No additional authentication environment variables are required.
 
 The database table and indexes are created automatically on the first consented visit or dashboard request.
 
@@ -111,7 +107,7 @@ For local development, run:
 npm run admin:credentials:local
 ```
 
-This preserves existing values in `.env.local` and adds only the username, password, and administrator secrets.
-The plaintext password is not written to a separate document. Restart the development server after generating credentials.
+This replaces legacy administrator variables in `.env.local` and writes only `ADMIN_PASSWORD` and `TERRADOTTA_PASSWORD`.
+The plaintext passwords are not written to a separate document. Restart the development server after generating credentials.
 When `DATABASE_URL` is absent in development, consented visits are stored in the ignored `.analytics.local.json` file.
 Production deployments still require Neon/Postgres.

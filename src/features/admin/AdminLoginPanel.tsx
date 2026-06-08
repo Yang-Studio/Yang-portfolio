@@ -7,7 +7,6 @@ import { useState, type FormEvent } from 'react'
 export default function AdminLoginPanel() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState('')
   const [pending, setPending] = useState(false)
@@ -21,7 +20,7 @@ export default function AdminLoginPanel() {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ password }),
       })
       const result = (await response.json()) as { error?: string }
 
@@ -51,18 +50,7 @@ export default function AdminLoginPanel() {
       </button>
 
       {open ? (
-        <form onSubmit={submit} className="mt-5 grid max-w-xl gap-3 sm:grid-cols-[1fr_1fr_auto]">
-          <label>
-            <span className="sr-only">管理员用户名</span>
-            <input
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              className="focus-ring min-h-12 w-full border border-paper/25 bg-transparent px-4 text-sm text-paper outline-none placeholder:text-paper/30"
-              placeholder="用户名 / Username"
-              autoComplete="username"
-              required
-            />
-          </label>
+        <form onSubmit={submit} className="mt-5 grid max-w-md gap-3 sm:grid-cols-[1fr_auto]">
           <label>
             <span className="sr-only">管理员密码</span>
             <input
@@ -82,7 +70,7 @@ export default function AdminLoginPanel() {
           >
             {pending ? '登录中' : '登录'}
           </button>
-          {status ? <p className="sm:col-span-3 text-xs text-accent">{status}</p> : null}
+          {status ? <p className="text-xs text-accent sm:col-span-2">{status}</p> : null}
         </form>
       ) : null}
       <Link

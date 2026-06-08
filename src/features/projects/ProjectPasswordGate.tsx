@@ -76,7 +76,7 @@ export default function ProjectPasswordGate({
         ) : (
           <div className="mt-10 border border-accent/50 bg-accent/10 p-6">
             <p className="mono text-xs uppercase text-accent">Setup required</p>
-            <p className="mt-3 text-paper/78">请在环境变量中配置 TERRADOTTA_PASSWORD，或复用 ADMIN_PASSWORD。</p>
+            <p className="mt-3 text-paper/78">请在服务器环境变量中配置 TERRADOTTA_PASSWORD。</p>
           </div>
         )}
       </section>

@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from 'node:crypto'
+import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { cookies } from 'next/headers'
 
 const ACCESS_SECONDS = 60 * 60 * 8
@@ -23,15 +23,18 @@ const fromBase64url = (input: string) => {
 }
 
 function accessSecret() {
-  return process.env.TERRADOTTA_LOCK_SECRET || process.env.ADMIN_SESSION_SECRET || ''
+  const password = terradottaPassword()
+  return password ? createHash('sha256').update(`yang-terradotta-access:${password}`).digest() : undefined
 }
 
 function terradottaPassword() {
-  return process.env.TERRADOTTA_PASSWORD || process.env.ADMIN_PASSWORD || ''
+  return process.env.TERRADOTTA_PASSWORD || ''
 }
 
 function sign(payload: string) {
-  return base64url(createHmac('sha256', accessSecret()).update(payload).digest())
+  const secret = accessSecret()
+  if (!secret) throw new Error('TERRADOTTA_PASSWORD is not configured.')
+  return base64url(createHmac('sha256', secret).update(payload).digest())
 }
 
 function constantTimeEquals(actualValue: string, expectedValue: string) {
@@ -53,8 +56,6 @@ export function verifyTerradottaPassword(password: string) {
 }
 
 export function createTerradottaAccessToken() {
-  if (!accessSecret()) throw new Error('TERRADOTTA_LOCK_SECRET or ADMIN_SESSION_SECRET is not configured.')
-
   const payload = base64url(
     JSON.stringify({
       project: 'terradotta',

@@ -65,8 +65,8 @@ function getSql() {
 }
 
 function analyticsSalt() {
-  const salt = process.env.ANALYTICS_SALT || process.env.ADMIN_SESSION_SECRET
-  if (!salt) throw new AnalyticsConfigError('ANALYTICS_SALT is not configured.')
+  const salt = process.env.ADMIN_PASSWORD
+  if (!salt) throw new AnalyticsConfigError('ADMIN_PASSWORD is not configured.')
   return salt
 }
 

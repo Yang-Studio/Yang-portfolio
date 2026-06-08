@@ -23,7 +23,7 @@ export default async function AdminPage() {
   } catch (error) {
     configurationError =
       error instanceof AnalyticsConfigError
-        ? '尚未连接统计数据库。请在 Vercel 中配置 DATABASE_URL 和 ANALYTICS_SALT。'
+        ? '尚未连接统计数据库。请确认 Vercel 已提供 DATABASE_URL，并已配置 ADMIN_PASSWORD。'
         : '统计数据暂时无法读取。'
   }
 
