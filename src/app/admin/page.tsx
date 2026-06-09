@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import AdminLogoutButton from '@/features/admin/AdminLogoutButton'
 import { getCurrentAdminSession } from '@/lib/server/adminAuth'
 import {
+  analyticsDateKey,
   AnalyticsConfigError,
   formatAnalyticsLocation,
   getAnalyticsSummary,
@@ -11,15 +12,23 @@ import {
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string; all?: string }>
+}) {
   const session = await getCurrentAdminSession()
   if (!session) redirect('/')
+
+  const sp = await searchParams
+  const dateParam = typeof sp.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(sp.date) ? sp.date : undefined
+  const selectedDate: string | 'all' = sp.all === '1' ? 'all' : (dateParam ?? analyticsDateKey())
 
   let summary: AnalyticsSummary | undefined
   let configurationError = ''
 
   try {
-    summary = await getAnalyticsSummary()
+    summary = await getAnalyticsSummary({ recentVisitsDate: selectedDate })
   } catch (error) {
     configurationError =
       error instanceof AnalyticsConfigError
@@ -35,7 +44,7 @@ export default async function AdminPage() {
             <p className="mono text-[11px] uppercase tracking-[0.18em] text-accent">Yang Studio / Admin</p>
             <h1 className="mt-3 text-[clamp(42px,8vw,92px)] leading-none">访客统计</h1>
             <p className="mt-4 max-w-2xl text-paper/60">
-              仅统计明确同意的访问。访客与 IP 均以不可逆标识展示，位置仅为托管平台提供的粗略推断。
+              浏览量统计所有访问（含拒绝匿名统计的访客），不含任何个人标识。明细（原始 IP、IP 哈希、来源地区）默认记录，仅在访客主动拒绝后停止；地区为托管平台根据 IP 的粗略推断。
             </p>
           </div>
           <AdminLogoutButton />
@@ -50,8 +59,13 @@ export default async function AdminPage() {
 
         {summary ? (
           <>
-            <section className="grid gap-px bg-paper/15 sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="总页面访问" value={summary.totalVisits} />
+            <section className="grid gap-px bg-paper/15 sm:grid-cols-2">
+              <StatCard label="总浏览量（含拒绝匿名统计的访问）" value={summary.totalPageViews} />
+              <StatCard label="浏览量 · 过去 7 天" value={summary.last7DaysPageViews} />
+            </section>
+
+            <section className="mt-px grid gap-px bg-paper/15 sm:grid-cols-2 lg:grid-cols-4">
+              <StatCard label="已同意访问" value={summary.totalVisits} />
               <StatCard label="独立访客" value={summary.uniqueVisitors} />
               <StatCard label="过去 24 小时" value={summary.last24HoursVisits} />
               <StatCard label="过去 7 天" value={summary.last7DaysVisits} />
@@ -96,12 +110,37 @@ export default async function AdminPage() {
               <div className="min-w-0">
                 <p className="mono text-xs uppercase tracking-[0.16em] text-accent">Recent visits</p>
                 <h2 className="mt-3 text-4xl">最近访问</h2>
+                <p className="mt-2 text-sm text-paper/55">
+                  {selectedDate === 'all'
+                    ? '当前显示全部访问记录（最多 80 条）。'
+                    : `当前仅显示 ${selectedDate} 当日访问。如需查看其他日期，请在下方选择后查询。`}
+                </p>
+                <form method="get" className="mt-4 flex flex-wrap items-end gap-3">
+                  <label className="mono text-[10px] uppercase tracking-[0.16em] text-paper/45">
+                    选择日期
+                    <input
+                      type="date"
+                      name="date"
+                      defaultValue={selectedDate === 'all' ? '' : selectedDate}
+                      className="mt-2 block border border-paper/25 bg-transparent px-3 py-2 text-sm text-paper [color-scheme:dark]"
+                    />
+                  </label>
+                  <button type="submit" className="focus-ring border border-paper/30 px-4 py-2 text-xs text-paper">
+                    查询
+                  </button>
+                  <a href="/admin" className="focus-ring border border-paper/20 px-4 py-2 text-xs text-paper/65">
+                    今天
+                  </a>
+                  <a href="/admin?all=1" className="focus-ring border border-paper/20 px-4 py-2 text-xs text-paper/65">
+                    全部
+                  </a>
+                </form>
                 <div className="mt-7 overflow-x-auto border-t border-paper/20">
                   <table className="w-full min-w-[760px] border-collapse text-left text-sm">
                     <thead className="mono text-[10px] uppercase text-paper/45">
                       <tr>
                         <th className="border-b border-paper/15 py-3 pr-5 font-normal">时间</th>
-                        <th className="border-b border-paper/15 py-3 pr-5 font-normal">访客 / IP 标识</th>
+                        <th className="border-b border-paper/15 py-3 pr-5 font-normal">访客标识 / IP</th>
                         <th className="border-b border-paper/15 py-3 pr-5 font-normal">页面</th>
                         <th className="border-b border-paper/15 py-3 pr-5 font-normal">地区</th>
                         <th className="border-b border-paper/15 py-3 pr-5 font-normal">设备</th>
@@ -109,7 +148,14 @@ export default async function AdminPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {summary.recentVisits.map((visit, index) => (
+                      {summary.recentVisits.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="py-6 text-paper/50">
+                            该日暂无访问记录。
+                          </td>
+                        </tr>
+                      ) : (
+                        summary.recentVisits.map((visit, index) => (
                         <tr
                           key={`${visit.visitedAt}-${visit.visitorLabel}-${index}`}
                           className="border-b border-paper/10"
@@ -124,7 +170,7 @@ export default async function AdminPage() {
                           <td className="mono whitespace-nowrap py-4 pr-5 text-paper/55">
                             <span>{visit.visitorLabel || 'unknown'}</span>
                             <br />
-                            <span>{visit.ipLabel || 'unknown'}</span>
+                            <span>{visit.ip || visit.ipLabel || 'unknown'}</span>
                           </td>
                           <td className="max-w-[260px] truncate py-4 pr-5">{visit.path}</td>
                           <td className="py-4 pr-5 text-paper/65">
@@ -138,7 +184,7 @@ export default async function AdminPage() {
                             {visit.referrerHost || 'direct'}
                           </td>
                         </tr>
-                      ))}
+                      )))}
                     </tbody>
                   </table>
                 </div>

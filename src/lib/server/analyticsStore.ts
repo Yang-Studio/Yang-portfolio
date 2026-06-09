@@ -16,6 +16,7 @@ const DAILY_WINDOW_DAYS = 30
 type VisitRecord = {
   visitorIdHash: string
   ipHash: string
+  ip: string
   continent: string
   country: string
   region: string
@@ -29,6 +30,8 @@ type VisitRecord = {
 
 export type AnalyticsSummary = {
   totalVisits: number
+  totalPageViews: number
+  last7DaysPageViews: number
   uniqueVisitors: number
   last24HoursVisits: number
   last7DaysVisits: number
@@ -39,6 +42,7 @@ export type AnalyticsSummary = {
   recentVisits: {
     visitorLabel: string
     ipLabel: string
+    ip: string
     visitedAt: string
     path: string
     continent: string
@@ -78,6 +82,7 @@ async function ensureSchema() {
         id BIGSERIAL PRIMARY KEY,
         visitor_id_hash TEXT NOT NULL,
         ip_hash TEXT NOT NULL,
+        ip TEXT,
         country TEXT,
         region TEXT,
         city TEXT,
@@ -91,10 +96,19 @@ async function ensureSchema() {
     `
     await sql`ALTER TABLE portfolio_visits ADD COLUMN IF NOT EXISTS continent TEXT`
     await sql`ALTER TABLE portfolio_visits ADD COLUMN IF NOT EXISTS timezone TEXT`
+    await sql`ALTER TABLE portfolio_visits ADD COLUMN IF NOT EXISTS ip TEXT`
     await sql`CREATE INDEX IF NOT EXISTS portfolio_visits_visited_at_idx ON portfolio_visits (visited_at DESC)`
     await sql`CREATE INDEX IF NOT EXISTS portfolio_visits_visitor_idx ON portfolio_visits (visitor_id_hash, visited_at DESC)`
     await sql`CREATE INDEX IF NOT EXISTS portfolio_visits_path_idx ON portfolio_visits (path, visited_at DESC)`
     await sql`CREATE INDEX IF NOT EXISTS portfolio_visits_device_idx ON portfolio_visits (device, visited_at DESC)`
+    await sql`
+      CREATE TABLE IF NOT EXISTS portfolio_page_views (
+        day DATE NOT NULL,
+        path TEXT NOT NULL,
+        views INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (day, path)
+      )
+    `
   })()
   return schemaReady
 }
@@ -268,6 +282,22 @@ function dateKeyInAnalyticsTimezone(date: Date) {
   return `${value('year')}-${value('month')}-${value('day')}`
 }
 
+function dateKeyDaysAgo(days: number) {
+  const date = new Date()
+  date.setDate(date.getDate() - days)
+  return dateKeyInAnalyticsTimezone(date)
+}
+
+export function analyticsDateKey(date: Date = new Date()) {
+  return dateKeyInAnalyticsTimezone(date)
+}
+
+function resolveRecentVisitsDate(value?: string): string | 'all' {
+  if (value === 'all') return 'all'
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+  return analyticsDateKey()
+}
+
 const localAnalyticsPath = () => resolve(process.cwd(), '.analytics.local.json')
 
 async function readLocalVisits() {
@@ -297,6 +327,7 @@ function localRecordFromRequest(
   return {
     visitorIdHash: hashPrivateValue(visitorId, 'visitor'),
     ipHash: hashPrivateValue(clientIp(request), 'ip'),
+    ip: clientIp(request),
     ...locationFromRequest(request),
     path: cleanPath(body.path),
     referrerHost: referrerHost(body.referrer),
@@ -332,6 +363,82 @@ async function recordLocalVisit(
   return { recorded }
 }
 
+// --- Aggregate page-view counter -------------------------------------------
+// Counts every page view (including visitors who declined analytics). Stores
+// NO personal identifiers: no IP, no IP hash, no visitor id, no geolocation.
+// Only an anonymous per-day, per-path tally, which is not personal data.
+
+type PageViewStore = { days: Record<string, Record<string, number>> }
+
+const localPageViewsPath = () => resolve(process.cwd(), '.page-views.local.json')
+let pageViewWriteQueue = Promise.resolve()
+
+async function readLocalPageViews(): Promise<PageViewStore> {
+  try {
+    const parsed = JSON.parse(await readFile(localPageViewsPath(), 'utf8'))
+    if (parsed && typeof parsed === 'object' && parsed.days && typeof parsed.days === 'object') {
+      return parsed as PageViewStore
+    }
+    return { days: {} }
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return { days: {} }
+    throw error
+  }
+}
+
+async function writeLocalPageViews(store: PageViewStore) {
+  const target = localPageViewsPath()
+  const temporary = `${target}.tmp`
+  await writeFile(temporary, `${JSON.stringify(store, null, 2)}\n`, 'utf8')
+  await rename(temporary, target)
+}
+
+async function recordLocalPageView(body: { path?: unknown }) {
+  const path = cleanPath(body.path)
+  const day = dateKeyInAnalyticsTimezone(new Date())
+  const cutoff = dateKeyDaysAgo(180)
+  pageViewWriteQueue = pageViewWriteQueue.then(async () => {
+    const store = await readLocalPageViews()
+    const days: Record<string, Record<string, number>> = {}
+    for (const [key, paths] of Object.entries(store.days)) {
+      if (key >= cutoff) days[key] = paths
+    }
+    days[day] = days[day] || {}
+    days[day][path] = (days[day][path] || 0) + 1
+    await writeLocalPageViews({ days })
+  })
+  await pageViewWriteQueue
+  return { counted: true }
+}
+
+async function readLocalPageViewTotals() {
+  const store = await readLocalPageViews()
+  const cutoff7 = dateKeyDaysAgo(6)
+  let total = 0
+  let last7 = 0
+  for (const [day, paths] of Object.entries(store.days)) {
+    const dayTotal = Object.values(paths).reduce((sum, value) => sum + (Number(value) || 0), 0)
+    total += dayTotal
+    if (day >= cutoff7) last7 += dayTotal
+  }
+  return { totalPageViews: total, last7DaysPageViews: last7 }
+}
+
+export async function recordPageView(body: { path?: unknown }) {
+  if (localStoreEnabled()) return recordLocalPageView(body)
+
+  await ensureSchema()
+  const sql = getSql()
+  const path = cleanPath(body.path)
+  await sql`
+    INSERT INTO portfolio_page_views (day, path, views)
+    VALUES ((NOW() AT TIME ZONE ${ANALYTICS_TIME_ZONE})::date, ${path}, 1)
+    ON CONFLICT (day, path) DO UPDATE SET views = portfolio_page_views.views + 1
+  `
+  await sql`DELETE FROM portfolio_page_views WHERE day < (NOW() AT TIME ZONE ${ANALYTICS_TIME_ZONE})::date - INTERVAL '180 days'`
+  return { counted: true }
+}
+
 export async function recordVisit(
   request: NextRequest,
   body: { visitorId?: unknown; path?: unknown; referrer?: unknown },
@@ -345,7 +452,8 @@ export async function recordVisit(
   const sql = getSql()
   const path = cleanPath(body.path)
   const visitorHash = hashPrivateValue(visitorId, 'visitor')
-  const ipHash = hashPrivateValue(clientIp(request), 'ip')
+  const ip = clientIp(request)
+  const ipHash = hashPrivateValue(ip, 'ip')
   const location = locationFromRequest(request)
   const referrer = referrerHost(body.referrer)
   const device = deviceFromUserAgent(request.headers.get('user-agent') || '')
@@ -361,11 +469,12 @@ export async function recordVisit(
   if (!recent.length) {
     await sql`
       INSERT INTO portfolio_visits (
-        visitor_id_hash, ip_hash, country, region, city, continent, timezone, path, referrer_host, device
+        visitor_id_hash, ip_hash, ip, country, region, city, continent, timezone, path, referrer_host, device
       )
       VALUES (
         ${visitorHash},
         ${ipHash},
+        ${ip},
         ${location.country},
         ${location.region},
         ${location.city},
@@ -382,7 +491,7 @@ export async function recordVisit(
   return { recorded: !recent.length }
 }
 
-function summarizeVisits(visits: VisitRecord[]): AnalyticsSummary {
+function summarizeVisits(visits: VisitRecord[], recentVisitsDate: string | 'all' = 'all'): AnalyticsSummary {
   const now = Date.now()
   const uniqueVisitors = new Set(visits.map((visit) => visit.visitorIdHash)).size
   const group = <T extends string>(keyOf: (visit: VisitRecord) => T) => {
@@ -399,6 +508,8 @@ function summarizeVisits(visits: VisitRecord[]): AnalyticsSummary {
 
   return {
     totalVisits: visits.length,
+    totalPageViews: 0,
+    last7DaysPageViews: 0,
     uniqueVisitors,
     last24HoursVisits: visits.filter((visit) => now - new Date(visit.visitedAt).getTime() <= 24 * 60 * 60 * 1000).length,
     last7DaysVisits: visits.filter((visit) => now - new Date(visit.visitedAt).getTime() <= 7 * 24 * 60 * 60 * 1000).length,
@@ -419,12 +530,15 @@ function summarizeVisits(visits: VisitRecord[]): AnalyticsSummary {
       visits: value.visits,
       uniqueVisitors: value.visitors.size,
     })),
-    recentVisits: [...visits]
+    recentVisits: (recentVisitsDate === 'all'
+      ? [...visits]
+      : visits.filter((visit) => dateKeyInAnalyticsTimezone(new Date(visit.visitedAt)) === recentVisitsDate))
       .sort((left, right) => new Date(right.visitedAt).getTime() - new Date(left.visitedAt).getTime())
-      .slice(0, 80)
+      .slice(0, 500)
       .map((visit) => ({
         visitorLabel: visit.visitorIdHash.slice(0, 12),
         ipLabel: visit.ipHash.slice(0, 12),
+        ip: visit.ip || '',
         visitedAt: visit.visitedAt,
         path: visit.path,
         continent: visit.continent || '',
@@ -461,8 +575,15 @@ function buildDailyVisitors(visits: VisitRecord[]) {
   })
 }
 
-export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
-  if (localStoreEnabled()) return summarizeVisits(await readLocalVisits())
+export async function getAnalyticsSummary(
+  options: { recentVisitsDate?: string } = {},
+): Promise<AnalyticsSummary> {
+  const recentVisitsDate = resolveRecentVisitsDate(options.recentVisitsDate)
+
+  if (localStoreEnabled()) {
+    const summary = summarizeVisits(await readLocalVisits(), recentVisitsDate)
+    return { ...summary, ...(await readLocalPageViewTotals()) }
+  }
 
   await ensureSchema()
   const sql = getSql()
@@ -554,6 +675,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   const recent = rowsOf<{
     visitor_id_hash?: string
     ip_hash?: string
+    ip?: string
     visited_at?: Date | string
     path?: string
     continent?: string
@@ -563,17 +685,36 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     timezone?: string
     device?: string
     referrer_host?: string
-  }>(await sql`
-    SELECT visitor_id_hash, ip_hash, visited_at, path, continent, country, region, city, timezone, device, referrer_host
-    FROM portfolio_visits
-    ORDER BY visited_at DESC
-    LIMIT 80
+  }>(
+    recentVisitsDate === 'all'
+      ? await sql`
+          SELECT visitor_id_hash, ip_hash, ip, visited_at, path, continent, country, region, city, timezone, device, referrer_host
+          FROM portfolio_visits
+          ORDER BY visited_at DESC
+          LIMIT 80
+        `
+      : await sql`
+          SELECT visitor_id_hash, ip_hash, ip, visited_at, path, continent, country, region, city, timezone, device, referrer_host
+          FROM portfolio_visits
+          WHERE (visited_at AT TIME ZONE ${ANALYTICS_TIME_ZONE})::date = ${recentVisitsDate}::date
+          ORDER BY visited_at DESC
+          LIMIT 500
+        `,
+  )
+
+  const pageViewTotals = rowsOf<{ total?: number; last7?: number }>(await sql`
+    SELECT
+      COALESCE(SUM(views), 0)::int AS total,
+      COALESCE(SUM(views) FILTER (WHERE day >= (NOW() AT TIME ZONE ${ANALYTICS_TIME_ZONE})::date - INTERVAL '6 days'), 0)::int AS last7
+    FROM portfolio_page_views
   `)
 
   const row = totals[0]
 
   return {
     totalVisits: Number(row?.total_visits || 0),
+    totalPageViews: Number(pageViewTotals[0]?.total || 0),
+    last7DaysPageViews: Number(pageViewTotals[0]?.last7 || 0),
     uniqueVisitors: Number(row?.unique_visitors || 0),
     last24HoursVisits: Number(row?.last_24_hours_visits || 0),
     last7DaysVisits: Number(row?.last_7_days_visits || 0),
@@ -604,6 +745,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
       return {
         visitorLabel: (typed.visitor_id_hash || '').slice(0, 12),
         ipLabel: (typed.ip_hash || '').slice(0, 12),
+        ip: typed.ip || '',
         visitedAt: new Date(typed.visited_at || Date.now()).toISOString(),
         path: typed.path || '/',
         continent: typed.continent || '',

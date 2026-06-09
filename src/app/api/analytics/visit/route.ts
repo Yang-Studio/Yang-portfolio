@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { AnalyticsConfigError, recordVisit } from '@/lib/server/analyticsStore'
+import { AnalyticsConfigError, recordPageView, recordVisit } from '@/lib/server/analyticsStore'
 import { isSameOrigin, jsonNoStore } from '@/lib/server/requestSecurity'
 
 export const runtime = 'nodejs'
@@ -15,10 +15,16 @@ export async function POST(request: NextRequest) {
       return jsonNoStore({ recorded: false, error: 'Invalid JSON.' }, { status: 400 })
     }
 
-    if (body.consent !== true) return jsonNoStore({ recorded: false })
+    // Always count an anonymous page view. This stores no personal identifiers
+    // (no IP, no IP hash, no visitor id, no geolocation) and is kept even when
+    // the visitor has declined analytics.
+    const view = await recordPageView(body)
+
+    // Detailed analytics (IP hash, visitor id, geolocation) only with consent.
+    if (body.consent !== true) return jsonNoStore({ recorded: false, counted: view.counted })
 
     const result = await recordVisit(request, body)
-    return jsonNoStore(result)
+    return jsonNoStore({ ...result, counted: view.counted })
   } catch (error) {
     if (error instanceof AnalyticsConfigError) {
       return jsonNoStore({ recorded: false, configured: false }, { status: 503 })

@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
@@ -43,58 +42,29 @@ export default function AnalyticsTracker() {
   }, [])
 
   useEffect(() => {
-    if (consent !== 'accepted' || pathname.startsWith('/admin')) return
+    if (pathname.startsWith('/admin')) return
 
     const path = pathname
     if (lastTracked.current === path) return
     lastTracked.current = path
+
+    // Every visit increments an anonymous page-view counter on the server.
+    // Visitors who declined send no visitor id and consent:false, so only the
+    // aggregate count is kept — no IP hash, visitor id, or geolocation.
+    const declined = consent === 'declined'
 
     void fetch('/api/analytics/visit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       keepalive: true,
       body: JSON.stringify({
-        consent: true,
-        visitorId: getVisitorId(),
+        consent: !declined,
+        visitorId: declined ? undefined : getVisitorId(),
         path,
         referrer: document.referrer,
       }),
     }).catch(() => undefined)
   }, [consent, pathname])
 
-  if (consent || pathname.startsWith('/admin')) return null
-
-  const choose = (value: Exclude<Consent, undefined>) => {
-    window.localStorage.setItem(CONSENT_KEY, value)
-    setConsent(value)
-  }
-
-  return (
-    <aside className="fixed inset-x-3 bottom-3 z-[100] border border-rule bg-paper p-4 text-ink shadow-2xl sm:left-auto sm:max-w-xl md:bottom-6 md:right-6 md:p-5">
-      <p className="mono text-[10px] uppercase tracking-[0.16em] text-accent">Anonymous analytics / 匿名统计</p>
-      <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-        是否允许记录匿名访问数据？系统保存页面路径、设备类型、IP 哈希及 IP 推断的国家/地区/城市，不保存原始 IP
-        或精确地址。
-      </p>
-      <Link href="/privacy" className="mono mt-2 inline-block text-[10px] uppercase text-ink-soft underline underline-offset-4">
-        隐私说明 / Privacy details
-      </Link>
-      <div className="mt-4 flex flex-wrap gap-3">
-        <button
-          type="button"
-          onClick={() => choose('accepted')}
-          className="focus-ring border border-ink bg-ink px-4 py-2 text-xs text-paper"
-        >
-          同意统计 / Accept
-        </button>
-        <button
-          type="button"
-          onClick={() => choose('declined')}
-          className="focus-ring border border-rule px-4 py-2 text-xs text-ink-soft"
-        >
-          拒绝 / Decline
-        </button>
-      </div>
-    </aside>
-  )
+  return null
 }

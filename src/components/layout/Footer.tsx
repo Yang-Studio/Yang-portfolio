@@ -46,6 +46,13 @@ export default function Footer() {
             <p className="copy-safe zh-footer-copy">
               {t('Copyright')} {new Date().getFullYear()} Yang Liu.
             </p>
+            <p className={`mt-4 text-[12px] leading-relaxed ${softClass}`}>
+              本站默认记录访问明细，包含原始 IP 及由 IP 推断的大致位置（城市级）。可随时在
+              <Link className="underline decoration-accent underline-offset-2" href="/privacy">
+                隐私设置
+              </Link>
+              中拒绝；拒绝后仅保留不含任何个人标识的匿名总浏览量。
+            </p>
           </div>
         </div>
       </div>
