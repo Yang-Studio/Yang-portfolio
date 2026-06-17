@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check assets/app.js && node --check assets/embed-host.js"
+    "check": "node --check server.js && node --check assets/engine.js && node --check assets/analysis.js && node --check assets/app.js && node --check assets/embed-host.js"
   }
 }

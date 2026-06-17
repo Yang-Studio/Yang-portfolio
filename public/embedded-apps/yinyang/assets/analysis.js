@@ -297,7 +297,7 @@
     var traits = top.map(function (g) { return { god: g.name, count: g.count, text: GOD_TRAIT[g.name] || '' }; });
     var elNature = { 木: '仁，主生发、向上、好学；', 火: '礼，主热情、明朗、外向；', 土: '信，主稳重、包容、务实；', 金: '义，主果决、刚毅、重原则；', 水: '智，主灵活、机变、善谋。' };
     var summary = '日主为' + chart.dayMaster.label + '，' + (elNature[chart.dayMaster.element] || '') +
-      '主导十神为' + top.map(function (t) { return t.god; }).join('、') + '，性格底色由此而来。';
+      '主导十神为' + top.map(function (t) { return t.name; }).join('、') + '，性格底色由此而来。';
     return { traits: traits, summary: summary };
   }
   function career(chart) {

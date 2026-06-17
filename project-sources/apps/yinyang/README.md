@@ -4,6 +4,13 @@
 
 推衍方法以《子平真诠》《滴天髓》《三命通会》《渊海子平》的常见规则为参考，并在页面中显示来源、适用边界和置信度。五行百分比是产品用于可视化的结构指数，不是古籍原有的固定计分法。
 
+当前版本包含：
+
+- 公历 / 农历出生信息输入与真太阳时校正
+- 四柱、天干地支、十神、藏干、纳音、五行结构和大运
+- 指定流年星级分析与五行雷达图
+- 今日运势、幸运颜色、双人合盘和分享海报
+
 ## 启动
 
 ```powershell
@@ -54,6 +61,8 @@ widget.setBirth({
   day: 18,
   hour: 9,
   minute: 30,
+  calendar: 'solar',
+  leapMonth: false,
   gender: 'male',
   place: '上海'
 });
@@ -79,6 +88,8 @@ widget.destroy();
 - `transparent=1`
 - `date=1996-05-18`
 - `time=09:30`
+- `calendar=solar|lunar`
+- `leapMonth=1`
 - `gender=male|female`
 - `place=上海`
 - `trueSolarTime=1`

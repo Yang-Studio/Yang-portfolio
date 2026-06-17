@@ -80,9 +80,32 @@
     var L = root.Solar ? root : (typeof require !== 'undefined' ? require('./lunar.js') : null);
     if (!L || !L.Solar) throw new Error('lunar-javascript not loaded');
     var Solar = L.Solar;
+    var Lunar = L.Lunar;
 
     var y = input.year, mo = input.month, d = input.day,
       h = input.hour, mi = input.minute || 0;
+    var sourceCalendar = input.calendar === 'lunar' ? 'lunar' : 'solar';
+    var sourceLunar = null;
+
+    if (sourceCalendar === 'lunar') {
+      if (!Lunar) throw new Error('lunar-javascript Lunar API not loaded');
+      var lunarMonth = input.leapMonth ? -Math.abs(mo) : mo;
+      var lunarInput = Lunar.fromYmdHms(y, lunarMonth, d, h, mi, 0);
+      var solarInput = lunarInput.getSolar();
+      sourceLunar = {
+        year: input.year,
+        month: mo,
+        day: d,
+        leapMonth: !!input.leapMonth,
+        display: input.year + '.' + pad(mo) + '.' + pad(d) + (input.leapMonth ? ' 闰月' : ''),
+        solarDate: solarInput.getYear() + '.' + pad(solarInput.getMonth()) + '.' + pad(solarInput.getDay())
+      };
+      y = solarInput.getYear();
+      mo = solarInput.getMonth();
+      d = solarInput.getDay();
+      h = solarInput.getHour();
+      mi = solarInput.getMinute();
+    }
 
     // --- true solar time correction ---
     var tst = null;
@@ -194,7 +217,9 @@
         rawTime: pad(input.hour) + ':' + pad(input.minute || 0),
         gender: input.gender === 'female' ? '女' : '男',
         place: input.place || '',
-        trueSolarTime: !!input.trueSolarTime
+        trueSolarTime: !!input.trueSolarTime,
+        calendar: sourceCalendar,
+        sourceLunar: sourceLunar
       },
       tst: tst,
       lunarDate: lunar.getYearInGanZhi() + '年 ' + lunar.getMonthInChinese() + '月 ' + lunar.getDayInChinese(),
@@ -263,6 +288,32 @@
     };
   }
 
+  // Daily luck for one solar date, relative to the day master.
+  function daily(chart, y, m, d) {
+    var L = root.Solar ? root : (typeof require !== 'undefined' ? require('./lunar.js') : null);
+    var Solar = L.Solar;
+    var lunar = Solar.fromYmdHms(y, m, d, 12, 0, 0).getLunar();
+    var ec = lunar.getEightChar();
+    var gz = ec.getDay();
+    var gan = gz.charAt(0), zhi = gz.charAt(1);
+    var ganEl = GAN_WX[gan];
+    var zhiHide = mainHiddenOfBranch(zhi);
+    var zhiEl = GAN_WX[zhiHide];
+    var dayGan = chart.dayMaster.gan;
+    var boosted = {};
+    boosted[ganEl] = true; boosted[zhiEl] = true;
+    return {
+      date: y + '.' + pad(m) + '.' + pad(d),
+      ganzhi: gz, gan: gan, zhi: zhi,
+      ganElement: ganEl, zhiElement: zhiEl,
+      stemGod: shiShen(dayGan, gan),
+      branchGod: shiShen(dayGan, zhiHide),
+      trends: ELEMENTS.map(function (e) {
+        return { element: e, en: EL_EN[e], trend: boosted[e] ? 'up' : 'flat' };
+      })
+    };
+  }
+
   // Hidden main stem of a branch (for annual element).
   var BRANCH_MAIN = {
     子: '癸', 丑: '己', 寅: '甲', 卯: '乙', 辰: '戊', 巳: '丙',
@@ -292,7 +343,7 @@
   function splitChars(s) { return (s || '').split(''); }
   function uniq(a) { var o = {}; return a.filter(function (x) { return x && !o[x] && (o[x] = 1); }); }
 
-  var api = { compute: compute, annual: annual, ELEMENTS: ELEMENTS, EL_EN: EL_EN, GAN_WX: GAN_WX };
+  var api = { compute: compute, annual: annual, daily: daily, ELEMENTS: ELEMENTS, EL_EN: EL_EN, GAN_WX: GAN_WX };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.BaZiEngine = api;
 })(typeof window !== 'undefined' ? window : globalThis);

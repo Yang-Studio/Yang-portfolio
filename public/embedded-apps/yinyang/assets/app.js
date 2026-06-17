@@ -130,7 +130,9 @@
   ];
 
   var state = {
-    birth: { name: '', year: 1996, month: 5, day: 18, hour: 9, minute: 30, gender: 'male', place: '上海', trueSolarTime: false, longitude: 121.47, meridian: 120 },
+    birth: { name: '', year: 1996, month: 5, day: 18, hour: 9, minute: 30, calendar: 'solar', leapMonth: false, gender: 'male', place: '上海', trueSolarTime: false, longitude: 121.47, meridian: 120 },
+    matchBirth: { year: 1996, month: 5, day: 18, hour: 9, minute: 30, calendar: 'solar', leapMonth: false, gender: 'female', place: '上海', trueSolarTime: false, longitude: 121.47, meridian: 120 },
+    matchResult: null,
     chart: null,
     analysis: null,
     year: new Date().getFullYear()
@@ -164,6 +166,8 @@
       b.hour = +time.slice(0, 2);
       b.minute = +time.slice(3, 5);
     }
+    if (QUERY.get('calendar') === 'lunar' || QUERY.get('calendar') === 'solar') b.calendar = QUERY.get('calendar');
+    if (QUERY.has('leapMonth')) b.leapMonth = QUERY.get('leapMonth') === '1';
     if (QUERY.get('gender') === 'female' || QUERY.get('gender') === 'male') b.gender = QUERY.get('gender');
     if (QUERY.has('place')) {
       b.place = QUERY.get('place') || '';
@@ -226,12 +230,13 @@
   var HISTORY_KEY = 'bazi-history';
   function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch (e) { return []; } }
   function saveHistory(list) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list)); } catch (e) {} }
-  function recordKey(b) { return [b.year, b.month, b.day, b.hour, b.minute, b.gender, b.place, b.trueSolarTime ? 1 : 0].join('-'); }
+  function recordKey(b) { return [b.calendar || 'solar', b.leapMonth ? 1 : 0, b.year, b.month, b.day, b.hour, b.minute, b.gender, b.place, b.trueSolarTime ? 1 : 0].join('-'); }
   function addHistory(b, chart) {
     var key = recordKey(b);
     var list = loadHistory().filter(function (r) { return recordKey(r) !== key; });
     list.unshift({
       name: b.name || '', year: b.year, month: b.month, day: b.day, hour: b.hour, minute: b.minute,
+      calendar: b.calendar || 'solar', leapMonth: !!b.leapMonth,
       gender: b.gender, place: b.place, trueSolarTime: b.trueSolarTime, longitude: b.longitude, meridian: b.meridian,
       dayMaster: chart.dayMaster.label, savedAt: Date.now()
     });
@@ -241,6 +246,7 @@
   function removeHistory(key) { saveHistory(loadHistory().filter(function (r) { return recordKey(r) !== key; })); }
   function openHistory(r) {
     state.birth = { name: r.name || '', year: r.year, month: r.month, day: r.day, hour: r.hour, minute: r.minute,
+      calendar: r.calendar || 'solar', leapMonth: !!r.leapMonth,
       gender: r.gender, place: r.place, trueSolarTime: r.trueSolarTime, longitude: r.longitude, meridian: r.meridian };
     compute();
   }
@@ -325,6 +331,11 @@
     var dateInput = el('input', { type: 'date', value: pad4(b.year) + '-' + pad(b.month) + '-' + pad(b.day) });
     var timeInput = el('input', { type: 'time', value: pad(b.hour) + ':' + pad(b.minute) });
 
+    var calendarSeg = el('div', { class: 'segmented' }, [
+      segBtn('公历', (b.calendar || 'solar') === 'solar', function () { b.calendar = 'solar'; refreshCalendar(); }),
+      segBtn('农历', b.calendar === 'lunar', function () { b.calendar = 'lunar'; refreshCalendar(); })
+    ]);
+
     var genderSeg = el('div', { class: 'segmented' }, [
       segBtn('男', b.gender === 'male', function () { b.gender = 'male'; refreshSeg(); }),
       segBtn('女', b.gender === 'female', function () { b.gender = 'female'; refreshSeg(); })
@@ -333,6 +344,20 @@
       Array.prototype.forEach.call(genderSeg.children, function (c, i) {
         c.classList.toggle('on', (i === 0) === (b.gender === 'male'));
       });
+    }
+
+    var leapSwitch = el('label', { class: 'switch' }, [
+      el('input', { type: 'checkbox' }),
+      el('span', { class: 'slider' })
+    ]);
+    var leapCb = leapSwitch.querySelector('input');
+    leapCb.checked = !!b.leapMonth;
+    var leapField = field('农历闰月', leapSwitch, true);
+    function refreshCalendar() {
+      Array.prototype.forEach.call(calendarSeg.children, function (c, i) {
+        c.classList.toggle('on', (i === 0) === ((b.calendar || 'solar') === 'solar'));
+      });
+      leapField.style.display = b.calendar === 'lunar' ? '' : 'none';
     }
 
     // searchable place field (typeahead over the full city list)
@@ -375,7 +400,9 @@
     var screen = el('div', { class: 'screen' }, [
       el('h1', { class: 'title', style: 'margin:8px 0 24px' }, ['出生信息']),
       field('姓名 / 称呼', nameInput),
+      field('历法', calendarSeg, true),
       field('出生日期', dateInput),
+      leapField,
       field('出生时间', timeInput),
       field('性别', genderSeg, true),
       field('出生地点', placeInput),
@@ -388,6 +415,8 @@
         b.name = nameInput.value.trim();
         b.year = +dateInput.value.slice(0, 4); b.month = +dateInput.value.slice(5, 7); b.day = +dateInput.value.slice(8, 10);
         b.hour = +timeInput.value.slice(0, 2); b.minute = +timeInput.value.slice(3, 5);
+        b.calendar = b.calendar === 'lunar' ? 'lunar' : 'solar';
+        b.leapMonth = b.calendar === 'lunar' && leapCb.checked;
         b.place = placeInput.value.trim();
         b.trueSolarTime = tstCb.checked;
         b.longitude = parseFloat(lonInput.value); b.meridian = parseFloat(merInput.value);
@@ -396,6 +425,7 @@
         compute();
       } }, ['生成排盘'])
     ]);
+    refreshCalendar();
     app.appendChild(screen);
     notifyScreen('form');
   }
@@ -416,11 +446,17 @@
   // ---------- compute & go to result ----------
   function compute() {
     var b = state.birth;
-    state.chart = window.BaZiEngine.compute({
-      name: b.name || '', year: b.year, month: b.month, day: b.day, hour: b.hour, minute: b.minute,
-      gender: b.gender, place: b.place, trueSolarTime: b.trueSolarTime,
-      longitude: b.longitude, standardMeridian: b.meridian
-    });
+    try {
+      state.chart = window.BaZiEngine.compute({
+        name: b.name || '', year: b.year, month: b.month, day: b.day, hour: b.hour, minute: b.minute,
+        calendar: b.calendar || 'solar', leapMonth: !!b.leapMonth,
+        gender: b.gender, place: b.place, trueSolarTime: b.trueSolarTime,
+        longitude: b.longitude, standardMeridian: b.meridian
+      });
+    } catch (error) {
+      window.alert('出生日期无法换算，请检查日期和闰月设置。');
+      return;
+    }
     state.analysis = window.BaZiAnalysis.analyze(state.chart);
     state.year = new Date().getFullYear();
     if (!EMBED_MODE) addHistory(b, state.chart);
@@ -437,9 +473,12 @@
 
     // hero
     var dm = c.dayMaster;
+    var birthLine = c.input.sourceLunar
+      ? '农历 ' + c.input.sourceLunar.display + ' → 公历 ' + c.input.sourceLunar.solarDate + '  ' + c.input.rawTime + '  ' + c.input.gender
+      : '公历 ' + c.input.rawDate + '  ' + c.input.rawTime + '  ' + c.input.gender;
     screen.appendChild(el('div', { class: 'hero' }, [
       el('div', { class: 'name' }, [c.input.name || '—']),
-      el('div', { class: 'birth' }, [c.input.rawDate + '  ' + c.input.rawTime + '  ' + c.input.gender +
+      el('div', { class: 'birth' }, [birthLine +
         (c.input.trueSolarTime ? '  · 真太阳时 ' + c.input.time : '')]),
       el('div', { class: 'daymaster-label' }, ['日主']),
       el('div', { class: 'daymaster ' + EL_CLASS[dm.element] }, [
@@ -467,6 +506,8 @@
       grid.appendChild(card);
     });
     overview.appendChild(grid);
+    overview.appendChild(el('h3', { class: 'subsection-title' }, ['基础排盘明细']));
+    overview.appendChild(basicChartTable(c));
 
     // five elements and ten gods
     var structureGrid = el('div', { class: 'structure-grid' });
@@ -474,6 +515,7 @@
       el('h3', { class: 'subsection-title' }, ['五行结构指数'])
     ]);
     var elBox = el('div', { class: 'card' });
+    elBox.appendChild(fiveElementRadar(c.fiveElements));
     c.fiveElements.forEach(function (f) {
       var span = el('span', { class: 'fill-' + EL_CLASS[f.element] });
       var row = el('div', { class: 'elrow' }, [
@@ -511,9 +553,9 @@
       var isCurrent = nowYear >= d.startYear && nowYear < d.startYear + 10;
       var v = state.analysis.luck.cycles[i];
       tl.appendChild(el('div', { class: 'luck' + (isCurrent ? ' current' : '') }, [
-        el('div', { class: 'lage' }, [d.startAge + ' 岁']),
+        el('div', { class: 'lage' }, [d.startAge + '–' + (d.startAge + 9) + ' 岁']),
         el('div', { class: 'lgz' }, [gzSpan(d.ganzhi)]),
-        el('div', { class: 'lyear' }, [String(d.startYear)]),
+        el('div', { class: 'lyear' }, [d.startYear + '–' + (d.startYear + 9)]),
         v ? verdictBadge(v.verdict) : null
       ]));
     });
@@ -529,11 +571,15 @@
     renderAnnual(annualBox);
     screen.appendChild(overview);
 
-    var conclusions = resultSection('result-conclusions', '02', '核心结论', '把强弱、喜忌和组合关系翻译成对这个人的具体影响。');
+    var v2 = resultSection('result-v2', '02', 'V2 工具', '今日趋势、幸运颜色、双人合盘与可分享海报。');
+    renderV2(v2, c, state.analysis);
+    screen.appendChild(v2);
+
+    var conclusions = resultSection('result-conclusions', '03', '核心结论', '把强弱、喜忌和组合关系翻译成对这个人的具体影响。');
     renderPlainAnalysis(conclusions, c, state.analysis, false);
     screen.appendChild(conclusions);
 
-    var details = resultSection('result-details', '03', '完整依据', '需要追溯每项含义和判断链时，再展开对应内容。');
+    var details = resultSection('result-details', '04', '完整依据', '需要追溯每项含义和判断链时，再展开对应内容。');
     details.appendChild(collapse('典籍与方法', sourceMethodology(state.analysis), '查看规则来源、引用范围和本产品的量化边界'));
     var fullReading = el('div', { class: 'long-reading' });
     renderMeaningGuide(fullReading, c, state.analysis);
@@ -594,6 +640,7 @@
   function resultNav() {
     var items = [
       ['概览', 'result-overview'],
+      ['今日', 'result-v2'],
       ['结论', 'result-conclusions'],
       ['依据', 'result-details']
     ];
@@ -623,6 +670,461 @@
         ])
       ])
     ]);
+  }
+
+  function basicChartTable(c) {
+    var nayin = {};
+    c.hidden.nayin.forEach(function (item) { nayin[item.label] = item.value; });
+    return el('div', { class: 'card basic-chart-table' }, c.pillars.map(function (p) {
+      return el('div', { class: 'basic-chart-row', onclick: function () { openSheet(p); } }, [
+        el('div', { class: 'basic-chart-pillar' }, [
+          el('span', { class: 'basic-chart-label' }, [p.label]),
+          el('strong', {}, [gzSpan(p.ganzhi)])
+        ]),
+        el('div', { class: 'basic-chart-data' }, [
+          basicDatum('天干', p.gan + ' · ' + (p.ganShiShen === '日主' ? '日主' : p.ganShiShen)),
+          basicDatum('地支', p.zhi + ' · ' + ZHI_WX[p.zhi]),
+          basicDatum('藏干', hiddenText(p)),
+          basicDatum('纳音', nayin[p.label] || '—')
+        ])
+      ]);
+    }));
+  }
+
+  function basicDatum(label, value) {
+    return el('div', { class: 'basic-datum' }, [
+      el('span', {}, [label]),
+      el('strong', {}, [value])
+    ]);
+  }
+
+  function fiveElementRadar(items) {
+    var cx = 130, cy = 118, radius = 78, max = 50;
+    var points = [];
+    var axes = [];
+    var labels = [];
+    var rings = [0.25, 0.5, 0.75, 1].map(function (ratio) {
+      return '<polygon points="' + radarPoints(items.length, cx, cy, radius * ratio).join(' ') + '" />';
+    }).join('');
+    items.forEach(function (item, i) {
+      var angle = -Math.PI / 2 + i * Math.PI * 2 / items.length;
+      var valueRadius = Math.min(item.percent / max, 1) * radius;
+      points.push((cx + Math.cos(angle) * valueRadius).toFixed(1) + ',' + (cy + Math.sin(angle) * valueRadius).toFixed(1));
+      axes.push('<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + Math.cos(angle) * radius).toFixed(1) +
+        '" y2="' + (cy + Math.sin(angle) * radius).toFixed(1) + '" />');
+      var lx = cx + Math.cos(angle) * (radius + 25);
+      var ly = cy + Math.sin(angle) * (radius + 25);
+      labels.push('<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="middle" dominant-baseline="middle">' +
+        item.element + ' ' + item.percent + '%</text>');
+    });
+    var svg = '<svg viewBox="0 0 260 236" role="img" aria-label="五行结构雷达图">' +
+      '<g class="radar-grid">' + rings + axes.join('') + '</g>' +
+      '<polygon class="radar-shape" points="' + points.join(' ') + '" />' +
+      '<g class="radar-labels">' + labels.join('') + '</g></svg>';
+    return el('div', { class: 'element-radar', html: svg });
+  }
+
+  function radarPoints(count, cx, cy, radius) {
+    var out = [];
+    for (var i = 0; i < count; i++) {
+      var angle = -Math.PI / 2 + i * Math.PI * 2 / count;
+      out.push((cx + Math.cos(angle) * radius).toFixed(1) + ',' + (cy + Math.sin(angle) * radius).toFixed(1));
+    }
+    return out;
+  }
+
+  function renderV2(section, c, an) {
+    var now = new Date();
+    var daily = window.BaZiEngine.daily(c, now.getFullYear(), now.getMonth() + 1, now.getDate());
+    var dailyFavor = favorElements([daily.ganElement, daily.zhiElement], an.yongShen);
+    var colors = luckyColors(an.yongShen, daily);
+    var todayScores = dailyDomainScores(c, an, daily, dailyFavor.score);
+
+    var todayCard = el('div', { class: 'card today-card' }, [
+      el('div', { class: 'v2-card-head' }, [
+        el('div', {}, [
+          el('span', { class: 'v2-kicker' }, ['今日运势']),
+          el('h3', {}, [daily.date + ' · ', gzSpan(daily.ganzhi)])
+        ]),
+        verdictBadge(dailyFavor.verdict)
+      ]),
+      el('p', { class: 'today-summary' }, [dailySummary(daily, dailyFavor, an)]),
+      scoreGrid(todayScores),
+      el('div', { class: 'lucky-colors' }, [
+        el('span', { class: 'lucky-label' }, ['幸运颜色']),
+        el('div', { class: 'color-swatches' }, colors.map(function (color) {
+          return el('span', { class: 'color-chip' }, [
+            el('i', { style: 'background:' + color.hex }),
+            color.name
+          ]);
+        }))
+      ]),
+      el('p', { class: 'method-caption' }, ['今日项根据当日干支对本盘喜忌的增量计算，仅表示当天节奏。'])
+    ]);
+    section.appendChild(todayCard);
+
+    var matchBox = el('div', { class: 'match-result', 'aria-live': 'polite' });
+    var mb = state.matchBirth;
+    var matchDate = el('input', { type: 'date', value: pad4(mb.year) + '-' + pad(mb.month) + '-' + pad(mb.day) });
+    var matchTime = el('input', { type: 'time', value: pad(mb.hour) + ':' + pad(mb.minute) });
+    var matchCalendar = el('select', {}, [
+      el('option', { value: 'solar' }, ['公历']),
+      el('option', { value: 'lunar' }, ['农历'])
+    ]);
+    matchCalendar.value = mb.calendar || 'solar';
+    var matchGender = el('select', {}, [
+      el('option', { value: 'female' }, ['女']),
+      el('option', { value: 'male' }, ['男'])
+    ]);
+    matchGender.value = mb.gender || 'female';
+    var matchLeap = el('input', { type: 'checkbox' });
+    matchLeap.checked = !!mb.leapMonth;
+    var matchLeapLabel = el('label', { class: 'match-check' }, [matchLeap, el('span', {}, ['闰月'])]);
+    matchLeapLabel.style.display = matchCalendar.value === 'lunar' ? '' : 'none';
+    matchCalendar.addEventListener('change', function () {
+      matchLeapLabel.style.display = matchCalendar.value === 'lunar' ? '' : 'none';
+    });
+
+    var matchCard = el('div', { class: 'card match-card' }, [
+      el('div', { class: 'v2-card-head' }, [
+        el('div', {}, [
+          el('span', { class: 'v2-kicker' }, ['双人合盘']),
+          el('h3', {}, ['输入对方出生信息'])
+        ])
+      ]),
+      el('div', { class: 'match-form' }, [
+        compactField('历法', matchCalendar),
+        compactField('出生日期', matchDate),
+        compactField('出生时间', matchTime),
+        compactField('性别', matchGender),
+        matchLeapLabel
+      ]),
+      el('button', { class: 'btn secondary', onclick: function () {
+        mb.year = +matchDate.value.slice(0, 4);
+        mb.month = +matchDate.value.slice(5, 7);
+        mb.day = +matchDate.value.slice(8, 10);
+        mb.hour = +matchTime.value.slice(0, 2);
+        mb.minute = +matchTime.value.slice(3, 5);
+        mb.calendar = matchCalendar.value;
+        mb.leapMonth = matchCalendar.value === 'lunar' && matchLeap.checked;
+        renderMatchResult(matchBox, c, an, mb);
+      } }, ['生成合盘']),
+      matchBox
+    ]);
+    section.appendChild(matchCard);
+
+    section.appendChild(el('div', { class: 'card poster-card' }, [
+      el('div', {}, [
+        el('span', { class: 'v2-kicker' }, ['分享海报']),
+        el('h3', {}, ['生成命盘摘要图片']),
+        el('p', {}, ['包含四柱、日主、五行结构和今日趋势，不包含完整隐私字段。'])
+      ]),
+      el('button', { class: 'icon-command', title: '生成并下载分享海报', onclick: function () {
+        createSharePoster(c, an, daily, dailyFavor, colors);
+      }, html: downloadIcon() + '<span>生成海报</span>' })
+    ]));
+  }
+
+  function compactField(label, control) {
+    return el('label', { class: 'compact-field' }, [
+      el('span', {}, [label]),
+      control
+    ]);
+  }
+
+  function renderMatchResult(box, baseChart, baseAnalysis, birth) {
+    try {
+      var other = window.BaZiEngine.compute({
+        year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
+        calendar: birth.calendar, leapMonth: birth.leapMonth,
+        gender: birth.gender, place: birth.place,
+        trueSolarTime: false, longitude: birth.longitude, standardMeridian: birth.meridian
+      });
+      var otherAnalysis = window.BaZiAnalysis.analyze(other);
+      var result = compatibilityResult(baseChart, baseAnalysis, other, otherAnalysis);
+      state.matchResult = result;
+      box.innerHTML = '';
+      box.appendChild(el('div', { class: 'match-score' }, [
+        el('strong', {}, [String(result.score)]),
+        el('span', {}, ['/ 100']),
+        el('em', {}, [result.label])
+      ]));
+      box.appendChild(el('div', { class: 'match-pillars' }, [
+        el('span', {}, [baseChart.pillars[2].ganzhi]),
+        el('i', {}, ['×']),
+        el('span', {}, [other.pillars[2].ganzhi])
+      ]));
+      result.points.forEach(function (point) {
+        box.appendChild(el('div', { class: 'match-point' }, [
+          el('strong', {}, [point.title]),
+          el('span', {}, [point.text])
+        ]));
+      });
+      box.appendChild(el('p', { class: 'method-caption' }, ['合盘分数用于比较结构互动，不代表关系结果或承诺。']));
+    } catch (error) {
+      box.innerHTML = '';
+      box.appendChild(el('p', { class: 'match-error' }, ['日期无法换算，请检查农历日期或闰月设置。']));
+    }
+  }
+
+  function compatibilityResult(a, aa, b, ba) {
+    var score = 58;
+    var points = [];
+    var gen = { 木: '火', 火: '土', 土: '金', 金: '水', 水: '木' };
+    var ke = { 木: '土', 土: '水', 水: '火', 火: '金', 金: '木' };
+    var aEl = a.dayMaster.element, bEl = b.dayMaster.element;
+    if (aEl === bEl) {
+      score += 8;
+      points.push({ title: '日主关系', text: '双方同属' + aEl + '，理解方式接近，但也容易在相同问题上坚持。' });
+    } else if (gen[aEl] === bEl || gen[bEl] === aEl) {
+      score += 14;
+      points.push({ title: '日主关系', text: '双方日主形成相生，一方的表达方式较容易转化为另一方需要的支持。' });
+    } else if (ke[aEl] === bEl || ke[bEl] === aEl) {
+      score -= 8;
+      points.push({ title: '日主关系', text: '双方日主形成相克，吸引力和推动力并存，需要明确边界与决策方式。' });
+    } else {
+      points.push({ title: '日主关系', text: '双方日主没有直接生克，关系更依赖具体沟通和共同目标。' });
+    }
+
+    var relation = pairRelation(a.pillars[2].zhi, b.pillars[2].zhi);
+    score += relation.score;
+    points.push({ title: '日支互动', text: relation.text });
+
+    var distance = a.fiveElements.reduce(function (sum, item, i) {
+      return sum + Math.abs(item.percent - b.fiveElements[i].percent);
+    }, 0);
+    var similarity = Math.max(0, 100 - distance);
+    score += Math.round((similarity - 50) * 0.18);
+    points.push({ title: '五行结构', text: '双方五行结构相似度约 ' + similarity + '%。' +
+      (similarity >= 70 ? '生活节奏和资源偏好较接近。' : '差异较明显，互补空间大，也需要更多磨合。') });
+
+    var aFav = aa.yongShen.favorable.map(function (x) { return x.el; });
+    var bFav = ba.yongShen.favorable.map(function (x) { return x.el; });
+    var mutual = aFav.indexOf(bEl) >= 0 || bFav.indexOf(aEl) >= 0;
+    if (mutual) score += 8;
+    points.push({ title: '喜用互补', text: mutual
+      ? '至少一方的日主五行落在另一方喜用范围内，现实合作时更容易形成补位。'
+      : '双方日主没有直接落入彼此喜用范围，关系稳定更依赖共同规则和长期投入。' });
+
+    score = Math.max(20, Math.min(96, score));
+    return {
+      score: score,
+      label: score >= 82 ? '高协同性' : (score >= 68 ? '互补可发展' : (score >= 52 ? '需要磨合' : '结构张力较高')),
+      points: points
+    };
+  }
+
+  function pairRelation(a, b) {
+    var pair = a + b, reverse = b + a;
+    var maps = [
+      { pairs: ['子丑', '寅亥', '卯戌', '辰酉', '巳申', '午未'], score: 13, name: '六合', text: '双方日支形成六合，日常相处中较容易建立默契与协作。' },
+      { pairs: ['子午', '丑未', '寅申', '卯酉', '辰戌', '巳亥'], score: -14, name: '冲', text: '双方日支相冲，节奏和立场差异明显，适合提前约定冲突处理方式。' },
+      { pairs: ['子未', '丑午', '寅巳', '卯辰', '申亥', '酉戌'], score: -8, name: '害', text: '双方日支有相害信号，误解往往来自没有说清的期待，需要提高沟通透明度。' }
+    ];
+    for (var i = 0; i < maps.length; i++) {
+      if (maps[i].pairs.indexOf(pair) >= 0 || maps[i].pairs.indexOf(reverse) >= 0) return maps[i];
+    }
+    return { score: 2, name: '平', text: '双方日支没有直接六合、冲或害，关系质量更多由现实互动决定。' };
+  }
+
+  function favorElements(elements, ys) {
+    var fav = ys.favorable.map(function (x) { return x.el; });
+    var unfav = ys.unfavorable.map(function (x) { return x.el; });
+    var score = 0;
+    elements.forEach(function (e) {
+      if (fav.indexOf(e) >= 0) score++;
+      else if (unfav.indexOf(e) >= 0) score--;
+    });
+    return { score: score, verdict: score > 0 ? '有利' : (score < 0 ? '不利' : '平稳') };
+  }
+
+  function annualDomainScores(c, an, year) {
+    var annual = window.BaZiEngine.annual(c, year);
+    var favor = favorElements([annual.ganElement, annual.zhiElement], an.yongShen);
+    return domainScores(c, annual.stemGod, annual.branchGod, favor.score);
+  }
+
+  function dailyDomainScores(c, an, daily, favorScore) {
+    return domainScores(c, daily.stemGod, daily.branchGod, favorScore);
+  }
+
+  function domainScores(c, stemGod, branchGod, favorScore) {
+    var gods = [stemGod, branchGod];
+    function scoreFor(names) {
+      var score = 3 + (favorScore > 0 ? 1 : (favorScore < 0 ? -1 : 0));
+      gods.forEach(function (g) { if (names.indexOf(g) >= 0) score++; });
+      return Math.max(1, Math.min(5, score));
+    }
+    return [
+      { label: '事业', score: scoreFor(['正官', '七杀', '正印', '偏印']) },
+      { label: '财运', score: scoreFor(['正财', '偏财', '食神']) },
+      { label: '感情', score: scoreFor(['正财', '偏财', '正官', '七杀', '桃花']) },
+      { label: '行动', score: scoreFor(['食神', '伤官', '比肩', '劫财']) }
+    ];
+  }
+
+  function scoreGrid(scores) {
+    return el('div', { class: 'score-grid' }, scores.map(function (item) {
+      return el('div', { class: 'score-item' }, [
+        el('span', {}, [item.label]),
+        el('strong', { 'aria-label': item.score + ' 星' }, [stars(item.score)])
+      ]);
+    }));
+  }
+
+  function stars(count) {
+    return '★★★★★'.slice(0, count) + '☆☆☆☆☆'.slice(0, 5 - count);
+  }
+
+  function luckyColors(ys, daily) {
+    var map = {
+      木: [{ name: '松柏绿', hex: '#4B9E7E' }, { name: '青竹色', hex: '#77A88D' }],
+      火: [{ name: '朱砂红', hex: '#D9694E' }, { name: '珊瑚色', hex: '#E58B73' }],
+      土: [{ name: '琥珀黄', hex: '#C9A35B' }, { name: '岩灰', hex: '#9B927F' }],
+      金: [{ name: '银灰', hex: '#8C93A0' }, { name: '象牙白', hex: '#E8E5DC' }],
+      水: [{ name: '靛青', hex: '#5B7FB0' }, { name: '深海蓝', hex: '#315C86' }]
+    };
+    var fav = ys.favorable.map(function (x) { return x.el; });
+    var order = [daily.ganElement, daily.zhiElement].concat(fav);
+    var chosen = [];
+    order.forEach(function (e) {
+      if (fav.indexOf(e) >= 0 && map[e]) map[e].forEach(function (color) {
+        if (chosen.length < 3 && !chosen.some(function (x) { return x.name === color.name; })) chosen.push(color);
+      });
+    });
+    if (!chosen.length && fav[0]) chosen = map[fav[0]].slice(0, 2);
+    return chosen.slice(0, 3);
+  }
+
+  function dailySummary(daily, favor, an) {
+    var action = favor.verdict === '有利'
+      ? '适合推进重要事项，把注意力放在能形成实际结果的任务上。'
+      : (favor.verdict === '不利' ? '适合降低并行任务数量，先处理边界、预算和沟通误差。' : '整体节奏中性，按既定计划稳定推进即可。');
+    return '今日「' + daily.ganzhi + '」增强 ' + daily.ganElement + '、' + daily.zhiElement +
+      '，相对本盘喜用「' + an.yongShen.favorable.map(function (x) { return x.el; }).join('、') +
+      '」判断为「' + favor.verdict + '」。' + action;
+  }
+
+  function createSharePoster(c, an, daily, favor, colors) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1440;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#FAFAFA';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#111111';
+    ctx.font = '700 46px "PingFang SC", sans-serif';
+    ctx.fillText('BaZi 命盘摘要', 76, 105);
+    ctx.fillStyle = '#666666';
+    ctx.font = '400 26px "PingFang SC", sans-serif';
+    ctx.fillText(c.input.rawDate + '  ' + c.input.rawTime + '  ' + c.input.gender, 76, 154);
+    ctx.fillStyle = '#4F46E5';
+    ctx.font = '700 96px "PingFang SC", sans-serif';
+    ctx.fillText(c.dayMaster.label, 76, 300);
+    ctx.fillStyle = '#666666';
+    ctx.font = '500 25px "PingFang SC", sans-serif';
+    ctx.fillText('日主 · ' + c.dayMaster.yinyang + c.dayMaster.element, 80, 344);
+
+    c.pillars.forEach(function (p, i) {
+      var x = 76 + i * 232;
+      ctx.fillStyle = '#FFFFFF';
+      roundRect(ctx, x, 408, 204, 220, 14);
+      ctx.fillStyle = '#666666';
+      ctx.font = '500 24px "PingFang SC", sans-serif';
+      ctx.fillText(p.label, x + 24, 454);
+      ctx.fillStyle = '#111111';
+      ctx.font = '700 58px "PingFang SC", sans-serif';
+      ctx.fillText(p.ganzhi, x + 42, 540);
+      ctx.fillStyle = '#666666';
+      ctx.font = '400 21px "PingFang SC", sans-serif';
+      ctx.fillText(p.ganShiShen === '日主' ? '日主' : p.ganShiShen, x + 24, 588);
+    });
+
+    ctx.fillStyle = '#111111';
+    ctx.font = '700 32px "PingFang SC", sans-serif';
+    ctx.fillText('五行结构', 76, 712);
+    c.fiveElements.forEach(function (item, i) {
+      var y = 770 + i * 76;
+      ctx.fillStyle = '#666666';
+      ctx.font = '600 24px "PingFang SC", sans-serif';
+      ctx.fillText(item.element, 76, y + 22);
+      ctx.fillStyle = '#ECECEC';
+      roundRect(ctx, 130, y, 720, 28, 14);
+      ctx.fillStyle = elementHex(item.element);
+      roundRect(ctx, 130, y, 720 * item.percent / 100, 28, 14);
+      ctx.fillStyle = '#111111';
+      ctx.fillText(item.percent + '%', 884, y + 23);
+    });
+
+    ctx.fillStyle = '#111111';
+    ctx.font = '700 32px "PingFang SC", sans-serif';
+    ctx.fillText('今日 · ' + daily.ganzhi, 76, 1190);
+    ctx.fillStyle = '#666666';
+    ctx.font = '400 24px "PingFang SC", sans-serif';
+    wrapCanvasText(ctx, dailySummary(daily, favor, an), 76, 1242, 890, 38, 3);
+    colors.forEach(function (color, i) {
+      ctx.fillStyle = color.hex;
+      ctx.beginPath();
+      ctx.arc(80 + i * 178, 1382, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#666666';
+      ctx.fillText(color.name, 108 + i * 178, 1391);
+    });
+
+    canvas.toBlob(function (blob) {
+      if (!blob) return;
+      var fileName = 'bazi-' + c.input.rawDate.replace(/\./g, '-') + '.png';
+      if (navigator.share && navigator.canShare) {
+        var file = new File([blob], fileName, { type: 'image/png' });
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: 'BaZi 命盘摘要' }).catch(function () {});
+          return;
+        }
+      }
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    }, 'image/png');
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    if (w <= 0 || h <= 0) return;
+    var radius = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(x, y, w, h, radius);
+    } else {
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + w - radius, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+      ctx.lineTo(x + w, y + h - radius);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+      ctx.lineTo(x + radius, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+    }
+    ctx.fill();
+  }
+
+  function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
+    var line = '', lines = [];
+    text.split('').forEach(function (ch) {
+      var test = line + ch;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = ch;
+      } else line = test;
+    });
+    if (line) lines.push(line);
+    lines.slice(0, maxLines).forEach(function (item, i) { ctx.fillText(item, x, y + i * lineHeight); });
+  }
+
+  function elementHex(element) {
+    return { 木: '#4B9E7E', 火: '#D9694E', 土: '#C9A35B', 金: '#8C93A0', 水: '#5B7FB0' }[element] || '#4F46E5';
   }
 
   function renderPlainAnalysis(screen, c, an, showHeading) {
@@ -1161,6 +1663,7 @@
     box.appendChild(el('div', { style: 'display:flex;justify-content:center;margin-top:12px' }, [verdictBadge(fav.verdict)]));
     box.appendChild(el('p', { class: 'caption', style: 'text-align:center;margin:8px 0 0' },
       ['本年五行 ' + fav.elements.join('·') + ' 对喜用「' + state.analysis.yongShen.favorable.map(function (f) { return f.el; }).join('') + '」而言：' + fav.verdict + '。']));
+    box.appendChild(scoreGrid(annualDomainScores(state.chart, state.analysis, state.year)));
     var quickYear = document.getElementById('quick-year-summary');
     if (quickYear) {
       quickYear.querySelector('.summary-value').textContent = String(state.year);
@@ -1469,6 +1972,7 @@
   function chevIcon() { return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>'; }
   function historyIcon() { return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>'; }
   function trashIcon() { return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>'; }
+  function downloadIcon() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>'; }
 
   function setupEmbedBridge() {
     if (!EMBED_MODE) return;

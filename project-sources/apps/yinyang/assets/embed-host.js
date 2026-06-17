@@ -7,9 +7,10 @@
   function buildUrl(src, options) {
     var url = new URL(src, document.baseURI);
     var params = options || {};
-    ['theme', 'screen', 'name', 'date', 'time', 'gender', 'place', 'longitude', 'meridian'].forEach(function (key) {
+    ['theme', 'screen', 'name', 'date', 'time', 'calendar', 'gender', 'place', 'longitude', 'meridian'].forEach(function (key) {
       if (params[key] !== undefined && params[key] !== null && params[key] !== '') url.searchParams.set(key, params[key]);
     });
+    if (params.leapMonth) url.searchParams.set('leapMonth', '1');
     if (params.trueSolarTime) url.searchParams.set('trueSolarTime', '1');
     if (params.transparent) url.searchParams.set('transparent', '1');
     if (params.autostart) url.searchParams.set('autostart', '1');

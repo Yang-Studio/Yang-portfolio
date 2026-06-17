@@ -6,59 +6,59 @@ export const appProjects: Project[] = [
     tag: 'App Development',
     title: 'Cheetah',
     blurb:
-      'A private money companion that makes daily spending visible and turns budgets, bills, and savings goals into clear next actions.',
+      'Leo Ledger — a fully local, privacy-first money tracker with a cheetah companion, built to log a transaction in seconds and read your finances at a glance.',
     year: '2026',
     role: 'Product Designer / Front-end Developer',
-    tools: 'React / JavaScript / LocalStorage',
+    tools: 'React · esbuild · localStorage',
     cover: '/assets/projects/cheetah/cheetah-cover.webp',
     banner: '/assets/projects/cheetah/cheetah-cover.webp',
     moneyshot: '/assets/projects/cheetah/cheetah-cover.webp',
     demo: '/embedded-apps/cheetah/index.html',
     hideDownload: true,
-    status: 'Working prototype',
+    status: 'Working web app (v1.0)',
     overview: {
-      goal: 'Cheetah asks a simple product question: can a finance app help someone act on their money without demanding an account or exposing their financial history?',
+      goal: 'Can accounting stay a habit without an account, the cloud, or friction? Leo Ledger targets a transaction in three seconds and a clear monthly picture in thirty — kept entirely on-device.',
       team: 'Independent product',
       timeline: '2026',
     },
     process: [
       {
-        title: 'Product Problem',
-        body: 'Most finance tools separate recording, planning, and reflection. That forces users to reconstruct the relationship between what they spent and what they intended to do.',
+        title: 'Problem',
+        body: 'People drop budgeting apps that are slow to log, demand a cloud account, or bury structure under dense screens.',
       },
       {
-        title: 'Design Decision',
-        body: 'The interface is organized around four repeated actions: check the current position, record a transaction, plan upcoming cash flow, and review patterns.',
+        title: 'Approach',
+        body: 'A Robinhood-style dark interface around four tabs and a floating add button, with Leo the cheetah turning consistency into a game.',
       },
       {
         title: 'Working Build',
-        body: 'The result is a browser-based product with persistent local data, editable accounts and categories, recurring payments, savings goals, insights, and portable exports.',
+        body: 'A single-file React + esbuild app on localStorage: multi-account wallets, expense/income/transfer, a category tree, budgets, planned payments, goals, and exports.',
       },
     ],
     technical: [
       {
-        title: 'Private by Default',
+        title: 'Local-first & Private',
         description:
-          'The ledger lives in the browser. No account is required, and transactions, balances, categories, budgets, goals, and preferences are not sent to a remote service.',
+          'No backend and no account; data lives in localStorage and the whole app embeds in one file, with CSV export and JSON backup/restore.',
         media: '/assets/projects/cheetah/cheetah-cover.webp',
       },
       {
-        title: 'Planning before Reporting',
+        title: 'One Planning Model',
         description:
-          'Budgets, income allocation, recurring payments, and savings goals share one planning model, so future obligations stay connected to the current balance.',
+          'Budgets, ratio-based income allocation, savings goals, and recurring payments share one model; due bills auto-post on the date and roll to the next period.',
         media: '/assets/projects/cheetah/cheetah-planning.webp',
       },
       {
-        title: 'Feedback that Prompts Action',
+        title: 'Insights & Leo Growth',
         description:
-          'Charts explain what changed, while budget states, due reminders, progress, and the Leo companion indicate what deserves attention next.',
+          'Category breakdowns, six-month trends, and cash flow sit beside Leo’s mood, level, streaks, and achievements that reward sticking with it.',
         media: '/assets/projects/cheetah/cheetah-insights.webp',
       },
     ],
     results: {
       summary:
-        'Cheetah now supports the complete personal-finance loop: capture activity, understand the present, prepare for upcoming obligations, and keep the data under the user’s control.',
-      highlights: ['Private local ledger', 'One connected planning model', 'Working responsive product'],
+        'Leo Ledger covers the full loop — log, plan, review — entirely on-device, with a mascot that keeps the habit going.',
+      highlights: ['Fully local, no account', 'One connected planning model', 'Gamified habit with Leo'],
     },
   },
   {
@@ -66,59 +66,173 @@ export const appProjects: Project[] = [
     tag: 'App Development',
     title: 'YinYang',
     blurb:
-      'A BaZi charting tool that separates calculation from interpretation: the browser builds the chart, rules explain it, and AI remains optional.',
+      'A modern, auditable BaZi dashboard: accurate calendar math, transparent rules, and a confidence level on every reading — built as a data product, not a fortune-telling app.',
     year: '2026',
-    role: 'Full-stack App Developer',
-    tools: 'JavaScript · Node.js · OpenAI API',
-    cover: '/assets/projects/yinyang/yinyang-cover.webp',
-    banner: '/assets/projects/yinyang/yinyang-cover.webp',
-    moneyshot: '/assets/projects/yinyang/yinyang-cover.webp',
+    role: 'Product Designer / Front-end Developer',
+    tools: 'Vanilla JS · lunar-javascript · SVG / Canvas',
+    cover: '/assets/projects/yinyang/yinyang-chart.webp',
+    banner: '/assets/projects/yinyang/yinyang-home.webp',
+    moneyshot: '/assets/projects/yinyang/yinyang-poster.webp',
     demo: '/embedded-apps/yinyang/index.html',
     hideDownload: true,
-    status: 'Working web app',
+    status: 'Working web app (v1.0)',
     overview: {
-      goal: 'Traditional charting tools often present dense results without showing how they were produced. YinYang reorganizes the chart into traceable layers and keeps generated interpretation separate from calculation.',
+      goal: 'Traditional charting sites are dated, overloaded with jargon, and present uncertain inferences as fixed conclusions. YinYang keeps an Eastern character but rebuilds BaZi with the calm of a modern data product.',
+      team: 'Independent product',
+      timeline: 'v1.0 · 2026',
+    },
+    process: [
+      {
+        title: 'Problem',
+        body: 'Conventional BaZi tools are cluttered and jargon-heavy, and present black-box conclusions that hide how they were produced.',
+      },
+      {
+        title: 'Approach',
+        body: 'Reframe the chart as structured data analysis with a calm, modern interface — information first, with calculation kept separate from interpretation.',
+      },
+      {
+        title: 'Trust',
+        body: 'Every conclusion shows its rule basis, classical source, and a confidence level, and the whole engine runs offline with no backend.',
+      },
+    ],
+    technical: [
+      {
+        title: 'Accurate Charting',
+        description:
+          'Four pillars from lunar-javascript by true solar-term boundaries, with lunar leap-month conversion and optional true-solar-time correction.',
+        media: '/assets/projects/yinyang/yinyang-chart.webp',
+      },
+      {
+        title: 'Five-Element Structure',
+        description:
+          'Stems and hidden stems are weighted and normalised to exactly 100, then shown as animated bars and a radar.',
+        media: '/assets/projects/yinyang/yinyang-poster.webp',
+      },
+      {
+        title: 'Auditable Interpretation',
+        description:
+          'Day-master strength, favourable elements, and structure are deterministic functions, each with its basis and confidence.',
+        media: '/assets/projects/yinyang/yinyang-analysis.webp',
+      },
+      {
+        title: 'Inference with Basis',
+        description:
+          'Career, wealth, relationships, study, health, and timing each carry a stated basis; health is flagged as non-medical.',
+        media: '/assets/projects/yinyang/yinyang-analysis.webp',
+      },
+      {
+        title: 'Interactive & Embeddable',
+        description:
+          'A daily outlook, two-person compatibility, and a share poster; it runs from localStorage with no account and embeds via a postMessage SDK.',
+        media: '/assets/projects/yinyang/yinyang-today.webp',
+      },
+    ],
+    results: {
+      summary:
+        'A dense chart becomes a calm, readable product — without blurring the line between calculation and interpretation. Every claim traces to a rule and a source.',
+      highlights: ['Astronomical-grade calendar math', 'Readings with basis & confidence', 'Offline, embeddable, no account'],
+    },
+  },
+  {
+    // PLACEHOLDER ENTRY — replace copy and cover with real Leric content.
+    slug: 'leric',
+    tag: 'App Development',
+    title: 'Leric',
+    blurb: 'Placeholder summary — replace with a real description of the Leric desktop application.',
+    year: '2026',
+    role: 'Developer',
+    tools: 'Windows desktop application',
+    cover: '/assets/projects/cheetah/cheetah-cover.webp',
+    banner: '/assets/projects/cheetah/cheetah-cover.webp',
+    moneyshot: '/assets/projects/cheetah/cheetah-cover.webp',
+    download: '/downloads/Leric.exe',
+    status: 'Desktop application',
+    overview: {
+      goal: 'Placeholder overview — describe what Leric does and the problem it solves.',
       team: 'Independent product',
       timeline: '2026',
     },
     process: [
       {
-        title: 'Information Problem',
-        body: 'A complete chart contains many interconnected systems. Showing everything at once makes the result difficult to read, while hiding the details makes it difficult to trust.',
-      },
-      {
-        title: 'Architecture Decision',
-        body: 'Calculation, rule-based interpretation, interface presentation, and optional AI synthesis are separate layers with different responsibilities.',
-      },
-      {
-        title: 'Working Build',
-        body: 'The app produces a complete chart locally, exposes the reasoning behind its structured reading, and only calls AI when the user explicitly requests a broader synthesis.',
+        title: 'Placeholder',
+        body: 'Replace with the product problem and the approach taken.',
       },
     ],
     technical: [
       {
-        title: 'Browser-side Chart Engine',
-        description:
-          'Pillars, five elements, ten gods, hidden stems, growth stages, luck cycles, and annual timing are calculated deterministically in the browser.',
-        media: '/assets/projects/yinyang/yinyang-cover.webp',
+        title: 'Placeholder',
+        description: 'Replace with a technical highlight of the build.',
+        media: '/assets/projects/cheetah/cheetah-cover.webp',
+      },
+    ],
+    results: {
+      summary: 'Placeholder results — replace with outcomes and current status.',
+      highlights: ['Windows desktop build', 'Downloadable executable'],
+    },
+  },
+  {
+    slug: 'lote',
+    tag: 'App Development',
+    title: 'Lote',
+    blurb:
+      'A local-first Markdown notes and infinite-canvas desktop app (Obsidian-style): notes are plain .md / .canvas files in your own folder or NAS — fully offline, no account, no lock-in.',
+    year: '2026',
+    role: 'Independent Developer',
+    tools: 'Electron · Vanilla JS · D3 · Canvas',
+    cover: '/assets/projects/lote/lote-editor.webp',
+    banner: '/assets/projects/lote/lote-home.webp',
+    moneyshot: '/assets/projects/lote/lote-graph.webp',
+    download: '/downloads/Lote.exe',
+    status: 'Desktop app (v3.0)',
+    overview: {
+      goal: 'Keep writing, linking, and visual organisation in one desktop app, while the notes stay as portable plain-text files you fully own.',
+      team: 'Independent product',
+      timeline: 'v3.0 · 2026',
+    },
+    process: [
+      {
+        title: 'Problem',
+        body: 'Cloud note apps lock data into proprietary formats and servers, while powerful local tools often need heavy plugin setup to reach the same features.',
       },
       {
-        title: 'Traceable Interpretation',
-        description:
-          'Rule-based conclusions remain connected to chart evidence, helping users distinguish calculated structure from explanatory interpretation.',
-        media: '/assets/projects/yinyang/yinyang-cover.webp',
+        title: 'Approach',
+        body: 'Bundle backlinks, graph, canvas, kanban, and database views out of the box, on top of plain .md / .canvas files in a folder you choose — local-first and offline.',
       },
       {
-        title: 'Optional AI Synthesis',
+        title: 'Working Build',
+        body: 'An Electron desktop app shipped as a single portable Windows exe; it reads and writes a local or NAS folder directly, with manual backup sync.',
+      },
+    ],
+    technical: [
+      {
+        title: 'Plain-text, Local-first Storage',
         description:
-          'AI is an explicit secondary action. It receives calculated chart data for synthesis while excluding the user’s name and birthplace from the request.',
-        media: '/assets/projects/yinyang/yinyang-cover.webp',
+          'Notes are standard Markdown and .canvas JSON in a folder you choose — local disk or a NAS share — so the file system is the database and nothing is locked to the cloud.',
+        media: '/assets/projects/lote/lote-home.webp',
+      },
+      {
+        title: 'Bidirectional Links & Graph',
+        description:
+          'Each note is parsed for [[links]] to build backlinks and a D3 force-directed graph, with first-line renaming rewriting every link that points to it.',
+        media: '/assets/projects/lote/lote-graph.webp',
+      },
+      {
+        title: 'Database & Board Views',
+        description:
+          'The same notes surface as a sortable database table, kanban board, calendar, and outline, reading tags and frontmatter without leaving plain text.',
+        media: '/assets/projects/lote/lote-database.webp',
+      },
+      {
+        title: 'Search, Web Clips & Lifecycle',
+        description:
+          'Full-text, tag:, path:, regex, and fuzzy search, plus saved web clips, a trash bin, and a per-note lifecycle that turns scratch ideas into finished notes.',
+        media: '/assets/projects/lote/lote-webclip.webp',
       },
     ],
     results: {
       summary:
-        'YinYang turns a dense chart into a readable product without blurring the boundary between calculation, interpretation, and generated commentary.',
-      highlights: ['Deterministic local charting', 'Evidence-linked interpretation', 'AI only when requested'],
+        'Lote brings writing, linking, and visual organisation into one offline desktop app, with notes that stay portable plain text under the user’s control.',
+      highlights: ['Plain-text, local-first', 'Backlinks, graph & canvas built in', 'Single portable Windows exe'],
     },
   },
 ]
