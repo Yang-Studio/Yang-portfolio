@@ -137,7 +137,7 @@ export const projects: Project[] = [
       { title: 'Level Planning Maps', description: 'Included the graybox floor plan and route map to show how the escape path, rooms, and interaction beats were planned before implementation.', media: '/assets/projects/aukadyssey/aukadyssey-level-plan.webp' },
     ],
     results: {
-      summary: 'Shipped a playable final build of AukOdyssey: a third-person facility escape starring Pip, the test-subject penguin, with combat, traversal, and a guided dialogue layer.',
+      summary: 'A game demo about a lab-experiment penguin fighting through the levels to finally escape the laboratory.',
       highlights: ['Playable final build delivered', 'Dialogue and objective UI system', 'Readable melee combat feedback'],
     },
   },

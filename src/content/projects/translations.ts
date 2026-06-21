@@ -224,7 +224,7 @@ export const projectTranslations: Record<string, ProjectTranslation> = {
       { title: 'Pip 角色美术整理', description: '加入透明背景的 Pip 角色图与手绘背景，让系统说明和游戏视觉身份连接起来。' },
       { title: '关卡规划图', description: '补充灰盒平面图与路线图，展示逃脱路径、房间关系和交互节奏在实现前的规划方式。' },
     ],
-    results: { summary: '交付了 AukOdyssey 的可玩最终版本：以实验体企鹅 Pip 为主角的第三人称逃脱，含战斗、移动与引导式对话层。', highlights: ['交付可玩最终版本', '对话与目标 UI 系统', '可读的近战战斗反馈'] },
+    results: { summary: '实验体企鹅在关卡内进行战斗、最终逃出实验室的游戏 Demo。', highlights: ['交付可玩最终版本', '对话与目标 UI 系统', '可读的近战战斗反馈'] },
   },
   ink: {
     title: 'Ink',
