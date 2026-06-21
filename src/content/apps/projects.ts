@@ -134,43 +134,6 @@ export const appProjects: Project[] = [
     },
   },
   {
-    // PLACEHOLDER ENTRY — replace copy and cover with real Leric content.
-    slug: 'leric',
-    tag: 'App Development',
-    title: 'Leric',
-    blurb: 'Placeholder summary — replace with a real description of the Leric desktop application.',
-    year: '2026',
-    role: 'Developer',
-    tools: 'Windows desktop application',
-    cover: '/assets/projects/cheetah/cheetah-cover.webp',
-    banner: '/assets/projects/cheetah/cheetah-cover.webp',
-    moneyshot: '/assets/projects/cheetah/cheetah-cover.webp',
-    download: '/downloads/Leric.exe',
-    status: 'Desktop application',
-    overview: {
-      goal: 'Placeholder overview — describe what Leric does and the problem it solves.',
-      team: 'Independent product',
-      timeline: '2026',
-    },
-    process: [
-      {
-        title: 'Placeholder',
-        body: 'Replace with the product problem and the approach taken.',
-      },
-    ],
-    technical: [
-      {
-        title: 'Placeholder',
-        description: 'Replace with a technical highlight of the build.',
-        media: '/assets/projects/cheetah/cheetah-cover.webp',
-      },
-    ],
-    results: {
-      summary: 'Placeholder results — replace with outcomes and current status.',
-      highlights: ['Windows desktop build', 'Downloadable executable'],
-    },
-  },
-  {
     slug: 'lote',
     tag: 'App Development',
     title: 'Lote',
