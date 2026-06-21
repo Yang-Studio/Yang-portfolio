@@ -17,7 +17,13 @@
       "/apps/leric": 1
     },
     "2026-06-21": {
-      "/": 1
+      "/": 4,
+      "/games": 4,
+      "/projects": 2,
+      "/projects/bubono-bumperland": 1,
+      "/projects/ink": 1,
+      "/projects/shanhe": 1,
+      "/projects/aukadyssey": 2
     }
   }
 }
