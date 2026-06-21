@@ -4,6 +4,8 @@ import './globals.css'
 import RouteShell from '@/components/layout/RouteShell'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
 import AnalyticsTracker from '@/components/analytics/AnalyticsTracker'
+import { ContentOverridesProvider } from '@/components/providers/ContentOverridesProvider'
+import { getContentOverrides } from '@/lib/server/contentStore'
 import type { ReactNode } from 'react'
 
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces' })
@@ -26,14 +28,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const contentOverrides = await getContentOverrides()
   return (
     <html lang="zh">
       <body
         className={`${fraunces.variable} ${notoSerifSc.variable} ${jetbrains.variable} bg-paper text-ink selection:bg-accent selection:text-paper`}
       >
         <LanguageProvider>
-          <RouteShell>{children}</RouteShell>
+          <ContentOverridesProvider value={contentOverrides}>
+            <RouteShell>{children}</RouteShell>
+          </ContentOverridesProvider>
           <AnalyticsTracker />
         </LanguageProvider>
       </body>

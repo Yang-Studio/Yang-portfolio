@@ -228,7 +228,7 @@ export const projectTranslations: Record<string, ProjectTranslation> = {
   },
   ink: {
     title: 'Ink',
-    blurb: '手绘 2D 平台游戏，包含分层场景和手绘交互框架。',
+    blurb: '一款 48 小时 Game Jam 项目：手绘水墨风格的 2D 横版平台游戏，在限时内完成并交付。',
     role: '手绘视觉',
     overviewGoal: '在 48 小时 Game Jam 内做出一款风格统一、读图清晰的手绘水墨 2D 平台游戏。',
     overviewTeam: 'Game Jam 团队',

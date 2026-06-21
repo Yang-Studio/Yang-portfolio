@@ -8,6 +8,8 @@ import PlateLabel from '@/components/ui/PlateLabel'
 import { projects } from '@/content/games/projects'
 import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
 import { projectTranslations } from '@/content/projects/translations'
+import { useContentOverrides } from '@/components/providers/ContentOverridesProvider'
+import { applyProjectOverride, applyTranslationOverride } from '@/lib/content/overrides'
 import type { Project } from '@/content/projects/types'
 import { gsap } from '@/lib/motion'
 
@@ -32,6 +34,7 @@ export default function ProjectsArchive({
 }: Props) {
   const { t, language } = useLanguage()
   const items = rawItems.filter((project) => !project.hidden)
+  const overrides = useContentOverrides()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -161,8 +164,10 @@ export default function ProjectsArchive({
 
       <section className="px-5 py-10 sm:px-8 md:px-16 md:py-16 lg:px-24">
         <div className="mx-auto max-w-[1280px] border-t border-rule">
-          {items.map((project, index) => {
-            const translation = language === 'zh' ? projectTranslations[project.slug] : undefined
+          {items.map((rawProject, index) => {
+            const project = applyProjectOverride(rawProject, overrides[rawProject.slug])
+            const translation =
+              language === 'zh' ? applyTranslationOverride(projectTranslations[project.slug], overrides[project.slug]?.zh) : undefined
             const image = project.banner ?? project.cover ?? project.moneyshot
             const highlight = projectHighlights[project.slug]
 

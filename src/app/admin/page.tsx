@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import AdminLogoutButton from '@/features/admin/AdminLogoutButton'
 import { getCurrentAdminSession } from '@/lib/server/adminAuth'
@@ -47,7 +48,12 @@ export default async function AdminPage({
               浏览量统计所有访问（含拒绝匿名统计的访客），不含任何个人标识。明细（原始 IP、IP 哈希、来源地区）默认记录，仅在访客主动拒绝后停止；地区为托管平台根据 IP 的粗略推断。
             </p>
           </div>
-          <AdminLogoutButton />
+          <div className="flex items-center gap-3">
+            <Link href="/admin/content" className="mono border border-paper/30 px-4 py-2 text-xs text-paper/80 transition hover:border-accent hover:text-accent">
+              编辑项目文本
+            </Link>
+            <AdminLogoutButton />
+          </div>
         </header>
 
         {configurationError ? (

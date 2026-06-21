@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useLanguage, type Language } from '@/components/providers/LanguageProvider'
 import AdminLoginPanel from '@/features/admin/AdminLoginPanel'
@@ -109,6 +110,12 @@ export default function CollectionHome() {
           <AdminLoginPanel />
         </div>
       </div>
+      <Link
+        href="/privacy"
+        className="fixed bottom-4 right-4 z-50 text-[10px] uppercase tracking-normal text-paper/40 transition hover:text-accent"
+      >
+        隐私设置 / Privacy
+      </Link>
     </div>
   )
 }

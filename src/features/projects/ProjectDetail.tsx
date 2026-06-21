@@ -10,11 +10,13 @@ import { projects } from '@/content/games/projects'
 import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
 import { projectAssets } from '@/content/projects/assets'
 import { projectTranslations } from '@/content/projects/translations'
+import { useContentOverrides } from '@/components/providers/ContentOverridesProvider'
+import { applyProjectOverride, applyTranslationOverride } from '@/lib/content/overrides'
 import type { Project } from '@/content/projects/types'
 import { gsap } from '@/lib/motion'
 
 export default function ProjectDetail({
-  project,
+  project: baseProject,
   siblings = projects,
   backHref = '/projects',
 }: {
@@ -23,7 +25,10 @@ export default function ProjectDetail({
   backHref?: string
 }) {
   const { t, language } = useLanguage()
-  const translation = language === 'zh' ? projectTranslations[project.slug] : undefined
+  const overrides = useContentOverrides()
+  const project = applyProjectOverride(baseProject, overrides[baseProject.slug])
+  const translation =
+    language === 'zh' ? applyTranslationOverride(projectTranslations[project.slug], overrides[project.slug]?.zh) : undefined
   const gallery = projectAssets[project.slug] ?? []
   const reelSrc = project.reel ?? (project.results.media?.endsWith('.mp4') ? project.results.media : undefined)
   const reelIsDrivePreview = !!reelSrc && reelSrc.includes('drive.google.com/file/d/') && reelSrc.includes('/preview')
@@ -399,7 +404,7 @@ export default function ProjectDetail({
             <div>
               <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('Next project')}</p>
               <Link href={`${backHref}/${nextProject.slug}`} className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none underline decoration-accent underline-offset-8">
-                {nextProject.title}
+                {applyProjectOverride(nextProject, overrides[nextProject.slug]).title}
               </Link>
             </div>
           ) : (
