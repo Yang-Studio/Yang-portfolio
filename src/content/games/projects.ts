@@ -39,6 +39,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'pubg-signal-wheel',
+    hidden: true,
     tag: 'Technical',
     title: 'PUBG Signal Wheel Analysis',
     blurb: 'A tactical-communication system design case study for a PUBG-style signal wheel, covering interaction flow, raycast marker logic, anti-spam rules, downed-state restrictions, and season-driven DataTable configuration.',

@@ -22,7 +22,7 @@ type Props = {
 }
 
 export default function ProjectsArchive({
-  items = projects,
+  items: rawItems = projects,
   basePath = '/projects',
   plate = 'Plate 02 / Index',
   label = 'Projects / Complete Archive',
@@ -31,6 +31,7 @@ export default function ProjectsArchive({
   description,
 }: Props) {
   const { t, language } = useLanguage()
+  const items = rawItems.filter((project) => !project.hidden)
 
   useEffect(() => {
     const ctx = gsap.context(() => {

@@ -1,7 +1,8 @@
 export const biography = {
   headline: 'Gameplay systems designer with implementation ownership.',
   body: [
-    'Graduated from the Savannah College of Art and Design (SCAD) in Interactive Design and Game Development, with skills spanning both game design and systems engineering. Independently completed the full development cycle of a wuxia-themed ARPG, and served as mechanics director on a team project, leading the design and implementation of the AI system, collision mechanics, and a modular upgrade system. Brings Game Jam experience and the ability to build prototypes quickly under pressure. Proficient with UE5, Unity, C#, and Figma, balancing technical execution with user experience.',
+    'Graduated from the Savannah College of Art and Design (SCAD), majoring in Interactive Design & Game Development with a minor in Game UX. I work across game systems design, gameplay design, and prototyping, and I am fast at standing up playable prototypes to validate core mechanics — taking a concept from requirements analysis through systems design to working features in a short cycle.',
+    'I work fluently with Unreal Engine 5, Blueprint, Unity, Python, Git, Perforce, and Figma, turning design proposals into playable content efficiently and iterating on the experience through test feedback. Most projects in this portfolio went from concept to a validated prototype within seven weeks.',
   ],
   now: [
     'Gameplay systems and technical design practice',
@@ -15,19 +16,15 @@ export const biography = {
 export const coreSkills = [
   {
     label: 'Systems Design',
-    items: [
-      'Core loop, rule, state, and feedback definition',
-      'Combat, mission, UI, and pacing systems',
-      'Prototype-first validation and iteration',
-    ],
+    items: ['System decomposition', 'Player behavior analysis', 'MDA framework'],
   },
   {
-    label: 'Implementation',
-    items: ['Unreal Engine gameplay systems and Blueprints', 'Behavior trees, data tables, HUD, and interaction logic', 'Small tools and production support for faster iteration'],
+    label: 'Implementation Planning',
+    items: ['GDD writing', 'Wireframe design', 'Git / Perforce version control'],
   },
   {
-    label: 'Collaboration',
-    items: ['Clear documentation of decisions and tradeoffs', 'Comfortable moving between design, art, and engineering needs', 'Reliable scope control for student, jam, and team projects'],
+    label: 'Core Skills',
+    items: ['UE5 Blueprint development', 'Stress testing', 'Git / Perforce collaborative development'],
   },
 ]
 
@@ -42,7 +39,7 @@ export const timeline = [
   },
   {
     year: '2024',
-    blurb: 'Built Shanhe as a solo UE5 vertical slice and joined Bubono as systems and enemy programmer on a long-running team project.',
+    blurb: 'Built the Shanhe demo, and served as implementation planner, systems designer, and enemy programmer on the Bubono capstone team project.',
   },
   {
     year: 'NOW',

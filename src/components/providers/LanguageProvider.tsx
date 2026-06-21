@@ -98,8 +98,8 @@ const DICTIONARY: Record<string, string> = {
     '进入更完整的制作阶段：Shanhe 是独立垂直切片，Bubono 是长期 UE5 团队项目。',
   'Built Shanhe as a solo vertical slice and Bubono as a long-running UE5 team project, strengthening systems, AI, and feedback design.':
     '完成 Shanhe 独立垂直切片，并在长期 UE5 团队项目 Bubono 中继续加强系统、AI 和反馈设计。',
-  'Built Shanhe as a solo UE5 vertical slice and joined Bubono as systems and enemy programmer on a long-running team project.':
-    '完成 Shanhe 独立 UE5 垂直切片，并在长期团队项目 Bubono 中担任系统与敌人程序。',
+  'Built the Shanhe demo, and served as implementation planner, systems designer, and enemy programmer on the Bubono capstone team project.':
+    '开发 Shanhe Demo，并在毕设团队 Bubono 中担任执行策划、系统策划与敌人程序。',
   'Continuing to build personal projects across game systems, app tools, photography, and interface experiments.':
     '继续推进个人项目，覆盖游戏系统、App 工具、摄影和界面实验。',
   "First ship. Joins Bubono's Bumperland as Systems and Gameplay Programmer.":
@@ -245,6 +245,17 @@ const DICTIONARY: Record<string, string> = {
     '\u4e00\u4e2a\u63a2\u7d22\u903b\u8f91\u4e0e\u60c5\u611f\u4ea4\u6c47\u5904\u7684\u4e2a\u4eba\u5de5\u4f5c\u5ba4\u3002\u6211\u539f\u578b\u5316\u89e6\u611f\u754c\u9762\u3001\u81ea\u9002\u5e94 AI\uff0c\u4ee5\u53ca\u5e26\u6709\u73ca\u745a\u8272\u8c03\u3001\u53ef\u89e6\u53ef\u611f\u7684\u4e16\u754c\u3002',
   'Core practice': '\u6838\u5fc3\u5b9e\u8df5',
   'Systems Design': '系统设计',
+  'Implementation Planning': '执行策划',
+  'Core Skills': '核心能力',
+  'System decomposition': '系统拆解',
+  'Player behavior analysis': '玩家行为分析',
+  'MDA framework': 'MDA Framework',
+  'GDD writing': 'GDD 编写',
+  'Wireframe design': 'Wireframe 设计',
+  'Git / Perforce version control': 'Git / Perforce 版本管理',
+  'UE5 Blueprint development': 'UE5 Blueprint 开发',
+  'Stress testing': '压力测试',
+  'Git / Perforce collaborative development': 'Git / Perforce 协作开发',
   Implementation: '工程实现',
   'Team Fit': '团队匹配',
   'Core loop, rule, state, and feedback definition': '核心循环、规则、状态和反馈定义',
@@ -312,17 +323,19 @@ const DICTIONARY: Record<string, string> = {
   "What I'm exploring now": '\u6b63\u5728\u63a2\u7d22',
   'A warm timeline': '\u6e29\u6696\u65f6\u95f4\u7ebf',
   'View resume': '\u67e5\u770b\u7b80\u5386',
-  'Yang Liu | gameplay systems designer / technical designer': 'Yang Liu｜玩法系统设计师 / 技术设计师',
-  'I build the bridge between design intent and playable implementation: rules, states, AI behavior, UI feedback, and prototypes that teams can evaluate.':
-    '我连接设计意图与可玩实现：规则、状态、AI 行为、UI 反馈，以及团队可以评估的原型。',
+  'Yang Liu | systems designer / implementation planner': '刘杨｜系统设计师 / 执行策划',
+  'I build and validate game prototypes fast, taking a concept from requirements analysis through systems design to working features within a short cycle. I turn design ideas into playable builds quickly, then verify the gameplay and refine the experience through iterative testing. Most projects in this portfolio are university team projects shipped in seven weeks or less, where I owned systems design, gameplay setup, prototype development, and version progression — building hands-on experience from concept validation to delivery.':
+    '擅长快速搭建游戏原型并进行玩法验证，能够在较短周期内完成从需求分析、系统设计到功能落地的完整流程。具备较强的学习能力和执行力，能够迅速将设计想法转化为可试玩版本，通过迭代测试验证玩法可行性并优化体验。作品集中大部分项目均为校内团队项目，开发周期控制在 7 周以内，期间负责系统设计、玩法搭建、原型开发与版本推进等工作，积累了从概念验证到项目落地的实践经验。',
   'Gameplay systems and technical design practice': '玩法系统与技术设计练习',
   'Solo prototypes with design and implementation ownership': '独立负责设计与实现的原型',
   'Personal projects that connect prototypes, readable feedback, and cross-discipline communication':
     '连接原型、清晰反馈和跨领域表达的个人项目',
   'Always happy to connect and talk games.':
     '随时欢迎交流游戏相关的想法。',
-  'Graduated from the Savannah College of Art and Design (SCAD) in Interactive Design and Game Development, with skills spanning both game design and systems engineering. Independently completed the full development cycle of a wuxia-themed ARPG, and served as mechanics director on a team project, leading the design and implementation of the AI system, collision mechanics, and a modular upgrade system. Brings Game Jam experience and the ability to build prototypes quickly under pressure. Proficient with UE5, Unity, C#, and Figma, balancing technical execution with user experience.':
-    '毕业于萨凡纳艺术与设计学院（SCAD）互动设计与游戏开发专业，具备游戏设计与系统开发双向能力。曾独立完成武侠题材 ARPG 的全流程开发，并在团队项目中担任机制总监，主导 AI 系统、碰撞机制与模块化升级系统的设计与实现。有 Game Jam 参赛经历，能在高压环境下快速完成原型。熟悉 UE5、Unity、C# 及 Figma，兼顾技术落地与用户体验。',
+  'Graduated from the Savannah College of Art and Design (SCAD), majoring in Interactive Design & Game Development with a minor in Game UX. I work across game systems design, gameplay design, and prototyping, and I am fast at standing up playable prototypes to validate core mechanics — taking a concept from requirements analysis through systems design to working features in a short cycle.':
+    '毕业于萨凡纳艺术与设计学院（SCAD），主修互动设计与游戏开发（Interactive Design & Game Development），辅修游戏用户体验设计（Game UX）。具备游戏系统设计、玩法设计与原型开发能力，擅长快速搭建游戏原型并验证核心玩法，能够在短周期内完成从需求分析、系统设计到功能落地的完整流程。',
+  'I work fluently with Unreal Engine 5, Blueprint, Unity, Python, Git, Perforce, and Figma, turning design proposals into playable content efficiently and iterating on the experience through test feedback. Most projects in this portfolio went from concept to a validated prototype within seven weeks.':
+    '熟悉 Unreal Engine 5、Blueprint、Unity、Python、Git、Perforce 及 Figma 等开发工具，能够高效将设计方案转化为可试玩内容，并通过测试反馈持续迭代优化体验。作品集中多数项目均在 7 周内完成从概念设计到原型验证的开发流程。',
   'Yang Liu | systems-focused game designer & engineer': 'Yang Liu \uff5c\u7cfb\u7edf\u5411\u6e38\u620f\u8bbe\u8ba1\u5e08\u517c\u5de5\u7a0b\u5e08',
   'I turn abstract ideas into testable, iterative gameplay through systems design and engineering.':
     '\u6211\u901a\u8fc7\u7cfb\u7edf\u8bbe\u8ba1\u4e0e\u5de5\u7a0b\u5b9e\u73b0\uff0c\u8ba9\u62bd\u8c61\u60f3\u6cd5\u771f\u6b63\u53d8\u6210\u53ef\u6d4b\u8bd5\u3001\u53ef\u8fed\u4ee3\u7684\u73a9\u6cd5\u3002',

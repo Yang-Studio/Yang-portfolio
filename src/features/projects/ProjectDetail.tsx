@@ -32,8 +32,10 @@ export default function ProjectDetail({
     project.download ??
     `mailto:yangliu.gmdev@gmail.com?subject=${encodeURIComponent(`${project.title} Demo Request`)}`
   const isDownloadFile = downloadHref.startsWith('/') || downloadHref.startsWith('./')
-  const projectIndex = siblings.findIndex((item) => item.slug === project.slug)
-  const nextProject = projectIndex >= 0 && siblings.length > 1 ? siblings[(projectIndex + 1) % siblings.length] : undefined
+  const navSiblings = siblings.filter((item) => !item.hidden || item.slug === project.slug)
+  const projectIndex = navSiblings.findIndex((item) => item.slug === project.slug)
+  const nextProject =
+    projectIndex >= 0 && navSiblings.length > 1 ? navSiblings[(projectIndex + 1) % navSiblings.length] : undefined
   const heroImage = project.banner ?? project.cover ?? project.moneyshot
   const isAppProject = backHref === '/apps'
   const projectHighlight = projectHighlights[project.slug]

@@ -25,6 +25,7 @@ export type Project = {
   moneyshot?: string
   download?: string
   hideDownload?: boolean
+  hidden?: boolean
   reel?: string
   demo?: string
   status?: string

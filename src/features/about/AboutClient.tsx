@@ -12,8 +12,8 @@ export default function AboutClient() {
       <div className="mx-auto w-full max-w-[1200px]">
         <PageHero
           kicker="About"
-          title="Yang Liu | gameplay systems designer / technical designer"
-          description="I build the bridge between design intent and playable implementation: rules, states, AI behavior, UI feedback, and prototypes that teams can evaluate."
+          title="Yang Liu | systems designer / implementation planner"
+          description="I build and validate game prototypes fast, taking a concept from requirements analysis through systems design to working features within a short cycle. I turn design ideas into playable builds quickly, then verify the gameplay and refine the experience through iterative testing. Most projects in this portfolio are university team projects shipped in seven weeks or less, where I owned systems design, gameplay setup, prototype development, and version progression — building hands-on experience from concept validation to delivery."
         />
       </div>
 
