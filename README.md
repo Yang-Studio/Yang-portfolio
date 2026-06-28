@@ -38,19 +38,17 @@ public/
   embedded-apps/        Deployable static applications
   embedded-sites/       Deployable standalone websites
 project-sources/
-  games/                Original game project material
-  design/               Original design project material
-  apps/                 Original app source projects
-  photography/          Photography website source and original scans
+  apps/                 Editable source for embedded static apps
+  photography/          Editable source for the Film Archive site shell
 scripts/
   sync-static-sites.mjs Copies canonical static-site code into public/
 ```
 
 Route files should stay small. UI belongs in `src/features` or `src/components`, while project records belong in `src/content`.
 
-`public/` is the deployment tree. Editable static-site source belongs in `project-sources/`; run `npm run sync:static` after changing YinYang or Film Archive source files. Film Archive's optimized web images remain in `public/embedded-sites/film/media`, while original TIFF scans remain under `project-sources/photography/film-archive/originals`.
+`public/` is the deployment tree. Editable static-site source belongs in `project-sources/`; run `npm run sync:static` after changing YinYang, Cheetah, or Film Archive source files. Film Archive's optimized web images live in `public/embedded-sites/film/media`.
 
-Run `npm run optimize:images` when new PNG or JPEG deployment assets are added. The script creates resized WebP files, updates local references, and leaves the original project material under `project-sources/` untouched.
+Run `npm run optimize:images` when new PNG or JPEG deployment assets are added. The script creates resized WebP files and updates local references.
 
 ## Add An App
 
