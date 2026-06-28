@@ -74,7 +74,7 @@ export default function CollectionHome() {
                     : 'border-paper/25 text-paper/65 hover:border-paper/60 hover:text-paper'
                 }`}
               >
-                <span className="block text-[10px] uppercase opacity-60">YinYang</span>
+                <span className="block text-[10px] uppercase opacity-60">天機閣</span>
                 <span className="mt-1 block text-lg">App开发 / App Development</span>
               </button>
               <button

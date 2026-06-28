@@ -64,9 +64,9 @@ export const appProjects: Project[] = [
   {
     slug: 'yinyang',
     tag: 'App Development',
-    title: 'Tianji Pavilion',
+    title: '天機閣',
     blurb:
-      'Tianji Pavilion is a privacy-first traditional calendar and BaZi analysis web app: precise solar-term charting, visible rule logic, and readable outputs that stay on-device.',
+      '天機閣 is a privacy-first traditional calendar and four-pillar analysis web app: precise solar-term calculation, transparent rule logic, and readable outputs that stay on-device.',
     year: '2026',
     role: 'Product Designer / Front-end Developer',
     tools: 'Vanilla JS · lunar-javascript · SVG / Canvas',
@@ -77,14 +77,14 @@ export const appProjects: Project[] = [
     hideDownload: true,
     status: 'Working web app (v1.0)',
     overview: {
-      goal: 'Most traditional charting tools feel either like dense lookup tables or black-box fortune telling. Tianji Pavilion reframes BaZi as a transparent data interface: calendar calculation first, interpretation second, with every sensitive interaction kept local.',
+      goal: 'Most traditional charting tools feel either like dense lookup tables or black-box fortune telling. 天機閣 reframes the workflow as a transparent data interface: calendar calculation first, structural reading second, with every sensitive interaction kept local.',
       team: 'Independent product',
       timeline: 'v1.0 · 2026',
     },
     process: [
       {
         title: 'Problem',
-        body: 'Conventional BaZi tools are cluttered, jargon-heavy, and often hide the calculation path behind fixed conclusions.',
+        body: 'Conventional charting tools are cluttered, jargon-heavy, and often hide the calculation path behind fixed conclusions.',
       },
       {
         title: 'Approach',
@@ -123,14 +123,14 @@ export const appProjects: Project[] = [
       {
         title: 'Interactive & Embeddable',
         description:
-          'The app supports daily outlooks, compatibility checks, history, preferences, share posters, and iframe embedding through a postMessage host API.',
+          'The app supports daily outlooks, compatibility checks, history, preferences, share posters, and iframe embedding for future personal-site modules.',
         media: '/assets/projects/yinyang/yinyang-today.webp',
       },
     ],
     results: {
       summary:
-        'Tianji Pavilion turns a dense traditional chart into a usable web product: calculation is transparent, interpretation is bounded, and private data stays local.',
-      highlights: ['Precise solar-term charting', 'Transparent rule-based analysis', 'Offline-friendly, embeddable, no account'],
+        '天機閣 turns a dense traditional chart into a usable web product: calculation is transparent, interpretation is bounded, and private data stays local.',
+      highlights: ['Precise solar-term charting', 'Transparent rule logic', 'Offline-friendly, embeddable, no account'],
     },
   },
   {

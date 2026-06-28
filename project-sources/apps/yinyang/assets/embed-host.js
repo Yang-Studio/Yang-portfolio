@@ -20,9 +20,9 @@
   function mount(target, options) {
     options = options || {};
     var container = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!container) throw new Error('BaZiEmbed: target container not found');
+    if (!container) throw new Error('TianjiEmbed: target container not found');
 
-    var id = 'bazi-widget-' + (++sequence);
+    var id = 'tianji-widget-' + (++sequence);
     var iframe = document.createElement('iframe');
     iframe.id = id;
     iframe.title = options.title || '八字排盘';
@@ -42,10 +42,10 @@
 
     var api = {
       iframe: iframe,
-      setTheme: function (theme) { send(iframe, 'bazi:setTheme', { theme: theme }); },
-      setBirth: function (birth) { send(iframe, 'bazi:setBirth', { birth: birth }); },
-      calculate: function (birth) { send(iframe, 'bazi:calculate', { birth: birth || {} }); },
-      reset: function () { send(iframe, 'bazi:reset'); },
+      setTheme: function (theme) { send(iframe, 'tianji:setTheme', { theme: theme }); },
+      setBirth: function (birth) { send(iframe, 'tianji:setBirth', { birth: birth }); },
+      calculate: function (birth) { send(iframe, 'tianji:calculate', { birth: birth || {} }); },
+      reset: function () { send(iframe, 'tianji:reset'); },
       destroy: function () {
         instances.delete(iframe.contentWindow);
         iframe.remove();
@@ -57,7 +57,7 @@
 
   function send(iframe, type, payload) {
     if (!iframe || !iframe.contentWindow) return;
-    var message = Object.assign({ type: type, source: 'bazi-host' }, payload || {});
+    var message = Object.assign({ type: type, source: 'tianji-host' }, payload || {});
     var instance = instances.get(iframe.contentWindow);
     if (instance && !instance.ready) {
       instance.queue.push(message);
@@ -68,27 +68,27 @@
 
   window.addEventListener('message', function (event) {
     var instance = instances.get(event.source);
-    if (!instance || !event.data || event.data.source !== 'bazi-widget') return;
+    if (!instance || !event.data || event.data.source !== 'tianji-widget') return;
     var message = event.data;
-    if (message.type === 'bazi:resize' && Number.isFinite(message.height)) {
+    if (message.type === 'tianji:resize' && Number.isFinite(message.height)) {
       var nextHeight = Math.max(320, message.height);
       if (instance.options.maxHeight) nextHeight = Math.min(nextHeight, instance.options.maxHeight);
       instance.iframe.style.height = nextHeight + 'px';
     }
-    if (message.type === 'bazi:ready') {
+    if (message.type === 'tianji:ready') {
       instance.ready = true;
       instance.queue.splice(0).forEach(function (queued) {
         instance.iframe.contentWindow.postMessage(queued, '*');
       });
       if (typeof instance.options.onReady === 'function') instance.options.onReady(instance.api, message);
     }
-    if (message.type === 'bazi:screen' && typeof instance.options.onScreen === 'function') {
+    if (message.type === 'tianji:screen' && typeof instance.options.onScreen === 'function') {
       instance.options.onScreen(message.screen, instance.api);
     }
-    if (message.type === 'bazi:result' && typeof instance.options.onResult === 'function') {
+    if (message.type === 'tianji:result' && typeof instance.options.onResult === 'function') {
       instance.options.onResult(message, instance.api);
     }
   });
 
-  root.BaZiEmbed = { mount: mount };
+  root.TianjiEmbed = { mount: mount };
 })(window);

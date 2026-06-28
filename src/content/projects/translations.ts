@@ -123,7 +123,7 @@ export const projectTranslations: Record<string, ProjectTranslation> = {
   },
   yinyang: {
     title: '天機閣',
-    blurb: '一个隐私优先的传统历法与八字分析网页版：按节气精确排盘，展示规则逻辑，并把复杂结论整理成可读的数据界面。',
+    blurb: '天機閣是一个隐私优先的传统历法与八字分析网页版：按节气精确排盘，展示规则逻辑，并把复杂结论整理成可读的数据界面。',
     role: '产品设计 / 前端开发',
     overviewGoal: '很多传统排盘工具要么像密集表格，要么像黑箱算命。天機閣把八字重构为透明的数据界面：先保证历法计算准确，再分层呈现结构与解读，并把敏感信息留在浏览器本地。',
     overviewTeam: '独立产品',

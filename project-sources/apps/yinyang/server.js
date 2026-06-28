@@ -113,5 +113,5 @@ function safeError(error) {
 }
 
 server.listen(PORT, HOST, () => {
-  console.log(`BaZi server: http://${HOST}:${PORT}`);
+  console.log(`Tianji Pavilion server: http://${HOST}:${PORT}`);
 });

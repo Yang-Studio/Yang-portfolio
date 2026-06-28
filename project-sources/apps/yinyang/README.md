@@ -79,11 +79,11 @@ npm run check
 推荐使用自动高度组件：
 
 ```html
-<div id="bazi-widget"></div>
-<script src="https://your-domain.com/bazi/assets/embed-host.js"></script>
+<div id="tianji-widget"></div>
+<script src="https://your-domain.com/tianji/assets/embed-host.js"></script>
 <script>
-  const widget = BaZiEmbed.mount('#bazi-widget', {
-    src: 'https://your-domain.com/bazi/embed.html',
+  const widget = TianjiEmbed.mount('#tianji-widget', {
+    src: 'https://your-domain.com/tianji/embed.html',
     theme: 'light',
     screen: 'form',
     maxHeight: 1600,
@@ -119,7 +119,7 @@ widget.destroy();
 
 ```html
 <iframe
-  src="https://your-domain.com/bazi/embed.html?theme=light&screen=form"
+  src="https://your-domain.com/tianji/embed.html?theme=light&screen=form"
   title="八字排盘"
   style="width:100%;height:1200px;border:0"
 ></iframe>
