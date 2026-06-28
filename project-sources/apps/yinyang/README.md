@@ -10,14 +10,31 @@
 - 四柱、天干地支、十神、藏干、纳音、五行结构和大运
 - 指定流年星级分析与五行雷达图
 - 今日运势、幸运颜色、双人合盘和分享海报
+- 天機閣仪表盘：首页运势、排盘命理、周易起卦、星座运势、天机问答、运势分析、历史记录、缘分配对、偏好设置
 
 ## 启动
+
+安装依赖：
+
+```powershell
+npm install
+```
+
+启动 Electron 桌面版：
 
 ```powershell
 npm start
 ```
 
-打开：
+桌面版默认打开 `index.html`，窗口固定为 `1440 × 900`。
+
+如需预览网页版本：
+
+```powershell
+npm run web
+```
+
+浏览器打开：
 
 ```text
 http://127.0.0.1:4173
@@ -29,6 +46,76 @@ http://127.0.0.1:4173
 HOST=0.0.0.0
 PORT=4173
 ```
+
+## 上传到 GitHub
+
+这个项目现在是纯静态前端 + 可选本地静态服务，适合直接上传到 GitHub。
+
+建议上传这些文件：
+
+```text
+.github/
+assets/
+docs/
+scripts/
+.gitignore
+.nojekyll
+embed-example.html
+embed.html
+index.html
+package.json
+README.md
+server.js
+```
+
+不要上传：
+
+```text
+dist/
+release/
+node_modules/
+.env
+.env.local
+```
+
+本地检查：
+
+```powershell
+npm run check
+```
+
+生成 GitHub Pages 静态产物：
+
+```powershell
+npm run build:pages
+```
+
+产物会输出到 `dist/`。这个目录已加入 `.gitignore`，通常不需要提交。
+
+生成 Windows 桌面安装包：
+
+```powershell
+npm run dist:win
+```
+
+安装包会输出到 `release/`。这个目录已加入 `.gitignore`，通常不需要提交。
+
+### GitHub Pages 自动部署
+
+仓库已包含 `.github/workflows/pages.yml`。推送到 `main` 分支后，GitHub Actions 会：
+
+1. 检查 JavaScript 语法
+2. 生成 `dist/`
+3. 上传静态页面 artifact
+4. 部署到 GitHub Pages
+
+在 GitHub 仓库中进入：
+
+```text
+Settings → Pages → Build and deployment → Source → GitHub Actions
+```
+
+之后每次 push 到 `main` 都会自动发布。
 
 ## 嵌入网站
 
@@ -104,11 +191,14 @@ index.html              独立页面
 embed.html              iframe 页面
 embed-example.html      嵌入示例
 server.js               本地静态服务
+electron/main.cjs       Electron 桌面应用入口
 assets/engine.js        排盘引擎
 assets/analysis.js      本地规则分析
 assets/app.js           页面与结果渲染
+assets/tianji.js        天機閣仪表盘渲染
 assets/embed-host.js    宿主网站嵌入 API
 assets/styles.css       视觉样式
+assets/tianji.css       天機閣视觉样式
 assets/lunar.js         lunar-javascript
 ```
 
