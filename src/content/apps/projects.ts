@@ -64,9 +64,9 @@ export const appProjects: Project[] = [
   {
     slug: 'yinyang',
     tag: 'App Development',
-    title: 'YinYang',
+    title: 'Tianji Pavilion',
     blurb:
-      'A modern, auditable BaZi dashboard: accurate calendar math, transparent rules, and a confidence level on every reading — built as a data product, not a fortune-telling app.',
+      'Tianji Pavilion is a privacy-first traditional calendar and BaZi analysis web app: precise solar-term charting, visible rule logic, and readable outputs that stay on-device.',
     year: '2026',
     role: 'Product Designer / Front-end Developer',
     tools: 'Vanilla JS · lunar-javascript · SVG / Canvas',
@@ -77,60 +77,60 @@ export const appProjects: Project[] = [
     hideDownload: true,
     status: 'Working web app (v1.0)',
     overview: {
-      goal: 'Traditional charting sites are dated, overloaded with jargon, and present uncertain inferences as fixed conclusions. YinYang keeps an Eastern character but rebuilds BaZi with the calm of a modern data product.',
+      goal: 'Most traditional charting tools feel either like dense lookup tables or black-box fortune telling. Tianji Pavilion reframes BaZi as a transparent data interface: calendar calculation first, interpretation second, with every sensitive interaction kept local.',
       team: 'Independent product',
       timeline: 'v1.0 · 2026',
     },
     process: [
       {
         title: 'Problem',
-        body: 'Conventional BaZi tools are cluttered and jargon-heavy, and present black-box conclusions that hide how they were produced.',
+        body: 'Conventional BaZi tools are cluttered, jargon-heavy, and often hide the calculation path behind fixed conclusions.',
       },
       {
         title: 'Approach',
-        body: 'Reframe the chart as structured data analysis with a calm, modern interface — information first, with calculation kept separate from interpretation.',
+        body: 'Rebuild the chart as a structured product interface: birth data, calendar conversion, five-element structure, and interpretation are separated into clear layers.',
       },
       {
         title: 'Trust',
-        body: 'Every conclusion shows its rule basis, classical source, and a confidence level, and the whole engine runs offline with no backend.',
+        body: 'The web app runs without accounts or a backend; readings explain their basis and keep user data inside the browser.',
       },
     ],
     technical: [
       {
         title: 'Accurate Charting',
         description:
-          'Four pillars from lunar-javascript by true solar-term boundaries, with lunar leap-month conversion and optional true-solar-time correction.',
+          'Four pillars are calculated from solar-term boundaries, with lunar leap-month conversion and optional true-solar-time correction.',
         media: '/assets/projects/yinyang/yinyang-chart.webp',
       },
       {
         title: 'Five-Element Structure',
         description:
-          'Stems and hidden stems are weighted and normalised to exactly 100, then shown as animated bars and a radar.',
+          'Heavenly stems, earthly branches, and hidden stems are converted into a normalized five-element structure, then shown through bars and radar charts.',
         media: '/assets/projects/yinyang/yinyang-poster.webp',
       },
       {
         title: 'Auditable Interpretation',
         description:
-          'Day-master strength, favourable elements, and structure are deterministic functions, each with its basis and confidence.',
+          'Day-master strength, favourable elements, and structural notes are generated from explicit rules instead of opaque text templates.',
         media: '/assets/projects/yinyang/yinyang-analysis.webp',
       },
       {
         title: 'Inference with Basis',
         description:
-          'Career, wealth, relationships, study, health, and timing each carry a stated basis; health is flagged as non-medical.',
+          'Career, wealth, relationships, study, health, and timing sections each state their reasoning limits; health content is clearly non-medical.',
         media: '/assets/projects/yinyang/yinyang-analysis.webp',
       },
       {
         title: 'Interactive & Embeddable',
         description:
-          'A daily outlook, two-person compatibility, and a share poster; it runs from localStorage with no account and embeds via a postMessage SDK.',
+          'The app supports daily outlooks, compatibility checks, history, preferences, share posters, and iframe embedding through a postMessage host API.',
         media: '/assets/projects/yinyang/yinyang-today.webp',
       },
     ],
     results: {
       summary:
-        'A dense chart becomes a calm, readable product — without blurring the line between calculation and interpretation. Every claim traces to a rule and a source.',
-      highlights: ['Astronomical-grade calendar math', 'Readings with basis & confidence', 'Offline, embeddable, no account'],
+        'Tianji Pavilion turns a dense traditional chart into a usable web product: calculation is transparent, interpretation is bounded, and private data stays local.',
+      highlights: ['Precise solar-term charting', 'Transparent rule-based analysis', 'Offline-friendly, embeddable, no account'],
     },
   },
   {
@@ -138,64 +138,64 @@ export const appProjects: Project[] = [
     tag: 'App Development',
     title: 'Lote',
     blurb:
-      'A local-first Markdown notes and infinite-canvas desktop app (Obsidian-style): notes are plain .md / .canvas files in your own folder or NAS — fully offline, no account, no lock-in.',
+      'A local-first Markdown knowledge workspace for Windows: open any folder as a vault, write plain .md notes, connect ideas with backlinks, graph, canvas, kanban, calendar tasks, and NAS backup sync.',
     year: '2026',
-    role: 'Independent Developer',
-    tools: 'Electron · Vanilla JS · D3 · Canvas',
+    role: 'Product Designer / Electron Developer',
+    tools: 'Electron · Vanilla JS · D3 · CodeMirror · Mermaid · KaTeX',
     cover: '/assets/projects/lote/lote-editor.webp',
     banner: '/assets/projects/lote/lote-home.webp',
     moneyshot: '/assets/projects/lote/lote-graph.webp',
     download: '/downloads/Lote.exe',
-    status: 'Desktop app (v3.0)',
+    status: 'Windows desktop app (v3.0)',
     overview: {
-      goal: 'Keep writing, linking, and visual organisation in one desktop app, while the notes stay as portable plain-text files you fully own.',
+      goal: 'Turn a normal folder into a private writing and knowledge-management workspace, without accounts, cloud lock-in, or a database that hides the user’s files.',
       team: 'Independent product',
       timeline: 'v3.0 · 2026',
     },
     process: [
       {
         title: 'Problem',
-        body: 'Cloud note apps lock data into proprietary formats and servers, while powerful local tools often need heavy plugin setup to reach the same features.',
+        body: 'Most polished note apps push users toward accounts, proprietary sync, or opaque databases; local-first tools often require a long plugin setup before they feel complete.',
       },
       {
         title: 'Approach',
-        body: 'Bundle backlinks, graph, canvas, kanban, and database views out of the box, on top of plain .md / .canvas files in a folder you choose — local-first and offline.',
+        body: 'Build the core knowledge workflow into one desktop shell: file tree, Markdown editor, live preview, backlinks, tags, graph, database table, daily notes, kanban, canvas, templates, and export.',
       },
       {
         title: 'Working Build',
-        body: 'An Electron desktop app shipped as a single portable Windows exe; it reads and writes a local or NAS folder directly, with manual backup sync.',
+        body: 'The current Electron build opens a local or NAS folder directly through the file system, saves notes as standard files, and ships as a Windows desktop app.',
       },
     ],
     technical: [
       {
-        title: 'Plain-text, Local-first Storage',
+        title: 'Folder-based Local Storage',
         description:
-          'Notes are standard Markdown and .canvas JSON in a folder you choose — local disk or a NAS share — so the file system is the database and nothing is locked to the cloud.',
+          'Lote reads and writes the folder the user chooses. Markdown notes, attachments, canvas files, and kanban boards stay visible on disk, so the file system remains the source of truth.',
         media: '/assets/projects/lote/lote-home.webp',
       },
       {
-        title: 'Bidirectional Links & Graph',
+        title: 'Backlinks, Tags & Graph',
         description:
-          'Each note is parsed for [[links]] to build backlinks and a D3 force-directed graph, with first-line renaming rewriting every link that points to it.',
+          'The app parses [[links]], #tags, frontmatter, headings, and outgoing references to build backlinks, outline views, global/local D3 graph maps, and quick navigation.',
         media: '/assets/projects/lote/lote-graph.webp',
       },
       {
-        title: 'Database & Board Views',
+        title: 'Database, Calendar & Kanban',
         description:
-          'The same notes surface as a sortable database table, kanban board, calendar, and outline, reading tags and frontmatter without leaving plain text.',
+          'The same notes can be viewed as a database table, daily-note calendar, task list, or Trello-style kanban board, with the board state still stored as Markdown.',
         media: '/assets/projects/lote/lote-database.webp',
       },
       {
-        title: 'Search, Web Clips & Lifecycle',
+        title: 'Export, History & NAS Sync',
         description:
-          'Full-text, tag:, path:, regex, and fuzzy search, plus saved web clips, a trash bin, and a per-note lifecycle that turns scratch ideas into finished notes.',
+          'Full-text search, web clips, note lifecycle states, local version history, PDF/PNG/JPG export, ZIP import/export, and manual local-to-NAS backup sync are built in.',
         media: '/assets/projects/lote/lote-webclip.webp',
       },
     ],
     results: {
       summary:
-        'Lote brings writing, linking, and visual organisation into one offline desktop app, with notes that stay portable plain text under the user’s control.',
-      highlights: ['Plain-text, local-first', 'Backlinks, graph & canvas built in', 'Single portable Windows exe'],
+        'Lote packages a personal knowledge workspace into a local Windows app while keeping the user’s notes portable, inspectable, and independent from any hosted service.',
+      highlights: ['Folder-based local vaults', 'Backlinks, graph, canvas & kanban', 'NAS backup sync and export tools'],
     },
   },
 ]

@@ -257,7 +257,7 @@
     if (EMBED_MODE && !opts.back) return el('div', { class: 'embed-spacer', 'aria-hidden': 'true' });
     var left = opts.back
       ? el('button', { class: 'iconbtn back', onclick: opts.back }, ['‹ 返回'])
-      : el('span', { class: 'brand' }, ['BaZi']);
+      : el('span', { class: 'brand' }, ['天機閣']);
     return el('div', { class: 'topbar' }, [
       el('div', { class: 'topbar-left' }, [left]),
       el('div', { class: 'topbar-right' }, EMBED_MODE ? [] : [
@@ -310,10 +310,10 @@
     var screen = el('div', { class: 'screen home' }, [
       el('div', {}, [
         el('div', { class: 'logo-mark', html: logoIcon() }),
-        el('h1', { class: 'title' }, ['BaZi']),
-        el('p', { class: 'subtitle' }, ['现代八字排盘工具']),
+        el('h1', { class: 'title' }, ['天機閣']),
+        el('p', { class: 'subtitle' }, ['传统历法与八字结构分析工具']),
       ]),
-      el('p', { class: 'subtitle' }, ['通过出生时间生成四柱结构，查看五行分布与大运周期。']),
+      el('p', { class: 'subtitle' }, ['通过出生时间生成四柱结构、五行分布与大运周期，所有数据保留在本地浏览器。']),
       el('button', { class: 'btn', onclick: renderForm }, ['开始排盘'])
     ]);
     app.appendChild(screen);

@@ -1,8 +1,10 @@
-# BaZi · 现代八字数据仪表盘
+# 天機閣 · 传统历法与八字结构分析工具
 
-一个现代、极简的八字排盘工具。命盘和解读均由本地规则引擎计算。
+天機閣是一个面向网页端的传统历法与八字结构分析工具。项目重点不是做黑箱式结论，而是把出生信息、节气边界、四柱结构、五行分布、大运周期和辅助解读拆成清晰的数据层，让用户能看到计算依据与解释边界。
 
 推衍方法以《子平真诠》《滴天髓》《三命通会》《渊海子平》的常见规则为参考，并在页面中显示来源、适用边界和置信度。五行百分比是产品用于可视化的结构指数，不是古籍原有的固定计分法。
+
+项目不需要账号和后端服务，排盘记录保存在本地浏览器中，适合作为个人网站中的可打开网页应用展示。
 
 当前版本包含：
 
@@ -20,18 +22,10 @@
 npm install
 ```
 
-启动 Electron 桌面版：
+启动网页版本：
 
 ```powershell
 npm start
-```
-
-桌面版默认打开 `index.html`，窗口固定为 `1440 × 900`。
-
-如需预览网页版本：
-
-```powershell
-npm run web
 ```
 
 浏览器打开：
@@ -54,12 +48,8 @@ PORT=4173
 建议上传这些文件：
 
 ```text
-.github/
 assets/
-docs/
-scripts/
 .gitignore
-.nojekyll
 embed-example.html
 embed.html
 index.html
@@ -83,39 +73,6 @@ node_modules/
 ```powershell
 npm run check
 ```
-
-生成 GitHub Pages 静态产物：
-
-```powershell
-npm run build:pages
-```
-
-产物会输出到 `dist/`。这个目录已加入 `.gitignore`，通常不需要提交。
-
-生成 Windows 桌面安装包：
-
-```powershell
-npm run dist:win
-```
-
-安装包会输出到 `release/`。这个目录已加入 `.gitignore`，通常不需要提交。
-
-### GitHub Pages 自动部署
-
-仓库已包含 `.github/workflows/pages.yml`。推送到 `main` 分支后，GitHub Actions 会：
-
-1. 检查 JavaScript 语法
-2. 生成 `dist/`
-3. 上传静态页面 artifact
-4. 部署到 GitHub Pages
-
-在 GitHub 仓库中进入：
-
-```text
-Settings → Pages → Build and deployment → Source → GitHub Actions
-```
-
-之后每次 push 到 `main` 都会自动发布。
 
 ## 嵌入网站
 
@@ -191,14 +148,11 @@ index.html              独立页面
 embed.html              iframe 页面
 embed-example.html      嵌入示例
 server.js               本地静态服务
-electron/main.cjs       Electron 桌面应用入口
 assets/engine.js        排盘引擎
 assets/analysis.js      本地规则分析
 assets/app.js           页面与结果渲染
-assets/tianji.js        天機閣仪表盘渲染
 assets/embed-host.js    宿主网站嵌入 API
 assets/styles.css       视觉样式
-assets/tianji.css       天機閣视觉样式
 assets/lunar.js         lunar-javascript
 ```
 

@@ -25,6 +25,9 @@ __pycache__/
 # local source masters
 /project-sources/photography/film-archive/originals/
 
+# local packaged app builds
+/project-sources/apps/lote/
+
 # misc
 .DS_Store
 *.pem

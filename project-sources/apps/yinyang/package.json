@@ -2,53 +2,14 @@
   "name": "bazi-data-dashboard",
   "productName": "天機閣",
   "version": "1.0.0",
-  "description": "天機閣桌面版八字与传统历法数据分析工具",
+  "description": "天機閣网页端八字与传统历法数据分析工具",
   "author": "Tianji Pavilion",
   "private": true,
   "type": "module",
-  "main": "electron/main.cjs",
   "scripts": {
-    "start": "electron .",
-    "desktop": "electron .",
+    "start": "node server.js",
     "web": "node server.js",
-    "build:pages": "node scripts/build-pages.js",
-    "dist:win": "electron-builder --win --x64",
-    "check": "node --check server.js && node --check electron/main.cjs && node --check assets/engine.js && node --check assets/analysis.js && node --check assets/app.js && node --check assets/tianji.js && node --check assets/embed-host.js"
+    "check": "node --check server.js && node --check assets/engine.js && node --check assets/analysis.js && node --check assets/app.js && node --check assets/embed-host.js"
   },
-  "devDependencies": {
-    "electron": "^42.5.0",
-    "electron-builder": "^26.15.3"
-  },
-  "build": {
-    "appId": "com.tianji.pavilion",
-    "productName": "天機閣",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "index.html",
-      "assets/**/*",
-      "build/icon.*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "win": {
-      "icon": "build/icon.ico",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "天機閣"
-    }
-  }
+  "devDependencies": {}
 }
