@@ -25,6 +25,8 @@ const sites = [
       'assets/engine.js',
       'assets/lunar.js',
       'assets/styles.css',
+      'assets/tianji.css',
+      'assets/tianji.js',
     ],
   },
   {

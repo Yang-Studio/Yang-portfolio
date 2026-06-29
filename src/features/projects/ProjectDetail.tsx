@@ -152,7 +152,7 @@ export default function ProjectDetail({
               width={1100}
               height={900}
               priority
-              className="aspect-[4/3] max-h-[420px] w-full object-cover grayscale md:aspect-[4/5] md:max-h-[620px]"
+              className="aspect-[16/10] max-h-[460px] w-full object-contain grayscale md:aspect-[16/9] md:max-h-[600px]"
             />
           </button>
         </div>
@@ -284,7 +284,7 @@ export default function ProjectDetail({
                           alt={translatedItem?.title ?? item.title}
                           width={1200}
                           height={800}
-                          className="aspect-[4/3] w-full object-cover grayscale"
+                          className="aspect-[16/10] w-full object-contain grayscale"
                         />
                       </button>
                     </div>
@@ -361,7 +361,7 @@ export default function ProjectDetail({
                     alt={`${project.title} gallery ${index + 1}`}
                     width={800}
                     height={600}
-                    className="aspect-[4/3] w-full cursor-zoom-in object-cover grayscale transition duration-700 hover:grayscale-0"
+                    className="aspect-[16/10] w-full cursor-zoom-in object-contain grayscale transition duration-700 hover:grayscale-0"
                   />
                 </button>
               ))}

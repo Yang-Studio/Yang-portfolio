@@ -64,73 +64,73 @@ export const appProjects: Project[] = [
   {
     slug: 'yinyang',
     tag: 'App Development',
-    title: '天機閣',
+    title: 'YinYang',
     blurb:
-      '天機閣 is a privacy-first traditional calendar and four-pillar analysis web app: precise solar-term calculation, transparent rule logic, and readable outputs that stay on-device.',
+      'YinYang / 天機閣 (Tianji Pavilion) — an atmospheric, dark-gold BaZi reading deck built on real astronomical calculation: rule-based, source-cited, and framed as cultural reference, not prediction.',
     year: '2026',
     role: 'Product Designer / Front-end Developer',
     tools: 'Vanilla JS · lunar-javascript · SVG / Canvas',
-    cover: '/assets/projects/yinyang/yinyang-chart.webp',
-    banner: '/assets/projects/yinyang/yinyang-home.webp',
-    moneyshot: '/assets/projects/yinyang/yinyang-poster.webp',
+    cover: '/assets/projects/yinyang/yinyang-natal.webp',
+    banner: '/assets/projects/yinyang/yinyang-promo.webp',
+    moneyshot: '/assets/projects/yinyang/yinyang-daily.webp',
     demo: '/embedded-apps/yinyang/index.html',
     hideDownload: true,
     status: 'Working web app (v1.0)',
     overview: {
-      goal: 'Most traditional charting tools feel either like dense lookup tables or black-box fortune telling. 天機閣 reframes the workflow as a transparent data interface: calendar calculation first, structural reading second, with every sensitive interaction kept local.',
+      goal: 'Traditional charting sites are either dated and mystical or clinical like a spreadsheet. 天機閣 keeps a rigorous, deterministic engine but presents it as a calm, atmospheric reading deck — observe the heavens, read the energy, move with it.',
       team: 'Independent product',
       timeline: 'v1.0 · 2026',
     },
     process: [
       {
         title: 'Problem',
-        body: 'Conventional charting tools are cluttered, jargon-heavy, and often hide the calculation path behind fixed conclusions.',
+        body: 'Charting tools force a choice between dated mysticism and a cold data table; neither feels considered or trustworthy.',
       },
       {
         title: 'Approach',
-        body: 'Rebuild the chart as a structured product interface: birth data, calendar conversion, five-element structure, and interpretation are separated into clear layers.',
+        body: 'Keep a deterministic, source-cited engine, but wrap it in 天機閣 — a dark-gold deck organised around the life palace, the daily fortune index, and trends.',
       },
       {
-        title: 'Trust',
-        body: 'The web app runs without accounts or a backend; readings explain their basis and keep user data inside the browser.',
+        title: 'Working Build',
+        body: 'A pure front-end app that runs offline; the same BaZi engine drives the Tianji Pavilion dashboard and a clean, embeddable view.',
       },
     ],
     technical: [
       {
-        title: 'Accurate Charting',
+        title: 'Accurate Charting Engine',
         description:
-          'Four pillars are calculated from solar-term boundaries, with lunar leap-month conversion and optional true-solar-time correction.',
-        media: '/assets/projects/yinyang/yinyang-chart.webp',
+          'Four pillars from lunar-javascript by true solar-term boundaries, with lunar leap-month conversion and optional true-solar-time correction.',
+        media: '/assets/projects/yinyang/yinyang-natal.webp',
       },
       {
-        title: 'Five-Element Structure',
+        title: 'Tianji Pavilion Deck',
         description:
-          'Heavenly stems, earthly branches, and hidden stems are converted into a normalized five-element structure, then shown through bars and radar charts.',
-        media: '/assets/projects/yinyang/yinyang-poster.webp',
+          'A dark-gold deck reorganises the chart around the life palace and its main stars, with a combined daily fortune index and 30-day / quarterly trend lines.',
+        media: '/assets/projects/yinyang/yinyang-daily.webp',
       },
       {
-        title: 'Auditable Interpretation',
+        title: 'Rule-based, Auditable Reading',
         description:
-          'Day-master strength, favourable elements, and structural notes are generated from explicit rules instead of opaque text templates.',
-        media: '/assets/projects/yinyang/yinyang-analysis.webp',
+          'Day-master strength, favourable elements, and structure are deterministic, each shown with its basis and confidence — labelled cultural reference, not prediction.',
+        media: '/assets/projects/yinyang/yinyang-hexagram.webp',
       },
       {
-        title: 'Inference with Basis',
+        title: 'Applied Readings',
         description:
-          'Career, wealth, relationships, study, health, and timing sections each state their reasoning limits; health content is clearly non-medical.',
-        media: '/assets/projects/yinyang/yinyang-analysis.webp',
+          'Lucky colour, wealth direction, five-element naming characters, and a two-person compatibility report, all derived from the same chart.',
+        media: '/assets/projects/yinyang/yinyang-match.webp',
       },
       {
-        title: 'Interactive & Embeddable',
+        title: 'Tianji Q&A & Embedding',
         description:
-          'The app supports daily outlooks, compatibility checks, history, preferences, share posters, and iframe embedding for future personal-site modules.',
-        media: '/assets/projects/yinyang/yinyang-today.webp',
+          'A chart-aware Q&A layer (in progress), plus a postMessage SDK that embeds the clean view in any site — offline and account-free.',
+        media: '/assets/projects/yinyang/yinyang-oracle.webp',
       },
     ],
     results: {
       summary:
-        '天機閣 turns a dense traditional chart into a usable web product: calculation is transparent, interpretation is bounded, and private data stays local.',
-      highlights: ['Precise solar-term charting', 'Transparent rule logic', 'Offline-friendly, embeddable, no account'],
+        'YinYang now presents the same rigorous BaZi engine as 天機閣 — an atmospheric, source-cited reading deck that stays honest about being cultural reference, not prediction.',
+      highlights: ['Astronomical-grade engine', 'Tianji Pavilion deck + clean embed', 'Source-cited, cultural-reference framing'],
     },
   },
   {
@@ -142,9 +142,10 @@ export const appProjects: Project[] = [
     year: '2026',
     role: 'Product Designer / Electron Developer',
     tools: 'Electron · Vanilla JS · D3 · CodeMirror · Mermaid · KaTeX',
-    cover: '/assets/projects/lote/lote-editor.webp',
-    banner: '/assets/projects/lote/lote-home.webp',
-    moneyshot: '/assets/projects/lote/lote-graph.webp',
+    cover: '/assets/projects/lote/lote-notes.webp',
+    banner: '/assets/projects/lote/lote-promo.webp',
+    moneyshot: '/assets/projects/lote/lote-map.webp',
+    logo: '/assets/projects/lote/lote-logo.webp',
     download: '/downloads/Lote.exe',
     status: 'Windows desktop app (v3.0)',
     overview: {
@@ -171,25 +172,25 @@ export const appProjects: Project[] = [
         title: 'Folder-based Local Storage',
         description:
           'Lote reads and writes the folder the user chooses. Markdown notes, attachments, canvas files, and kanban boards stay visible on disk, so the file system remains the source of truth.',
-        media: '/assets/projects/lote/lote-home.webp',
+        media: '/assets/projects/lote/lote-notes.webp',
       },
       {
         title: 'Backlinks, Tags & Graph',
         description:
           'The app parses [[links]], #tags, frontmatter, headings, and outgoing references to build backlinks, outline views, global/local D3 graph maps, and quick navigation.',
-        media: '/assets/projects/lote/lote-graph.webp',
+        media: '/assets/projects/lote/lote-map.webp',
       },
       {
         title: 'Database, Calendar & Kanban',
         description:
           'The same notes can be viewed as a database table, daily-note calendar, task list, or Trello-style kanban board, with the board state still stored as Markdown.',
-        media: '/assets/projects/lote/lote-database.webp',
+        media: '/assets/projects/lote/lote-db.webp',
       },
       {
         title: 'Export, History & NAS Sync',
         description:
           'Full-text search, web clips, note lifecycle states, local version history, PDF/PNG/JPG export, ZIP import/export, and manual local-to-NAS backup sync are built in.',
-        media: '/assets/projects/lote/lote-webclip.webp',
+        media: '/assets/projects/lote/lote-clips.webp',
       },
     ],
     results: {

@@ -184,11 +184,11 @@
 
   function postEmbedMessage(type, payload) {
     if (!EMBED_MODE || window.parent === window) return;
-    window.parent.postMessage(Object.assign({ type: type, source: 'tianji-widget' }, payload || {}), '*');
+    window.parent.postMessage(Object.assign({ type: type, source: 'bazi-widget' }, payload || {}), '*');
   }
 
   function notifyScreen(name) {
-    postEmbedMessage('tianji:screen', { screen: name });
+    postEmbedMessage('bazi:screen', { screen: name });
   }
 
   function el(tag, attrs, children) {
@@ -216,7 +216,7 @@
   function setTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
     if (!EMBED_MODE) {
-      try { localStorage.setItem('tianji-theme', t); } catch (e) {}
+      try { localStorage.setItem('bazi-theme', t); } catch (e) {}
     }
     var btn = document.getElementById('theme-btn');
     if (btn) btn.innerHTML = t === 'dark' ? sunIcon() : moonIcon();
@@ -227,7 +227,7 @@
   }
 
   // ---------- history (saved on this device) ----------
-  var HISTORY_KEY = 'tianji-history';
+  var HISTORY_KEY = 'bazi-history';
   function loadHistory() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch (e) { return []; } }
   function saveHistory(list) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list)); } catch (e) {} }
   function recordKey(b) { return [b.calendar || 'solar', b.leapMonth ? 1 : 0, b.year, b.month, b.day, b.hour, b.minute, b.gender, b.place, b.trueSolarTime ? 1 : 0].join('-'); }
@@ -257,7 +257,7 @@
     if (EMBED_MODE && !opts.back) return el('div', { class: 'embed-spacer', 'aria-hidden': 'true' });
     var left = opts.back
       ? el('button', { class: 'iconbtn back', onclick: opts.back }, ['‹ 返回'])
-      : el('span', { class: 'brand' }, ['天機閣']);
+      : el('span', { class: 'brand' }, ['BaZi']);
     return el('div', { class: 'topbar' }, [
       el('div', { class: 'topbar-left' }, [left]),
       el('div', { class: 'topbar-right' }, EMBED_MODE ? [] : [
@@ -310,10 +310,10 @@
     var screen = el('div', { class: 'screen home' }, [
       el('div', {}, [
         el('div', { class: 'logo-mark', html: logoIcon() }),
-        el('h1', { class: 'title' }, ['天機閣']),
-        el('p', { class: 'subtitle' }, ['传统历法与八字结构分析工具']),
+        el('h1', { class: 'title' }, ['BaZi']),
+        el('p', { class: 'subtitle' }, ['现代八字排盘工具']),
       ]),
-      el('p', { class: 'subtitle' }, ['通过出生时间生成四柱结构、五行分布与大运周期，所有数据保留在本地浏览器。']),
+      el('p', { class: 'subtitle' }, ['通过出生时间生成四柱结构，查看五行分布与大运周期。']),
       el('button', { class: 'btn', onclick: renderForm }, ['开始排盘'])
     ]);
     app.appendChild(screen);
@@ -605,7 +605,7 @@
     var cur = tl.querySelector('.luck.current');
     if (cur) tlWrap.scrollLeft = cur.offsetLeft - 24;
     notifyScreen('result');
-    postEmbedMessage('tianji:result', {
+    postEmbedMessage('bazi:result', {
       input: c.input,
       dayMaster: c.dayMaster,
       pillars: c.pillars,
@@ -1014,7 +1014,7 @@
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#111111';
     ctx.font = '700 46px "PingFang SC", sans-serif';
-    ctx.fillText('天機閣命盘摘要', 76, 105);
+    ctx.fillText('BaZi 命盘摘要', 76, 105);
     ctx.fillStyle = '#666666';
     ctx.font = '400 26px "PingFang SC", sans-serif';
     ctx.fillText(c.input.rawDate + '  ' + c.input.rawTime + '  ' + c.input.gender, 76, 154);
@@ -1073,11 +1073,11 @@
 
     canvas.toBlob(function (blob) {
       if (!blob) return;
-      var fileName = 'tianji-' + c.input.rawDate.replace(/\./g, '-') + '.png';
+      var fileName = 'bazi-' + c.input.rawDate.replace(/\./g, '-') + '.png';
       if (navigator.share && navigator.canShare) {
         var file = new File([blob], fileName, { type: 'image/png' });
         if (navigator.canShare({ files: [file] })) {
-          navigator.share({ files: [file], title: '天機閣命盘摘要' }).catch(function () {});
+          navigator.share({ files: [file], title: 'BaZi 命盘摘要' }).catch(function () {});
           return;
         }
       }
@@ -1979,7 +1979,7 @@
     var resizeQueued = false;
     function sendHeight() {
       resizeQueued = false;
-      postEmbedMessage('tianji:resize', {
+      postEmbedMessage('bazi:resize', {
         height: Math.ceil(Math.max(document.body.scrollHeight, document.documentElement.scrollHeight))
       });
     }
@@ -1992,26 +1992,26 @@
     if (window.ResizeObserver) new ResizeObserver(queueHeight).observe(document.body);
     window.addEventListener('load', queueHeight);
     window.addEventListener('message', function (event) {
-      if (event.source !== window.parent || !event.data || event.data.source !== 'tianji-host') return;
+      if (event.source !== window.parent || !event.data || event.data.source !== 'bazi-host') return;
       var message = event.data;
-      if (message.type === 'tianji:setTheme') {
+      if (message.type === 'bazi:setTheme') {
         setTheme(message.theme === 'dark' ? 'dark' : 'light');
-      } else if (message.type === 'tianji:reset') {
+      } else if (message.type === 'bazi:reset') {
         state.chart = null;
         state.analysis = null;
         renderForm();
-      } else if (message.type === 'tianji:setBirth' || message.type === 'tianji:calculate') {
+      } else if (message.type === 'bazi:setBirth' || message.type === 'bazi:calculate') {
         if (message.birth && typeof message.birth === 'object') {
           Object.keys(state.birth).forEach(function (key) {
             if (message.birth[key] !== undefined) state.birth[key] = message.birth[key];
           });
         }
-        if (message.type === 'tianji:calculate') compute();
+        if (message.type === 'bazi:calculate') compute();
         else renderForm();
       }
       queueHeight();
     });
-    postEmbedMessage('tianji:ready', { version: '1.0.0' });
+    postEmbedMessage('bazi:ready', { version: '1.0.0' });
     queueHeight();
   }
 
@@ -2021,7 +2021,7 @@
   else if (requestedTheme === 'light') setTheme('light');
   else if (requestedTheme === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
   else {
-    try { setTheme(EMBED_MODE ? 'light' : (localStorage.getItem('tianji-theme') || 'light')); } catch (e) { setTheme('light'); }
+    try { setTheme(EMBED_MODE ? 'light' : (localStorage.getItem('bazi-theme') || 'light')); } catch (e) { setTheme('light'); }
   }
 
   if (EMBED_MODE) {
