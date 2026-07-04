@@ -5,6 +5,11 @@
       "/apps": 11,
       "/apps/yinyang": 6,
       "/apps/lote": 2
+    },
+    "2026-07-04": {
+      "/": 2,
+      "/apps": 1,
+      "/apps/cheetah": 1
     }
   }
 }

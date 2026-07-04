@@ -57,68 +57,33 @@ export const projectTranslations: Record<string, ProjectTranslation> = {
   },
   cheetah: {
     title: 'Cheetah',
-    blurb: 'Leo Ledger——一只会帮你存钱的猎豹：完全本地、隐私优先的记账应用，几秒记一笔、随手看清财务结构。',
+    blurb: '一个本地优先的记账原型（Electron + React）：几秒记一笔、随手看清当月财务，数据全部留在本机，无需账号与服务器。',
     role: '产品设计 / 前端开发',
-    overviewGoal: '记账能不能不依赖账号与云端、也不费劲就坚持下来？Leo Ledger 追求 3 秒记一笔、30 秒看清当月结构，数据全部留在本机。',
+    overviewGoal: '记账应用能不能不靠账号与服务器、又快又私密？Cheetah 把数据全部存在本机 localStorage，每记一笔就即时更新仪表盘、预算与统计。',
     overviewTeam: '独立产品',
     overviewTimeline: '2026',
     process: [
-      { title: '问题', body: '记账慢、要注册云账号、信息又密的应用，用户往往坚持不下来。' },
-      { title: '做法', body: 'Robinhood 风格暗色界面，底部四 Tab + 浮动记账按钮，并用猎豹 Leo 把“坚持”做成游戏化成长。' },
-      { title: '可用版本', body: '一个 React + esbuild 单文件应用，基于 localStorage：多账户钱包、支出/收入/转账、分类树、预算、计划付款、储蓄目标与数据导出。' },
+      { title: '问题', body: '多数记账工具需要云账号，还把记录、规划、复盘拆到彼此割裂的界面里。' },
+      { title: '做法', body: '五个聚焦模块——仪表盘、记一笔、预算、统计、设置——共用一套本地数据模型，每笔录入立即更新余额、预算与图表。' },
+      { title: '可用版本', body: '一个 Electron + React(UMD) 原型，基于 localStorage：多账户支出/收入/转账、分类预算、近 6 月统计，以及 CSV / JSON 导出。' },
     ],
     technical: [
       {
-        title: '本地优先·隐私',
-        description: '无后端、无账号；数据存于 localStorage，整个应用可单文件嵌入，支持 CSV 导出与 JSON 备份/恢复。',
+        title: '本地优先·无服务器',
+        description: '数据存于 localStorage，无后端、无账号；同一套构建既可作桌面应用，也能在浏览器中嵌入运行。',
       },
       {
-        title: '统一的规划模型',
-        description: '预算、收入比例分配、储蓄目标与周期付款共用一套模型；到期账单自动入账并滚动到下一期。',
+        title: '统一的数据模型',
+        description: '记一笔支出/收入/转账，会一次性更新账户余额、预算消耗与仪表盘。',
       },
       {
-        title: '洞察与 Leo 成长',
-        description: '分类占比、近 6 月趋势与现金流，搭配 Leo 的情绪、等级、连续天数与成就，激励长期坚持。',
+        title: '预算·统计·导出',
+        description: '分类预算上限与进度、近 6 月收支对比与消费排行，以及 CSV / JSON 导出和可恢复的演示数据。',
       },
     ],
     results: {
-      summary: 'Leo Ledger 覆盖记录、规划、复盘的完整闭环，全部在本机完成，并用猎豹 Leo 维持记账习惯。',
-      highlights: ['完全本地、无需账号', '统一的规划模型', 'Leo 游戏化坚持'],
-    },
-  },
-  lote: {
-    title: 'Lote',
-    blurb: '面向 Windows 的本地优先 Markdown 知识工作台：打开任意文件夹作为笔记库，用 .md 记录内容，并通过双链、图谱、画布、看板、日历任务和 NAS 备份同步来组织想法。',
-    role: '产品设计 / Electron 开发',
-    overviewGoal: '把普通文件夹变成私有写作与知识管理工作区，不依赖账号、云端锁定或隐藏文件的数据库。',
-    overviewTeam: '独立产品',
-    overviewTimeline: 'v3.0 · 2026',
-    process: [
-      { title: '问题', body: '成熟笔记应用常把用户推向账号、私有同步或不透明数据库；本地优先工具又往往需要大量插件配置才像一个完整工作台。' },
-      { title: '做法', body: '把核心知识工作流内置到一个桌面壳中：文件树、Markdown 编辑器、实时预览、双链、标签、图谱、数据库表、每日笔记、看板、画布、模板与导出。' },
-      { title: '可用版本', body: '当前 Electron 构建会直接打开本地或 NAS 文件夹，通过文件系统保存标准笔记文件，并作为 Windows 桌面应用发布。' },
-    ],
-    technical: [
-      {
-        title: '基于文件夹的本地存储',
-        description: 'Lote 直接读写用户选择的文件夹。Markdown 笔记、附件、画布文件和看板都保留在磁盘上，文件系统就是真实数据源。',
-      },
-      {
-        title: '双链、标签与图谱',
-        description: '解析 [[链接]]、#标签、frontmatter、标题和出链，生成反向链接、大纲、全局/局部 D3 关系图与快速跳转。',
-      },
-      {
-        title: '数据库、日历与看板',
-        description: '同一批笔记可以作为数据库表、每日笔记日历、任务列表或 Trello 式看板查看，看板状态仍然以 Markdown 保存。',
-      },
-      {
-        title: '导出、历史与 NAS 同步',
-        description: '内置全文搜索、网页收藏、笔记寿命、版本历史、PDF/PNG/JPG 导出、ZIP 导入导出，以及本地到 NAS 的手动备份同步。',
-      },
-    ],
-    results: {
-      summary: 'Lote 把个人知识工作台打包成本地 Windows 应用，同时让用户的笔记保持可迁移、可检查、独立于任何托管服务。',
-      highlights: ['文件夹式本地笔记库', '双链/图谱/画布/看板内置', 'NAS 备份同步与导出工具'],
+      summary: 'Cheetah 覆盖记录、规划、复盘的完整记账闭环，全部在本机完成，是一个快速的本地优先原型。',
+      highlights: ['本地优先、无需账号', '统一的数据模型', 'CSV / JSON 导出'],
     },
   },
   yinyang: {

@@ -6,59 +6,59 @@ export const appProjects: Project[] = [
     tag: 'App Development',
     title: 'Cheetah',
     blurb:
-      'Leo Ledger — a fully local, privacy-first money tracker with a cheetah companion, built to log a transaction in seconds and read your finances at a glance.',
+      'A local-first budgeting prototype (Electron + React): log spending in seconds and read your monthly finances at a glance — data stays on-device, no account, no server.',
     year: '2026',
     role: 'Product Designer / Front-end Developer',
-    tools: 'React · esbuild · localStorage',
-    cover: '/assets/projects/cheetah/cheetah-cover.webp',
-    banner: '/assets/projects/cheetah/cheetah-cover.webp',
-    moneyshot: '/assets/projects/cheetah/cheetah-cover.webp',
+    tools: 'React (UMD) · Electron · localStorage',
+    cover: '/assets/projects/cheetah/cheetah-dashboard.webp',
+    banner: '/assets/projects/cheetah/cheetah-promo.webp',
+    moneyshot: '/assets/projects/cheetah/cheetah-stats.webp',
     demo: '/embedded-apps/cheetah/index.html',
     hideDownload: true,
-    status: 'Working web app (v1.0)',
+    status: 'Working prototype',
     overview: {
-      goal: 'Can accounting stay a habit without an account, the cloud, or friction? Leo Ledger targets a transaction in three seconds and a clear monthly picture in thirty — kept entirely on-device.',
+      goal: 'Can a budgeting app stay fast and private without an account or a server? Cheetah keeps everything in local storage and turns each entry into an updated dashboard, budget, and stats view.',
       team: 'Independent product',
       timeline: '2026',
     },
     process: [
       {
         title: 'Problem',
-        body: 'People drop budgeting apps that are slow to log, demand a cloud account, or bury structure under dense screens.',
+        body: 'Most budgeting tools need a cloud account and split recording, planning, and review across disconnected screens.',
       },
       {
         title: 'Approach',
-        body: 'A Robinhood-style dark interface around four tabs and a floating add button, with Leo the cheetah turning consistency into a game.',
+        body: 'Five focused sections — dashboard, add-entry, budget, stats, settings — over one local data model, so every entry immediately updates balances, budgets, and charts.',
       },
       {
         title: 'Working Build',
-        body: 'A single-file React + esbuild app on localStorage: multi-account wallets, expense/income/transfer, a category tree, budgets, planned payments, goals, and exports.',
+        body: 'An Electron + React (UMD) prototype on localStorage: multi-account expense / income / transfer, category budgets, six-month stats, and CSV / JSON export.',
       },
     ],
     technical: [
       {
-        title: 'Local-first & Private',
+        title: 'Local-first, No Server',
         description:
-          'No backend and no account; data lives in localStorage and the whole app embeds in one file, with CSV export and JSON backup/restore.',
-        media: '/assets/projects/cheetah/cheetah-cover.webp',
+          'Data lives in localStorage with no backend or account; the same build runs as a desktop app or embeds in the browser.',
+        media: '/assets/projects/cheetah/cheetah-settings.webp',
       },
       {
-        title: 'One Planning Model',
+        title: 'One Connected Model',
         description:
-          'Budgets, ratio-based income allocation, savings goals, and recurring payments share one model; due bills auto-post on the date and roll to the next period.',
-        media: '/assets/projects/cheetah/cheetah-planning.webp',
+          'Adding an expense, income, or transfer updates account balances, budget consumption, and the dashboard in a single pass.',
+        media: '/assets/projects/cheetah/cheetah-add.webp',
       },
       {
-        title: 'Insights & Leo Growth',
+        title: 'Budgets, Stats & Export',
         description:
-          'Category breakdowns, six-month trends, and cash flow sit beside Leo’s mood, level, streaks, and achievements that reward sticking with it.',
-        media: '/assets/projects/cheetah/cheetah-insights.webp',
+          'Category budget caps with progress, a six-month income / expense comparison and spending ranking, plus CSV / JSON export and restorable demo data.',
+        media: '/assets/projects/cheetah/cheetah-budget.webp',
       },
     ],
     results: {
       summary:
-        'Leo Ledger covers the full loop — log, plan, review — entirely on-device, with a mascot that keeps the habit going.',
-      highlights: ['Fully local, no account', 'One connected planning model', 'Gamified habit with Leo'],
+        'Cheetah covers the full budgeting loop — capture, plan, review — entirely on-device, as a fast local-first prototype.',
+      highlights: ['Local-first, no account', 'One connected data model', 'CSV / JSON export'],
     },
   },
   {

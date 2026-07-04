@@ -34,6 +34,7 @@ export default function ProjectsArchive({
 }: Props) {
   const { t, language } = useLanguage()
   const items = rawItems.filter((project) => !project.hidden)
+  const isApps = basePath === '/apps'
   const overrides = useContentOverrides()
 
   useEffect(() => {
@@ -194,7 +195,7 @@ export default function ProjectsArchive({
                         width={1200}
                         height={900}
                         priority={index === 0}
-                        className="aspect-[16/10] w-full object-contain grayscale transition duration-700 group-hover:grayscale-0"
+                        className={`w-full object-contain grayscale transition duration-700 group-hover:grayscale-0 ${isApps ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
                       />
                     </div>
                   </div>

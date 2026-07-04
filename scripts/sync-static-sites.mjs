@@ -9,7 +9,7 @@ const sites = [
     name: 'Cheetah',
     source: 'project-sources/apps/cheetah',
     target: 'public/embedded-apps/cheetah',
-    files: ['index.html', 'LeoLedger.js'],
+    files: ['index.html', 'app.js', 'vendor/react.production.min.js', 'vendor/react-dom.production.min.js'],
   },
   {
     name: 'YinYang',

@@ -152,7 +152,7 @@ export default function ProjectDetail({
               width={1100}
               height={900}
               priority
-              className="aspect-[16/10] max-h-[460px] w-full object-contain grayscale md:aspect-[16/9] md:max-h-[600px]"
+              className={`w-full object-contain grayscale ${isAppProject ? 'aspect-[3/2] max-h-[620px]' : 'aspect-[16/10] max-h-[460px] md:aspect-[16/9] md:max-h-[600px]'}`}
             />
           </button>
         </div>
@@ -284,7 +284,7 @@ export default function ProjectDetail({
                           alt={translatedItem?.title ?? item.title}
                           width={1200}
                           height={800}
-                          className="aspect-[16/10] w-full object-contain grayscale"
+                          className={`w-full object-contain grayscale ${isAppProject ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
                         />
                       </button>
                     </div>
