@@ -167,7 +167,7 @@ export const projectTranslations: Record<string, ProjectTranslation> = {
     ],
     results: {
       summary: 'Bubono’s Bumperland 最终完成了以车辆碰撞为核心的战斗体验，并将敌人 AI、视觉效果与车辆升级整合进完整的 Gameplay Loop。在项目中，我不仅负责核心系统与敌人开发，也参与了 Shader、后期渲染、技术 Mesh 制作以及性能优化。',
-      highlights: ['完成以车辆碰撞为核心的战斗玩法与完整 Gameplay Loop', '构建适配车辆运动与碰撞机制的敌人 AI 系统', '实现并优化 Shader、Post Processing 与技术 Mesh', '在视觉质量与运行效率之间取得平衡，提升整体性能与流畅度'，'打通 Gameplay、Rendering 与 Art Pipeline 之间的协作流程'，'提升跨程序、美术与技术美术的问题定位与快速迭代能力'],
+      highlights: ['完成以车辆碰撞为核心的战斗玩法与完整 Gameplay Loop', '构建适配车辆运动与碰撞机制的敌人 AI 系统', '实现并优化 Shader、Post Processing 与技术 Mesh', '在视觉质量与运行效率之间取得平衡，提升整体性能与流畅度', '打通 Gameplay、Rendering 与 Art Pipeline 之间的协作流程', '提升跨程序、美术与技术美术的问题定位与快速迭代能力'],
     },
   },
   aukadyssey: {
