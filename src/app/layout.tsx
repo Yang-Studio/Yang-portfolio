@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Fraunces, JetBrains_Mono, Noto_Serif_SC } from 'next/font/google'
+import { Fraunces, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import RouteShell from '@/components/layout/RouteShell'
 import { LanguageProvider } from '@/components/providers/LanguageProvider'
@@ -8,14 +8,15 @@ import { ContentOverridesProvider } from '@/components/providers/ContentOverride
 import { getContentOverrides } from '@/lib/server/contentStore'
 import type { ReactNode } from 'react'
 
-const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces' })
-const notoSerifSc = Noto_Serif_SC({
-  display: 'swap',
-  preload: false,
-  variable: '--font-noto-serif-sc',
-  weight: ['400', '500', '600', '700'],
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
 })
-const jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains' })
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yang-portfolio-rose.vercel.app'),
@@ -28,12 +29,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode
+}) {
   const contentOverrides = await getContentOverrides()
+
   return (
     <html lang="zh">
       <body
-        className={`${fraunces.variable} ${notoSerifSc.variable} ${jetbrains.variable} bg-paper text-ink selection:bg-accent selection:text-paper`}
+        className={`${fraunces.variable} ${jetbrains.variable} bg-paper text-ink selection:bg-accent selection:text-paper`}
       >
         <LanguageProvider>
           <ContentOverridesProvider value={contentOverrides}>
