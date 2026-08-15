@@ -35,7 +35,7 @@ html {
 }
 
 body {
-  font-family: var(--font-fraunces), var(--font-noto-serif-sc), Georgia, 'Noto Serif SC',
+  font-family: var(--font-fraunces), Georgia, 'Noto Serif SC',
     'Source Han Serif SC', 'Songti SC', serif;
   font-size: 17px;
   line-height: 1.6;
@@ -45,7 +45,7 @@ h1,
 h2,
 h3,
 .font-display {
-  font-family: var(--font-fraunces), var(--font-noto-serif-sc), Georgia, 'Noto Serif SC',
+  font-family: var(--font-fraunces), Georgia, 'Noto Serif SC',
     'Source Han Serif SC', 'Songti SC', serif;
 }
 
