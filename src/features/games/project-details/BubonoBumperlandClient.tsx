@@ -1,4 +1,4 @@
-idop'use client'
+'use client'
 
 import { useState } from 'react'
 import type { SyntheticEvent } from 'react'
