@@ -36,25 +36,25 @@ export const projectHighlights: Record<string, ProjectHighlight> = {
   },
   'bubono-bumperland': {
     focus: {
-      en: 'A systems-heavy team project about collision combat, enemy AI, and readable player feedback.',
-      zh: '一个系统密度较高的团队项目，重点是碰撞战斗、敌人 AI 和清晰玩家反馈。',
+      en: 'Build and refine a cohesive game experience across Gameplay, Enemy AI, Rendering, and Performance, centered around vehicle collision combat.',
+      zh: '围绕车辆碰撞战斗，构建并完善 Gameplay、Enemy AI、Rendering 与 Performance 之间的完整游戏体验。',
     },
     evidence: {
-      en: 'Built branch-specific enemy behaviors, modular ability logic, collision feedback, and data-table tuning inside a long-running UE5 project.',
-      zh: '在长期 UE5 项目中负责分支敌人行为、模块化技能逻辑、碰撞反馈和数据表调参。',
+      en: 'Served as a **Systems & Enemy Programmer / Technical Artist** on the UE5 project.',
+      zh: '在 UE5 项目中负责担任系统与敌人程序/技术美术',
     },
     notes: [
       {
-        en: 'Turned chaotic physics combat into readable moment-to-moment feedback.',
-        zh: '把混乱的物理碰撞战斗整理成玩家可读的即时反馈。',
+        en: 'Built a vehicle collision-based combat system, balancing impactful physics with gameplay control and predictability.',
+        zh: '构建以车辆碰撞为核心的战斗系统，在物理碰撞的冲击感与 Gameplay 可控性之间取得平衡。',
       },
       {
-        en: 'Used behavior trees as both implementation structure and design language.',
-        zh: '把行为树同时作为实现结构和设计语言使用。',
+        en: 'Built enemy AI around vehicle movement and collision mechanics, using Behavior Trees to handle targeting, alignment, charging, and recovery.',
+        zh: '构建适配车辆运动与碰撞机制的敌人 AI，通过行为树实现追踪、对齐、冲撞与恢复等行为。',
       },
       {
-        en: 'Kept system ownership clear inside a multi-person production pipeline.',
-        zh: '在多人制作管线中保持清晰的系统职责。',
+        en: 'Implemented and optimized shaders, post-processing effects, and technical meshes while improving overall performance and runtime smoothness.',
+        zh: '实现并优化 Shader、Post Processing 与技术 Mesh，在保持视觉效果的同时提升整体性能与运行流畅度。',
       },
     ],
   },
