@@ -34,7 +34,7 @@ export const projects: Project[] = [
     ],
     results: {
       summary: 'Bubono’s Bumperland delivers a combat experience centered around vehicle collisions, integrating enemy AI, visual effects, and vehicle upgrades into a complete gameplay loop.Throughout the project, I was responsible not only for core gameplay systems and enemy development, but also contributed to shaders, post-processing, technical mesh creation, and performance optimization.',
-      highlights: ['Completed a full gameplay loop centered around vehicle collision combat.', 'Built an enemy AI system designed around vehicle movement and collision mechanics.', 'Implemented and optimized shaders, post-processing effects, and technical meshes.', 'Balanced visual quality and runtime efficiency to improve overall performance and smoothness.', 'Established an effective workflow across Gameplay, Rendering, and the Art Pipeline.'，'Strengthened problem-solving and rapid iteration across programming, art, and technical art disciplines.'],
+      highlights: ['Completed a full gameplay loop centered around vehicle collision combat.', 'Built an enemy AI system designed around vehicle movement and collision mechanics.', 'Implemented and optimized shaders, post-processing effects, and technical meshes.', 'Balanced visual quality and runtime efficiency to improve overall performance and smoothness.', 'Established an effective workflow across Gameplay, Rendering, and the Art Pipeline.', 'Strengthened problem-solving and rapid iteration across programming, art, and technical art disciplines.'],
     },
   },
   {
