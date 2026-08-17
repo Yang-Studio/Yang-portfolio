@@ -9,7 +9,7 @@ from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
-FILM_SITE = ROOT / "project-sources" / "photography" / "film-archive" / "site"
+FILM_SITE = PUBLIC / "embedded-sites" / "film"
 
 
 def convert_image(source: Path, max_edge: int, quality: int) -> tuple[Path, Path, int, int]:

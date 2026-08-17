@@ -2,16 +2,10 @@
 
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import PlateLabel from '@/components/ui/PlateLabel'
-
-const timeline = [
-  ['2021', 'Entered SCAD for BFA Game Development and Interactive Design; built a foundation across design, programming, UX, and production.'],
-  ['2023', 'Started proving solo ownership through environment studies, small systems prototypes, and readable design documentation.'],
-  ['2024', 'Built Shanhe as a solo vertical slice and Bubono as a long-running UE5 team project, strengthening systems, AI, and feedback design.'],
-  ['NOW', 'Continuing to build personal projects across game systems, app tools, photography, and interface experiments.'],
-]
+import { siteContent } from '@/content/database'
 
 export default function MonographAbout() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
 
   return (
     <section className="monograph-section px-5 sm:px-8 md:px-16 lg:px-24">
@@ -19,14 +13,11 @@ export default function MonographAbout() {
         <div className="min-w-0 xl:sticky xl:top-28 xl:h-max">
           <PlateLabel plate={t('Plate 03')} label={t('Personal Development Path')} />
         </div>
-
         <div className="grid gap-0 border-t border-rule">
-          {timeline.map(([year, entry], index) => (
-            <div key={`${year}-${index}`} className="reveal grid gap-4 border-b border-rule py-8 md:grid-cols-[120px_1fr] md:gap-8 md:py-10">
-              <p className={`mono text-[24px] leading-none md:text-[28px] ${year === 'NOW' ? 'text-accent' : 'text-ink'}`}>{year}</p>
-              <p className="copy-safe zh-timeline-copy max-w-2xl text-[clamp(22px,2.6vw,34px)] leading-[1.14]">
-                {t(entry)}
-              </p>
+          {siteContent.homeTimeline.map((entry, index) => (
+            <div key={entry.year + '-' + index} className="reveal grid gap-4 border-b border-rule py-8 md:grid-cols-[120px_1fr] md:gap-8 md:py-10">
+              <p className={'mono text-[24px] leading-none md:text-[28px] ' + (entry.year === 'NOW' ? 'text-accent' : 'text-ink')}>{entry.year}</p>
+              <p className="copy-safe zh-timeline-copy max-w-2xl text-[clamp(22px,2.6vw,34px)] leading-[1.14]">{entry[language]}</p>
             </div>
           ))}
         </div>

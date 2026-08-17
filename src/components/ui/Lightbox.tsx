@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { X } from 'lucide-react'
+import { siteContent } from '@/content/database'
 
 export type LightboxImage = {
   src: string
@@ -52,7 +53,7 @@ export default function Lightbox({ open, image, onClose }: Props) {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
           >
-            <X aria-label="Close lightbox" />
+            <X aria-label={siteContent.ui.closeLightbox} />
           </motion.button>
 
           <motion.div

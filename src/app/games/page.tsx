@@ -4,11 +4,9 @@ import HomeMotion from '@/features/games/home/HomeMotion'
 import MonographAbout from '@/features/games/home/MonographAbout'
 import SelectedWork from '@/features/games/home/SelectedWork'
 import ToolsMarquee from '@/features/games/home/ToolsMarquee'
+import { siteContent } from '@/content/database'
 
-export const metadata: Metadata = {
-  title: 'Game Development -- Yang Studio',
-  description: 'Game systems, gameplay engineering, prototypes, and selected production work by Yang Liu.',
-}
+export const metadata: Metadata = siteContent.seo.games
 
 export default function GamesPage() {
   return (

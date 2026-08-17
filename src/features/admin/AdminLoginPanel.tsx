@@ -3,8 +3,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
+import { siteContent } from '@/content/database'
 
 export default function AdminLoginPanel() {
+  const copy = siteContent.adminLogin
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [password, setPassword] = useState('')
@@ -25,14 +27,14 @@ export default function AdminLoginPanel() {
       const result = (await response.json()) as { error?: string }
 
       if (!response.ok) {
-        setStatus(result.error || '登录失败。')
+        setStatus(result.error || copy.loginFailed)
         return
       }
 
       router.push('/admin')
       router.refresh()
     } catch {
-      setStatus('无法连接登录服务。')
+      setStatus(copy.connectionFailed)
     } finally {
       setPending(false)
     }
@@ -46,18 +48,18 @@ export default function AdminLoginPanel() {
         className="focus-ring text-[10px] uppercase tracking-[0.16em] text-paper/45 transition hover:text-accent"
         aria-expanded={open}
       >
-        {open ? '关闭管理员登录 / Close admin login' : '管理员登录 / Admin login'}
+        {open ? copy.close : copy.open}
       </button>
 
       {open ? (
         <form onSubmit={submit} className="mt-5 grid max-w-md gap-3 sm:grid-cols-[1fr_auto]">
           <label>
-            <span className="sr-only">管理员密码</span>
+            <span className="sr-only">{copy.passwordLabel}</span>
             <input
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               className="focus-ring min-h-12 w-full border border-paper/25 bg-transparent px-4 text-sm text-paper outline-none placeholder:text-paper/30"
-              placeholder="密码 / Password"
+              placeholder={copy.passwordPlaceholder}
               type="password"
               autoComplete="current-password"
               required
@@ -68,7 +70,7 @@ export default function AdminLoginPanel() {
             disabled={pending}
             className="focus-ring min-h-12 border border-accent px-5 text-xs uppercase text-accent transition hover:bg-accent hover:text-paper disabled:opacity-40"
           >
-            {pending ? '登录中' : '登录'}
+            {pending ? copy.pending : copy.submit}
           </button>
           {status ? <p className="text-xs text-accent sm:col-span-2">{status}</p> : null}
         </form>
@@ -77,7 +79,7 @@ export default function AdminLoginPanel() {
         href="/privacy"
         className="focus-ring mt-4 inline-block text-[10px] uppercase tracking-[0.12em] text-paper/35 underline underline-offset-4 transition hover:text-accent"
       >
-        隐私设置 / Privacy
+        {copy.privacyLink}
       </Link>
     </div>
   )

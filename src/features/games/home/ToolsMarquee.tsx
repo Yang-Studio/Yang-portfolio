@@ -2,32 +2,7 @@
 
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import PlateLabel from '@/components/ui/PlateLabel'
-
-const rowOne = [
-  'Unity',
-  'C#',
-  'Behavior Trees',
-  'Event Bus',
-  'Shadergraph',
-  'Git',
-  'Perforce',
-  'Jira',
-  'Playtest',
-  'State Machines',
-]
-
-const rowTwo = [
-  'Blender',
-  'Maya',
-  'Figma',
-  'After Effects',
-  'Procreate',
-  'Scriptable Objects',
-  'Coroutines',
-  'Timeline',
-  'Cinemachine',
-  'Post-Processing',
-]
+import { siteContent } from '@/content/database'
 
 function MarqueeRow({ items, direction }: { items: string[]; direction: 'left' | 'right' }) {
   const repeated = [...items, ...items]
@@ -53,8 +28,8 @@ export default function ToolsMarquee() {
       <div className="mx-auto mb-10 max-w-[1280px] px-5 sm:px-8 md:mb-16 md:px-16 lg:px-24">
         <PlateLabel plate={t('Plate 04')} label={t('Tools / Methods')} />
       </div>
-      <MarqueeRow items={rowOne} direction="left" />
-      <MarqueeRow items={rowTwo} direction="right" />
+      <MarqueeRow items={[...siteContent.tools.primary]} direction="left" />
+      <MarqueeRow items={[...siteContent.tools.secondary]} direction="right" />
     </section>
   )
 }

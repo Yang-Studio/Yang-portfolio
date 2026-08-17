@@ -7,6 +7,10 @@ import AnalyticsTracker from '@/components/analytics/AnalyticsTracker'
 import { ContentOverridesProvider } from '@/components/providers/ContentOverridesProvider'
 import { getContentOverrides } from '@/lib/server/contentStore'
 import type { ReactNode } from 'react'
+import { siteContent } from '@/content/database'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -19,13 +23,13 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://yang-portfolio-rose.vercel.app'),
-  title: 'Yang Studio Monograph',
-  description: 'A digital portfolio treated as a museum catalogue for game systems work.',
+  metadataBase: new URL(siteContent.seo.site.url),
+  title: siteContent.seo.site.title,
+  description: siteContent.seo.site.description,
   openGraph: {
-    title: 'Yang Studio Monograph',
-    description: 'Game systems, selected work, and technical case studies by Yang Liu.',
-    images: ['/og/yang-studio.jpg'],
+    title: siteContent.seo.site.title,
+    description: siteContent.seo.site.openGraphDescription,
+    images: [siteContent.seo.site.image],
   },
 }
 

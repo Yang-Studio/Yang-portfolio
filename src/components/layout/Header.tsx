@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/components/providers/LanguageProvider'
+import { siteContent } from '@/content/database'
 
 export default function Header() {
   const { t } = useLanguage()
@@ -21,7 +22,7 @@ export default function Header() {
           href="/"
           className="focus-ring mono shrink-0 text-[11px] uppercase tracking-normal transition duration-300 hover:text-accent"
         >
-          Yang Studio
+          {siteContent.identity.brand}
         </Link>
         <nav className="flex min-w-0 items-center gap-4 md:gap-10">
           <Link className={`${linkClass} ${pathname === '/games' ? activeClass : ''}`} href="/games">

@@ -1,19 +1,20 @@
 'use client'
 
 import PageHero from '@/components/ui/PageHero'
-import { biography, coreSkills, timeline, socialLinks } from '@/content/about'
+import { siteContent } from '@/content/database'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 
 export default function AboutClient() {
   const { t, language } = useLanguage()
+  const { biography, coreSkills, timeline, socialLinks } = siteContent.about
   const resumeHref = language === 'zh' ? biography.resumeUrlZh : biography.resumeUrl
   return (
     <div className="px-5 sm:px-6 md:px-10 lg:px-16">
       <div className="mx-auto w-full max-w-[1200px]">
         <PageHero
-          kicker="About"
-          title="Yang Liu | systems designer / implementation planner"
-          description="I build and validate game prototypes fast, taking a concept from requirements analysis through systems design to working features within a short cycle. I turn design ideas into playable builds quickly, then verify the gameplay and refine the experience through iterative testing. Most projects in this portfolio are university team projects shipped in seven weeks or less, where I owned systems design, gameplay setup, prototype development, and version progression — building hands-on experience from concept validation to delivery."
+          kicker={siteContent.about.hero.kicker[language]}
+          title={siteContent.about.hero.title[language]}
+          description={siteContent.about.hero.description[language]}
         />
       </div>
 

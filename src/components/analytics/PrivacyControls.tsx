@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { siteContent } from '@/content/database'
 
 const CONSENT_KEY = 'yang-analytics-consent-v1'
 const VISITOR_KEY = 'yang-anonymous-visitor-v1'
@@ -14,6 +15,7 @@ function readConsent(): Consent {
 }
 
 export default function PrivacyControls() {
+  const copy = siteContent.privacy.controls
   const [consent, setConsent] = useState<Consent>()
 
   useEffect(() => {
@@ -30,13 +32,13 @@ export default function PrivacyControls() {
   }
 
   const status =
-    consent === 'accepted' ? '当前状态：已允许匿名统计' : consent === 'declined' ? '当前状态：已拒绝匿名统计' : '当前状态：尚未选择'
+    consent === 'accepted' ? copy.statusAccepted : consent === 'declined' ? copy.statusDeclined : copy.statusUnset
 
   return (
     <section className="mt-12 border border-rule p-5 sm:p-7" aria-labelledby="privacy-controls-title">
-      <p className="mono text-[10px] uppercase tracking-[0.16em] text-accent">Privacy controls</p>
+      <p className="mono text-[10px] uppercase tracking-[0.16em] text-accent">{copy.eyebrow}</p>
       <h2 id="privacy-controls-title" className="mt-3 text-3xl">
-        统计偏好
+        {copy.title}
       </h2>
       <p className="mt-3 text-sm text-ink-soft" aria-live="polite">
         {status}
@@ -47,14 +49,14 @@ export default function PrivacyControls() {
           onClick={() => updateConsent('accepted')}
           className="focus-ring border border-ink bg-ink px-5 py-3 text-xs text-paper"
         >
-          允许匿名统计
+          {copy.accept}
         </button>
         <button
           type="button"
           onClick={() => updateConsent('declined')}
           className="focus-ring border border-rule px-5 py-3 text-xs text-ink"
         >
-          拒绝并清除匿名标识
+          {copy.decline}
         </button>
       </div>
     </section>

@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+import { siteContent } from '@/content/database'
 
-export const metadata: Metadata = {
-  title: 'Photography -- Yang Studio',
-  description: 'A film photography archive of portraits, landscapes, street scenes, and architecture by Yang Liu.',
-}
+export const metadata: Metadata = siteContent.seo.photography
 
 export default async function PhotographyPage({
   searchParams,

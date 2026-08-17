@@ -1,10 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { appProjects } from '@/content/apps/projects'
-import { projects } from '@/content/games/projects'
-import { projectTranslations } from '@/content/projects/translations'
+import { getProjectEntry, projects } from '@/content/database'
 import {
   editableFromProject,
   editableFromTranslation,
@@ -17,12 +16,11 @@ import {
 type Lang = 'en' | 'zh'
 type Form = { en: EditableContent; zh: EditableContent; images: ImageOverride }
 
-const allProjects = [...projects, ...appProjects]
-
 function baseFor(slug: string): Form {
-  const project = allProjects.find((item) => item.slug === slug)!
+  const entry = getProjectEntry(slug)!
+  const project = entry.project
   const en = editableFromProject(project)
-  const zh = editableFromTranslation(projectTranslations[slug], en)
+  const zh = editableFromTranslation(entry.translation, en)
   const images = editableImagesFromProject(project)
   return { en, zh, images }
 }
@@ -41,10 +39,11 @@ const inputClass =
   'mt-1 w-full rounded border border-paper/20 bg-ink px-3 py-2 text-sm text-paper focus:border-accent focus:outline-none'
 
 export default function ContentEditor({ initialOverrides }: { initialOverrides: ContentOverrides }) {
+  const router = useRouter()
   const [overrides, setOverrides] = useState<ContentOverrides>(initialOverrides)
-  const [slug, setSlug] = useState(allProjects[0].slug)
+  const [slug, setSlug] = useState(projects[0].slug)
   const [lang, setLang] = useState<Lang>('zh')
-  const [form, setForm] = useState<Form>(() => mergeForm(allProjects[0].slug, initialOverrides))
+  const [form, setForm] = useState<Form>(() => mergeForm(projects[0].slug, initialOverrides))
   const [status, setStatus] = useState('')
   const [saving, setSaving] = useState(false)
 
@@ -98,8 +97,9 @@ export default function ContentEditor({ initialOverrides }: { initialOverrides: 
         body: JSON.stringify({ slug, en: form.en, zh: form.zh, images: form.images }),
       })
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || '保存失败')
-      setOverrides((prev) => ({ ...prev, [slug]: { en: form.en, zh: form.zh } }))
-      setStatus('已保存。刷新对应页面即可看到更新。')
+      setOverrides((prev) => ({ ...prev, [slug]: { en: form.en, zh: form.zh, images: form.images } }))
+      router.refresh()
+      setStatus('已保存并同步。打开对应项目页面即可看到更新。')
     } catch (error) {
       setStatus(error instanceof Error ? error.message : '保存失败')
     } finally {
@@ -114,7 +114,7 @@ export default function ContentEditor({ initialOverrides }: { initialOverrides: 
       const res = await fetch('/api/admin/content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, en: {}, zh: {} }),
+        body: JSON.stringify({ slug, en: {}, zh: {}, images: {} }),
       })
       if (!res.ok) throw new Error('恢复失败')
       const next = { ...overrides }
@@ -147,7 +147,7 @@ export default function ContentEditor({ initialOverrides }: { initialOverrides: 
 
         <div className="mt-6 grid gap-3 sm:grid-cols-[260px_1fr]">
           <select value={slug} onChange={(e) => selectProject(e.target.value)} className={inputClass}>
-            {allProjects.map((p) => (
+            {projects.map((p) => (
               <option key={p.slug} value={p.slug}>
                 {p.title} ({p.slug})
               </option>

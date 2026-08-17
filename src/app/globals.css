@@ -305,6 +305,110 @@ iframe {
   border-color: color-mix(in oklab, var(--paper) 18%, transparent) !important;
 }
 
+/* Bubono and Shanhe use cinematic screenshots; keep their case studies wide and readable. */
+.case-project[data-showcase='true'] .case-hero-layout {
+  display: block;
+}
+
+.case-project[data-showcase='true'] .case-hero-copy {
+  max-width: 1120px;
+}
+
+.case-project[data-showcase='true'] .case-title {
+  max-width: 11ch;
+  overflow: visible;
+  font-size: clamp(48px, 11vw, 128px);
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.case-project[data-project='bubono-bumperland'] .case-title {
+  max-width: 10ch;
+  font-size: clamp(46px, 9.2vw, 116px);
+}
+
+.case-project[data-showcase='true'] .case-intro {
+  max-width: 920px;
+  font-size: clamp(19px, 3.4vw, 32px);
+  line-height: 1.24;
+}
+
+.case-project[data-showcase='true'] .case-hero-media {
+  width: 100%;
+  margin-top: clamp(32px, 6vw, 72px);
+}
+
+.case-project[data-showcase='true'] .case-hero-image {
+  max-height: none;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.case-project[data-showcase='true'] .case-process-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.case-project[data-showcase='true'] .case-technical-item {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.case-project[data-showcase='true'] .case-technical-title {
+  max-width: 24ch;
+  font-size: clamp(26px, 4.3vw, 48px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.case-project[data-showcase='true'] .case-gallery-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.case-project[data-showcase='true'] .case-gallery-image {
+  height: auto;
+  aspect-ratio: auto;
+}
+
+@media (min-width: 640px) {
+  .case-project[data-showcase='true'] .case-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-project[data-showcase='true'] .case-gallery-item[data-wide='true'] {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .case-project[data-showcase='true'] .case-hero-image {
+    aspect-ratio: 16 / 7;
+  }
+}
+
+@media (min-width: 1024px) {
+  .case-project[data-showcase='true'] .case-meta-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .case-project[data-showcase='true'] .case-meta-grid > :first-child {
+    grid-column: span 4;
+  }
+
+  .case-project[data-showcase='true'] .case-meta-grid > :not(:first-child) {
+    grid-column: span 2;
+  }
+
+  .case-project[data-showcase='true'] .case-technical-item {
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    align-items: start;
+  }
+}
+
+@media (min-width: 1280px) {
+  .case-project[data-showcase='true'] .case-process-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 767px) {
   body {
     font-size: 16px;

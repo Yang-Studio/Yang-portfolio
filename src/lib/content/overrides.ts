@@ -1,5 +1,4 @@
-import type { Project } from '@/content/projects/types'
-import type { ProjectTranslation } from '@/content/projects/translations'
+import type { Project, ProjectTranslation } from '@/content/database'
 
 export type EditableContent = {
   title?: string

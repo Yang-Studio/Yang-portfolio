@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/components/providers/LanguageProvider'
+import { siteContent } from '@/content/database'
 
 export default function Footer() {
   const pathname = usePathname()
@@ -19,9 +20,9 @@ export default function Footer() {
           <div>
             <p className={`mono mb-4 text-[11px] uppercase tracking-normal ${softClass}`}>{t('Location')}</p>
             <p className="copy-safe zh-footer-copy">
-              {t('Rincon, Georgia')}
+              {t(siteContent.identity.location)}
               <br />
-              {t('United States')}
+              {t(siteContent.identity.country)}
             </p>
           </div>
           <div>
@@ -29,11 +30,11 @@ export default function Footer() {
             <div className="flex flex-col items-start gap-2">
               <a
                 className="max-w-full break-all text-[15px] underline decoration-accent underline-offset-4 sm:text-base"
-                href="mailto:yangliu.gmdev@gmail.com"
+                href={`mailto:${siteContent.identity.email}`}
               >
-                yangliu.gmdev@gmail.com
+                {siteContent.identity.email}
               </a>
-              <a className="underline decoration-accent underline-offset-4" href="https://github.com/Yang-Studio">
+              <a className="underline decoration-accent underline-offset-4" href={siteContent.identity.githubUrl}>
                 GitHub
               </a>
               <Link className="underline decoration-accent underline-offset-4" href="/privacy">
@@ -44,14 +45,10 @@ export default function Footer() {
           <div>
             <p className={`mono mb-4 text-[11px] uppercase tracking-normal ${softClass}`}>{t('Colophon')}</p>
             <p className="copy-safe zh-footer-copy">
-              {t('Copyright')} {new Date().getFullYear()} Yang Liu.
+              {t('Copyright')} {new Date().getFullYear()} {siteContent.identity.name}.
             </p>
             <p className={`mt-4 text-[12px] leading-relaxed ${softClass}`}>
-              本站默认记录访问明细，包含原始 IP 及由 IP 推断的大致位置（城市级）。可随时在
-              <Link className="underline decoration-accent underline-offset-2" href="/privacy">
-                隐私设置
-              </Link>
-              中拒绝；拒绝后仅保留不含任何个人标识的匿名总浏览量。
+              {siteContent.footer.privacyNotice}
             </p>
           </div>
         </div>

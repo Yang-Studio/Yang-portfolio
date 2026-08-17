@@ -6,30 +6,51 @@ import Link from 'next/link'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import Lightbox, { type LightboxImage } from '@/components/ui/Lightbox'
 import PlateLabel from '@/components/ui/PlateLabel'
-import { projects } from '@/content/games/projects'
-import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
-import { projectAssets } from '@/content/projects/assets'
-import { projectTranslations } from '@/content/projects/translations'
+import { getLocalizedText, getProjectEntry, projects, siteContent, type Project } from '@/content/database'
 import { useContentOverrides } from '@/components/providers/ContentOverridesProvider'
 import { applyProjectOverride, applyTranslationOverride } from '@/lib/content/overrides'
-import type { Project } from '@/content/projects/types'
 import { gsap } from '@/lib/motion'
 
+const showcaseProjectSlugs = new Set(['bubono-bumperland', 'shanhe'])
+
+const showcaseGalleryDimensions: Record<string, { width: number; height: number }> = {
+  '/assets/projects/bubono-bumperland/bubono-1.webp': { width: 1600, height: 870 },
+  '/assets/projects/bubono-bumperland/bubono-11.webp': { width: 1600, height: 762 },
+  '/assets/projects/bubono-bumperland/bubono-2.webp': { width: 1600, height: 870 },
+  '/assets/projects/bubono-bumperland/bubono-3.webp': { width: 1600, height: 870 },
+  '/assets/projects/bubono-bumperland/bubono-5.webp': { width: 1600, height: 870 },
+  '/assets/projects/bubono-bumperland/bubono-7.webp': { width: 1600, height: 762 },
+  '/assets/projects/bubono-bumperland/bubono-asset-logo.webp': { width: 2400, height: 1736 },
+  '/assets/projects/bubono-bumperland/bubono-enemy-worm.webp': { width: 2400, height: 1736 },
+  '/assets/projects/bubono-bumperland/bubono-prop-bomb.webp': { width: 2400, height: 1736 },
+  '/assets/projects/bubono-bumperland/bubono-windmill-arena.webp': { width: 2200, height: 1196 },
+  '/assets/projects/shanhe/ITGM405.webp': { width: 1600, height: 585 },
+  '/assets/projects/shanhe/ITGM405_MoneyShot_4.webp': { width: 1600, height: 585 },
+  '/assets/projects/shanhe/ITGM405_s1_milestone.webp': { width: 2400, height: 1027 },
+  '/assets/projects/shanhe/ITGM405_s2_milestone.webp': { width: 1090, height: 1089 },
+  '/assets/projects/shanhe/ITGM405_s3_milestone.webp': { width: 2400, height: 1072 },
+  '/assets/projects/shanhe/ITGM405_s4_milestone.webp': { width: 3200, height: 1003 },
+  '/assets/projects/shanhe/ITGM405_s5_milestone.webp': { width: 3200, height: 669 },
+  '/assets/projects/shanhe/ITGM405_s6_milestone.webp': { width: 3200, height: 1066 },
+  '/assets/projects/shanhe/shanhe-npc.webp': { width: 2400, height: 1200 },
+  '/assets/projects/shanhe/shanhe-npc-2.webp': { width: 2400, height: 1200 },
+  '/assets/projects/shanhe/shanhe-quest-ui.webp': { width: 2400, height: 1200 },
+}
 export default function ProjectDetail({
   project: baseProject,
   siblings = projects,
-  backHref = '/projects',
 }: {
   project: Project
   siblings?: Project[]
-  backHref?: string
 }) {
   const { t, language } = useLanguage()
   const overrides = useContentOverrides()
   const project = applyProjectOverride(baseProject, overrides[baseProject.slug])
+  const isShowcaseProject = showcaseProjectSlugs.has(project.slug)
+  const entry = getProjectEntry(project.slug)
   const translation =
-    language === 'zh' ? applyTranslationOverride(projectTranslations[project.slug], overrides[project.slug]?.zh) : undefined
-  const gallery = projectAssets[project.slug] ?? []
+    language === 'zh' ? applyTranslationOverride(entry?.translation, overrides[project.slug]?.zh) : undefined
+  const gallery = entry?.gallery ?? []
   const reelSrc = project.reel ?? (project.results.media?.endsWith('.mp4') ? project.results.media : undefined)
   const reelIsDrivePreview = !!reelSrc && reelSrc.includes('drive.google.com/file/d/') && reelSrc.includes('/preview')
   const reelIsVideo = Boolean(reelSrc && !reelIsDrivePreview && (reelSrc.endsWith('.mp4') || project.reel))
@@ -42,8 +63,7 @@ export default function ProjectDetail({
   const nextProject =
     projectIndex >= 0 && navSiblings.length > 1 ? navSiblings[(projectIndex + 1) % navSiblings.length] : undefined
   const heroImage = project.banner ?? project.cover ?? project.moneyshot
-  const isAppProject = backHref === '/apps'
-  const projectHighlight = projectHighlights[project.slug]
+  const projectHighlight = entry?.highlight
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | undefined>()
   const openLightbox = (image: LightboxImage) => setLightboxImage(image)
   const closeLightbox = () => setLightboxImage(undefined)
@@ -118,14 +138,14 @@ export default function ProjectDetail({
   }, [])
 
   return (
-    <div className="bg-ink text-paper">
+    <div className="case-project bg-ink text-paper" data-project={project.slug} data-showcase={isShowcaseProject || undefined}>
       <section className="case-hero-section relative isolate overflow-hidden border-b border-paper/20 px-5 py-10 sm:px-8 md:px-16 md:py-16 lg:px-24">
         <div className="case-watermark pointer-events-none absolute bottom-[-0.2em] right-[-0.06em] text-[48vw] leading-none text-paper opacity-[0.035]">
           {project.title.slice(0, 1)}
         </div>
 
-        <div className="relative z-10 mx-auto grid max-w-[1280px] gap-8 md:gap-12 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-end 2xl:grid-cols-[minmax(0,1fr)_480px]">
-          <div>
+        <div className="case-hero-layout relative z-10 mx-auto grid max-w-[1280px] gap-8 md:gap-12 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-end 2xl:grid-cols-[minmax(0,1fr)_480px]">
+          <div className="case-hero-copy">
             <div className="case-label mb-10 md:mb-14">
               <PlateLabel plate={t('Project Plate')} label={`${t(project.tag)} / ${project.year}`} active tone="paper" />
             </div>
@@ -152,14 +172,14 @@ export default function ProjectDetail({
               width={1100}
               height={900}
               priority
-              className={`w-full object-contain grayscale ${isAppProject ? 'aspect-[3/2] max-h-[620px]' : 'aspect-[16/10] max-h-[460px] md:aspect-[16/9] md:max-h-[600px]'}`}
+              className="case-hero-image aspect-[16/10] max-h-[460px] w-full object-contain grayscale md:aspect-[16/9] md:max-h-[600px]"
             />
           </button>
         </div>
       </section>
 
       <section className="border-b border-paper/20 px-5 py-8 sm:px-8 md:px-16 lg:px-24">
-        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="case-meta-grid mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-5">
           <Meta label={t('Role')} value={translation?.role ?? t(project.role)} />
           <Meta label={t('Engine')} value={t(project.tools)} />
           <Meta label={t('Team')} value={translation?.overviewTeam ?? t(project.overview.team)} />
@@ -215,7 +235,7 @@ export default function ProjectDetail({
         <section className="px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
           <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
             <PlateLabel plate={t('Plate 01')} label={t('Process / Decisions')} tone="paper" />
-            <div className="grid gap-0 border-t border-paper/20 md:grid-cols-3">
+            <div className="case-process-grid grid gap-0 border-t border-paper/20 md:grid-cols-3">
               {project.process.map((step, index) => {
                 const translatedStep = translation?.process?.[index]
                 return (
@@ -235,13 +255,13 @@ export default function ProjectDetail({
         <section className="case-reveal border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
           <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr] lg:items-end">
             <PlateLabel
-              plate={t(isAppProject ? 'Product Build' : 'Live App')}
-              label={t(isAppProject ? 'Standalone Application' : 'Interactive Demo')}
+              plate={t('Playable Build')}
+              label={t('Interactive Demo')}
               tone="paper"
             />
             <div className="border-t border-paper/20 pt-8">
               <p className="display-safe max-w-4xl text-[clamp(30px,8vw,64px)] italic leading-[1.04]">
-                {t('Open the complete app in a new window.')}
+                {t('Open the playable build in a new window.')}
               </p>
               <a
                 href={project.demo}
@@ -249,7 +269,7 @@ export default function ProjectDetail({
                 rel="noreferrer"
                 className="focus-ring mono mt-8 inline-flex w-full items-center justify-between border border-accent px-6 py-5 text-[12px] uppercase text-accent transition hover:bg-accent hover:text-paper sm:w-auto sm:min-w-[280px]"
               >
-                <span>{t('Open App')}</span>
+                <span>{t('Open Demo')}</span>
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -265,7 +285,7 @@ export default function ProjectDetail({
               {project.technical.map((item, index) => {
                 const translatedItem = translation?.technical?.[index]
                 return (
-                  <article key={item.title} className="case-reveal grid gap-8 border-t border-paper/20 pt-8 lg:grid-cols-[1fr_0.85fr]">
+                  <article key={item.title} className="case-technical-item case-reveal grid gap-8 border-t border-paper/20 pt-8 lg:grid-cols-[1fr_0.85fr]">
                     <div className="overflow-hidden border border-paper/20 bg-paper/5">
                       <button
                         type="button"
@@ -284,13 +304,13 @@ export default function ProjectDetail({
                           alt={translatedItem?.title ?? item.title}
                           width={1200}
                           height={800}
-                          className={`w-full object-contain grayscale ${isAppProject ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
+                          className="aspect-[16/10] w-full object-contain grayscale"
                         />
                       </button>
                     </div>
                     <div>
                       <p className="mono mb-8 text-[11px] uppercase text-accent">{t('System')} {String(index + 1).padStart(2, '0')}</p>
-                      <h2 className="display-safe text-[clamp(30px,9vw,64px)] italic leading-[1] md:leading-[0.98]">
+                      <h2 className="case-technical-title display-safe text-[clamp(30px,9vw,64px)] italic leading-[1] md:leading-[0.98]">
                         {translatedItem?.title ?? t(item.title)}
                       </h2>
                       <p className="copy-safe mt-6 text-[clamp(18px,5.2vw,26px)] leading-[1.34] text-paper/70 md:mt-8 md:leading-[1.28]">
@@ -342,29 +362,34 @@ export default function ProjectDetail({
         <section className="border-t border-paper/20 px-5 py-16 sm:px-8 md:px-16 md:py-24 lg:px-24">
           <div className="mx-auto grid max-w-[1280px] gap-8 md:gap-12 lg:grid-cols-[300px_1fr]">
             <PlateLabel plate={t('Plate 04')} label={t('Gallery / Artifacts')} tone="paper" />
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {gallery.map((src, index) => (
-                <button
-                  key={src}
-                  type="button"
-                  className="case-reveal block overflow-hidden border border-paper/20 bg-paper/5 text-left focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-ink"
-                  onClick={() =>
-                    openLightbox({
-                      src,
-                      alt: `${project.title} gallery ${index + 1}`,
-                      title: `${translation?.title ?? project.title} ${t('Gallery / Artifacts')} ${index + 1}`,
-                    })
-                  }
-                >
-                  <Image
-                    src={src}
-                    alt={`${project.title} gallery ${index + 1}`}
-                    width={800}
-                    height={600}
-                    className="aspect-[16/10] w-full cursor-zoom-in object-contain grayscale transition duration-700 hover:grayscale-0"
-                  />
-                </button>
-              ))}
+            <div className="case-gallery-grid grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {gallery.map((src, index) => {
+                const dimensions = showcaseGalleryDimensions[src] ?? { width: 800, height: 600 }
+                const isWide = isShowcaseProject && dimensions.width / dimensions.height > 2.15
+                return (
+                  <button
+                    key={src}
+                    type="button"
+                    data-wide={isWide || undefined}
+                    className="case-gallery-item case-reveal block overflow-hidden border border-paper/20 bg-paper/5 text-left focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-ink"
+                    onClick={() =>
+                      openLightbox({
+                        src,
+                        alt: `${project.title} gallery ${index + 1}`,
+                        title: `${translation?.title ?? project.title} ${t('Gallery / Artifacts')} ${index + 1}`,
+                      })
+                    }
+                  >
+                    <Image
+                      src={src}
+                      alt={`${project.title} gallery ${index + 1}`}
+                      width={dimensions.width}
+                      height={dimensions.height}
+                      className="case-gallery-image aspect-[16/10] w-full cursor-zoom-in object-contain grayscale transition duration-700 hover:grayscale-0"
+                    />
+                  </button>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -403,19 +428,19 @@ export default function ProjectDetail({
           {nextProject ? (
             <div>
               <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('Next project')}</p>
-              <Link href={`${backHref}/${nextProject.slug}`} className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none underline decoration-accent underline-offset-8">
+              <Link href={'/projects/' + nextProject.slug} className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none underline decoration-accent underline-offset-8">
                 {applyProjectOverride(nextProject, overrides[nextProject.slug]).title}
               </Link>
             </div>
           ) : (
             <div>
-              <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('App Development')}</p>
-              <p className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none">YinYang</p>
+              <p className="mono mb-3 text-[11px] uppercase text-paper/50">{t('Project archive')}</p>
+              <p className="display-safe text-[clamp(32px,12vw,84px)] italic leading-none">{siteContent.identity.name}</p>
             </div>
           )}
           <div className="flex flex-wrap gap-4">
             {!project.hideDownload && <DownloadButton href={downloadHref} download={isDownloadFile} />}
-            <Link className="focus-ring mono border border-paper/30 px-5 py-3 text-[11px] uppercase transition hover:border-accent hover:text-accent" href={backHref}>
+            <Link className="focus-ring mono border border-paper/30 px-5 py-3 text-[11px] uppercase transition hover:border-accent hover:text-accent" href="/projects">
               {t('Back to index')}
             </Link>
           </div>
@@ -444,14 +469,14 @@ function DownloadButton({ href, download }: { href: string; download?: boolean }
 
   if (isExternal) {
     return (
-      <a href={href} target="_blank" rel="noreferrer" className={className} aria-label="Download demo">
+      <a href={href} target="_blank" rel="noreferrer" className={className} aria-label={siteContent.ui.downloadDemo}>
         {content}
       </a>
     )
   }
 
   return (
-    <Link href={href} download={download} className={className} aria-label="Download demo">
+    <Link href={href} download={download} className={className} aria-label={siteContent.ui.downloadDemo}>
       {content}
     </Link>
   )

@@ -5,17 +5,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useLanguage } from '@/components/providers/LanguageProvider'
 import PlateLabel from '@/components/ui/PlateLabel'
-import { projects } from '@/content/games/projects'
-import { getLocalizedText, projectHighlights } from '@/content/games/projectHighlights'
-import { projectTranslations } from '@/content/projects/translations'
+import { getLocalizedText, getProjectEntry, projects, type Project } from '@/content/database'
 import { useContentOverrides } from '@/components/providers/ContentOverridesProvider'
 import { applyProjectOverride, applyTranslationOverride } from '@/lib/content/overrides'
-import type { Project } from '@/content/projects/types'
 import { gsap } from '@/lib/motion'
 
 type Props = {
   items?: Project[]
-  basePath?: string
   plate?: string
   label?: string
   titleTop?: string
@@ -25,7 +21,6 @@ type Props = {
 
 export default function ProjectsArchive({
   items: rawItems = projects,
-  basePath = '/projects',
   plate = 'Plate 02 / Index',
   label = 'Projects / Complete Archive',
   titleTop = 'Project',
@@ -34,7 +29,6 @@ export default function ProjectsArchive({
 }: Props) {
   const { t, language } = useLanguage()
   const items = rawItems.filter((project) => !project.hidden)
-  const isApps = basePath === '/apps'
   const overrides = useContentOverrides()
 
   useEffect(() => {
@@ -166,17 +160,18 @@ export default function ProjectsArchive({
       <section className="px-5 py-10 sm:px-8 md:px-16 md:py-16 lg:px-24">
         <div className="mx-auto max-w-[1280px] border-t border-rule">
           {items.map((rawProject, index) => {
+            const entry = getProjectEntry(rawProject.slug)
             const project = applyProjectOverride(rawProject, overrides[rawProject.slug])
             const translation =
-              language === 'zh' ? applyTranslationOverride(projectTranslations[project.slug], overrides[project.slug]?.zh) : undefined
+              language === 'zh' ? applyTranslationOverride(entry?.translation, overrides[project.slug]?.zh) : undefined
             const image = project.banner ?? project.cover ?? project.moneyshot
-            const highlight = projectHighlights[project.slug]
+            const highlight = entry?.highlight
 
             return (
               <article key={project.slug} className="project-index-row relative isolate overflow-hidden border-b border-rule py-9 md:py-12">
                 <div className="project-index-signal" aria-hidden="true" />
                 <Link
-                  href={`${basePath}/${project.slug}`}
+                  href={'/projects/' + project.slug}
                   className="group grid gap-6 md:gap-8 lg:grid-cols-[92px_minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start"
                   data-cursor="card"
                 >
@@ -195,7 +190,7 @@ export default function ProjectsArchive({
                         width={1200}
                         height={900}
                         priority={index === 0}
-                        className={`w-full object-contain grayscale transition duration-700 group-hover:grayscale-0 ${isApps ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
+                        className="aspect-[16/10] w-full object-contain grayscale transition duration-700 group-hover:grayscale-0"
                       />
                     </div>
                   </div>
